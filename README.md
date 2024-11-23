@@ -55,3 +55,5 @@
 ## BPMN ##
 ![bpmn](mapping/bpmn.png)
 
+## Блок схема ##
+![block_diagram](mapping/block_diagram.png)
