@@ -1,0 +1,47 @@
+@startuml
+actor Клиент
+participant "Диспетчер заказов" as OrderManager
+participant "Стек заказов" as OrderStack
+participant "Диспетчер склада" as WarehouseManager
+participant "Робот" as Robot
+
+Клиент -> OrderManager: Отправка заказ
+OrderManager -> WarehouseManager: Проверка доступности роботов
+
+alt Happy Flow: Есть свободный робот для выполнения заказа
+    WarehouseManager -> OrderManager: Есть свободный робот, можно выполнить заказ
+    OrderManager -> WarehouseManager: Передача заказа
+    WarehouseManager -> Robot: Передача заказа на перевозку
+    Robot -> Robot: Выполнение заказа
+    Robot-> WarehouseManager: Заказ выполнен
+    WarehouseManager -> OrderManager: Заявка обработана
+else Negative Flow: Все роботы заняты
+    WarehouseManager -> OrderManager: Специалисты заняты
+    OrderManager -> OrderStack: Стек заполнен?
+    alt Стек полный
+        OrderStack -> OrderManager: Стек полный
+        OrderManager -> OrderStack: Установка статуса "Отменено" для старого заказа
+        OrderManager -> OrderStack: Удаление старой заявки
+    else Стек не полный
+        OrderStack -> OrderManager: Стек не полный
+        OrderManager -> OrderStack: Добавление новой заказа
+    end
+    WarehouseManager -> OrderStack: Есть ли в стеке заказы?
+    alt В буфере есть заказы
+        loop Пока есть заявки в буфере
+            OrderStack -> WarehouseManager: Есть заказы
+            WarehouseManager -> OrderStack: Получить заказ из стека
+            loop Пока все роботы заняты
+                WarehouseManager -> WarehouseManager: Ожидание свободных роботов
+            end
+            WarehouseManager -> Robot: Передача заказа на перевозку
+            Robot -> Robot: Выполнение заказа
+            Robot-> WarehouseManager: Заказ выполнен
+            WarehouseManager -> OrderManager: Заявка обработана
+        end
+    else Нет заявок в буфере
+        OrderStack -> WarehouseManager: Нет заказов
+        WarehouseManager -> OrderManager: Заявок в буфере нет
+    end
+end
+@enduml
