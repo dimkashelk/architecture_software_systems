@@ -57,3 +57,6 @@
 
 ## Блок схема ##
 ![block_diagram](mapping/block_diagram.png)
+
+## Сиквенсы ##
+![sequence](mapping/sequence.png)
