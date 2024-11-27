@@ -1,0 +1,83 @@
+@startuml
+
+class Client {
+  -_orders: list[Order]
+
+  +generate_order(): void
+}
+
+class Order {
+  -_id: uint
+  -_from: uint
+  -_to: uint
+  -_status: ExecutionStatus
+
+  +Order(from: uint, to: uint)
+  +set_status(new_status: ExecutionStatus): void
+  +get_status(): ExecutionStatus
+  +get_id(): uint
+}
+
+class OrderManager {
+  -_order_stack: OrderStack
+
+  +add_order(order: Order): void
+  +failed_order(order: Order): void
+  +done_order(order: Order): void
+}
+
+class OrderStack {
+  -_stack: list[Order]
+  -_count: uint
+
+  +get_length(): uint
+  +add_order(order: Order): void
+  +set_status(order: Order, status: ExecutionStatus): void
+  +get_first(): Order
+  +remove_first(): void
+}
+
+class WarehouseManager {
+  -_robots: [Robot]
+  -_current_order: Order
+
+  +available_robots(): bool
+  +add_order(order: Order): void
+  +set_status(order: Order, status: ExecutionStatus): void
+}
+
+class Robot {
+  -_current_order: Order
+  -_work_now: bool
+
+  +set_order(order: Order): void
+  +start_order(): void
+  +available(): bool
+}
+
+Client --> Order : generates
+Client --> Order : stores
+Order ..> Client : <<response>> order generated
+
+Client --> OrderManager : add order
+OrderManager ..> Client : <<response>> order added
+OrderManager --> OrderStack : manages
+OrderManager --> WarehouseManager : has available robots?
+WarehouseManager ..> OrderManager : <<response>> contains available robots
+OrderManager --> Order : adds to OrderStack
+OrderStack ..> OrderManager : <<response>> order added
+
+OrderStack --> Order : stores
+WarehouseManager --> OrderStack : selects orders (LIFO)
+OrderStack ..> WarehouseManager : <<response>> order selected
+
+WarehouseManager --> Robot: checks robot availability
+Robot ..> WarehouseManager : <<response>> robot available
+
+WarehouseManager --> Robot: assigns request for processing
+Robot --> Order : processes
+Robot --> WarehouseManager : order complete
+
+WarehouseManager --> OrderManager : order complete
+
+@enduml
