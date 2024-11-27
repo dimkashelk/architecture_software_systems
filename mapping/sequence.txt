@@ -15,7 +15,7 @@ alt Happy Flow: Есть свободный робот для выполнени
     Robot --> WarehouseManager : <<response>> Принят в работу
     alt Принят в работу
         Robot -> Robot: Выполнение заказа
-        Robot -> WarehouseManager: Заказ выполнен
+        Robot -> WarehouseManager: Заказ обработан
     end
     WarehouseManager -> OrderManager: Заявка обработана
 else Negative Flow: Все роботы заняты
@@ -41,7 +41,7 @@ else Negative Flow: Все роботы заняты
             Robot --> WarehouseManager : <<response>> Принят в работу
             alt Принят в работу
                 Robot -> Robot: Выполнение заказа
-                Robot -> WarehouseManager: Заказ выполнен
+                Robot -> WarehouseManager: Заказ обработан
             end
             WarehouseManager -> OrderManager: Заявка обработана
         end
