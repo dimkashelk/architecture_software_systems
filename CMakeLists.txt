@@ -3,4 +3,5 @@ project(architecture_software_systems)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(architecture_software_systems main.cpp)
+add_executable(architecture_software_systems main.cpp
+        code/execution_status.h)
