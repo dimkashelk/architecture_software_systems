@@ -1,4 +1,4 @@
-name: CMake Build
+name: Build and Test
 
 on:
   push:
@@ -9,23 +9,27 @@ on:
       - '**'
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
+      - name: Set up C++ environment
+        uses: shivammathur/setup-cpp@v2
+        with:
+          compiler: gcc
+
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake g++ make
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ libgtest-dev
 
-      - name: Create build directory
-        run: mkdir -p build
+      - name: Build tests
+        run: |
+          mkdir -p build
+          cd build
+          cmake ..
+          make
 
-      - name: Configure with CMake
-        working-directory: build
-        run: cmake ..
-
-      - name: Build with CMake
-        working-directory: build
-        run: cmake --build .
+      - name: Run tests
+        run: ./build/test_order
