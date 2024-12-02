@@ -41,11 +41,11 @@ namespace dimkashelk
     Order &operator=(Order other) = default;
     Order &operator=(Order &&other) = default;
     Order(size_t from, size_t to);
-    void set_status(ExecutionStatus status);
-    ExecutionStatus get_status() const;
-    size_t get_id() const;
-    size_t get_from() const;
-    size_t get_to() const;
+    void set_status(ExecutionStatus status) noexcept;
+    ExecutionStatus get_status() const noexcept;
+    size_t get_id() const noexcept;
+    size_t get_from() const noexcept;
+    size_t get_to() const noexcept;
     ~Order() = default;
 
   private:

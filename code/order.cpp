@@ -9,3 +9,7 @@ void dimkashelk::Order::set_status(const ExecutionStatus status)
 {
   _status = status;
 }
+dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const
+{
+  return _status;
+}
