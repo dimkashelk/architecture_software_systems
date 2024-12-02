@@ -4,8 +4,8 @@
 
 TEST(OrderTest, IncrementalIdGeneration)
 {
-  size_t id1 = dimkashelk::details::Counter::get_obj()->get_id();
-  size_t id2 = dimkashelk::details::Counter::get_obj()->get_id();
+  const size_t id1 = dimkashelk::details::Counter::get_obj()->get_id();
+  const size_t id2 = dimkashelk::details::Counter::get_obj()->get_id();
   EXPECT_EQ(id2, id1 + 1) << "Second ID should be incremented by 1";
 
   dimkashelk::Order order1(1, 2);
