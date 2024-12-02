@@ -4,6 +4,33 @@
 
 namespace dimkashelk
 {
+  namespace details
+  {
+    class Counter
+    {
+    public:
+      size_t get_id()
+      {
+        ++id;
+        return id;
+      }
+      static Counter *get_obj()
+      {
+        if (_obj == nullptr)
+        {
+          _obj = new Counter();
+        }
+        return _obj;
+      }
+
+    private:
+      Counter():
+        id(0)
+      {}
+      size_t id;
+      static Counter *_obj;
+    };
+  }
   class Order
   {
   public:
