@@ -1,7 +1,7 @@
 #ifndef ORDER_H
 #define ORDER_H
+#include <cstddef>
 #include "execution_status.h"
-
 namespace dimkashelk
 {
   namespace details
@@ -38,14 +38,14 @@ namespace dimkashelk
     Order() = delete;
     Order(const Order &other) = default;
     Order(Order &&other) = default;
-    Order &operator=(Order other) = default;
-    Order &operator=(Order &&other) = default;
+    Order &operator=(const Order&) = default;
+    Order &operator=(Order&&) = default;
     Order(size_t from, size_t to);
     void set_status(ExecutionStatus status) noexcept;
-    [[nodiscard]] ExecutionStatus get_status() const noexcept;
-    [[nodiscard]] size_t get_id() const noexcept;
-    [[nodiscard]] size_t get_from() const noexcept;
-    [[nodiscard]] size_t get_to() const noexcept;
+    ExecutionStatus get_status() const noexcept;
+    size_t get_id() const noexcept;
+    size_t get_from() const noexcept;
+    size_t get_to() const noexcept;
     ~Order() = default;
 
   private:
