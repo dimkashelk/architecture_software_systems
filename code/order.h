@@ -31,15 +31,22 @@ namespace dimkashelk
       static Counter *_obj;
     };
   }
+
   class Order
   {
   public:
+    Order() = delete;
+    Order(const Order &other) = default;
+    Order(Order &&other) = default;
+    Order &operator=(Order other) = default;
+    Order &operator=(Order &&other) = default;
     Order(size_t from, size_t to);
     void set_status(ExecutionStatus status);
     ExecutionStatus get_status() const;
     size_t get_id() const;
     size_t get_from() const;
     size_t get_to() const;
+    ~Order() = default;
 
   private:
     size_t _id;
