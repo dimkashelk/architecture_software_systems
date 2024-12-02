@@ -13,3 +13,7 @@ dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const
 {
   return _status;
 }
+size_t dimkashelk::Order::get_id() const noexcept
+{
+  return _id;
+}
