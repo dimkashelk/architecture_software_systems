@@ -9,17 +9,32 @@ on:
       - '**'
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up C++ environment
-        uses: shivammathur/setup-cpp@v2
-        with:
-          compiler: gcc
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ make
+
+      - name: Create build directory
+        run: mkdir -p build
+
+      - name: Configure with CMake
+        working-directory: build
+        run: cmake ..
+
+      - name: Build with CMake
+        working-directory: build
+        run: cmake --build .
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Install dependencies
         run: sudo apt-get update && sudo apt-get install -y cmake g++ libgtest-dev
