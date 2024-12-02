@@ -21,3 +21,7 @@ size_t dimkashelk::Order::get_from() const noexcept
 {
   return _from;
 }
+size_t dimkashelk::Order::get_to() const noexcept
+{
+  return _to;
+}
