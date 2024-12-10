@@ -53,3 +53,15 @@ TEST(OrderStackTest, THROW_1)
   dimkashelk::OrderStack order_stack(3);
   EXPECT_THROW(order_stack.get_first(), std::runtime_error) << "Wrong throw, stack empty";
 }
+TEST(OrderStackTest, THROW_2)
+{
+  dimkashelk::OrderStack order_stack(3);
+  order_stack.add_order(dimkashelk::Order(1, 2));
+  order_stack.remove_first();
+  EXPECT_THROW(order_stack.get_first(), std::runtime_error) << "Wrong throw, stack size = 1";
+  order_stack.add_order(dimkashelk::Order(1, 2));
+  order_stack.add_order(dimkashelk::Order(1, 2));
+  order_stack.remove_first();
+  order_stack.remove_first();
+  EXPECT_THROW(order_stack.get_first(), std::runtime_error) << "Wrong throw, stack size = 2";
+}
