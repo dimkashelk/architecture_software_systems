@@ -11,10 +11,10 @@ namespace dimkashelk
   public:
     OrderStack() = delete;
     explicit OrderStack(size_t capacity);
-    OrderStack(const OrderStack& other) = delete;
-    OrderStack(OrderStack&& other) = delete;
-    OrderStack& operator=(const OrderStack& other) = delete;
-    OrderStack& operator=(OrderStack&& other) = delete;
+    OrderStack(const OrderStack &other) = delete;
+    OrderStack(OrderStack &&other) = delete;
+    OrderStack &operator=(const OrderStack &other) = delete;
+    OrderStack &operator=(OrderStack &&other) = delete;
     ~OrderStack() = default;
     size_t get_length() const;
     void add_order(const Order &order);
@@ -29,7 +29,7 @@ namespace dimkashelk
     }
 
   private:
-    std::vector < Order > stack_;
+    std::vector< Order > stack_;
     size_t capacity_;
     size_t count_;
     size_t start_;
