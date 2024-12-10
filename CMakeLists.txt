@@ -11,6 +11,7 @@ set(ORDER_SOURCES
         ${SOURCE_DIR}/Order/order.cpp
         ${SOURCE_DIR}/Order/counter.cpp
         ${SOURCE_DIR}/OrderStack/orderstack.cpp
+        ${SOURCE_DIR}/OrderManager/ordermanager.cpp
 )
 
 set(ORDER_HEADERS
@@ -18,7 +19,7 @@ set(ORDER_HEADERS
         ${SOURCE_DIR}/Order/execution_status.h
         ${SOURCE_DIR}/Order/counter.h
         ${SOURCE_DIR}/OrderStack/orderstack.h
-        ${SOURCE_DIR}/ordermanager.h
+        ${SOURCE_DIR}/OrderManager/ordermanager.h
 )
 
 add_executable(main_app
