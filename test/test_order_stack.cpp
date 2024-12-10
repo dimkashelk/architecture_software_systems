@@ -48,3 +48,8 @@ TEST(OrderStackTest, TAKE_FIRST_2)
   order_stack.remove_first();
   EXPECT_EQ(order_stack.get_length(), 0) << "Different length";
 }
+TEST(OrderStackTest, THROW_1)
+{
+  dimkashelk::OrderStack order_stack(3);
+  EXPECT_THROW(order_stack.get_first(), std::runtime_error) << "Wrong throw, stack empty";
+}
