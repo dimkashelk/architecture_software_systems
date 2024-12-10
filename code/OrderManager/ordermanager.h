@@ -1,25 +1,29 @@
 #ifndef ORDERMANAGER_H
 #define ORDERMANAGER_H
+#include <mutex>
+#include <Order/order.h>
+#include <OrderStack/orderstack.h>
 
 namespace dimkashelk
 {
-  class OrderManager {
+  class OrderManager
+  {
   public:
-    void add_order(const Order& order) {
-      std::lock_guard<std::mutex> lock(_mutex);
-      _order_stack.add_order(order);
+    OrderManager() = default;
+    void add_order(const Order &order);
+    void failed_order(Order &order)
+    {
+      std::lock_guard lock(_mutex);
+      _order_stack.set_status(order, EXECUTION_FAILED);
+      _order_stack.remove_first();
+    }
+    void done_order(Order &order)
+    {
+      std::lock_guard lock(_mutex);
+      _order_stack.set_status(order, EXECUTION_DONE);
+      _order_stack.remove_first();
     }
 
-    void failed_order(Order& order) {
-      std::lock_guard<std::mutex> lock(_mutex);
-      _order_stack.set_status(order, ExecutionStatus::Failed);
-      _order_stack.remove_first();
-    }
-    void done_order(Order& order) {
-      std::lock_guard<std::mutex> lock(_mutex);
-      _order_stack.set_status(order, ExecutionStatus::Done);
-      _order_stack.remove_first();
-    }
   private:
     OrderStack _order_stack;
     mutable std::mutex _mutex;
