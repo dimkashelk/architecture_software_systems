@@ -6,11 +6,11 @@ set(CMAKE_CXX_STANDARD 20)
 # Основное приложение
 add_executable(main_app
         main.cpp
-        code/order.cpp
-        code/order.h
-        code/execution_status.h
-        code/counter.h
-        code/counter.cpp
+        code/Order/order.cpp
+        code/Order/order.h
+        code/Order/execution_status.h
+        code/Order/counter.h
+        code/Order/counter.cpp
         code/ordermanager.cpp
         code/ordermanager.h)
 target_include_directories(main_app PRIVATE code)
@@ -19,11 +19,11 @@ target_include_directories(main_app PRIVATE code)
 find_package(GTest REQUIRED)
 add_executable(test_order
         test/test_order.cpp
-        code/order.cpp
-        code/order.h
-        code/execution_status.h
-        code/counter.h
-        code/counter.cpp
+        code/Order/order.cpp
+        code/Order/order.h
+        code/Order/execution_status.h
+        code/Order/counter.h
+        code/Order/counter.cpp
         code/ordermanager.cpp
         code/ordermanager.h)
 target_include_directories(test_order PRIVATE code)
