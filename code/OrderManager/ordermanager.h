@@ -11,8 +11,8 @@ namespace dimkashelk
   public:
     explicit OrderManager(size_t size_order);
     void add_order(const Order &order);
-    void failed_order(Order &order);
-    void done_order(Order &order);
+    void failed_order(Order &order) const;
+    void done_order(Order &order) const;
 
   private:
     OrderStack order_stack_;
