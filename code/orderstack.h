@@ -22,7 +22,7 @@ namespace dimkashelk
     void remove_first();
 
   private:
-    std::vector< Order > stack_;
+    std::vector < Order > stack_;
     size_t capacity_;
     size_t count_;
     size_t start_;
