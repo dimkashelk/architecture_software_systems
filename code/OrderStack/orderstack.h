@@ -1,7 +1,6 @@
 #ifndef ORDERSTACK_H
 #define ORDERSTACK_H
 #include <mutex>
-#include <vector>
 #include "order.h"
 
 namespace dimkashelk
@@ -15,14 +14,14 @@ namespace dimkashelk
     OrderStack(OrderStack &&other) = delete;
     OrderStack &operator=(const OrderStack &other) = delete;
     OrderStack &operator=(OrderStack &&other) = delete;
-    ~OrderStack() = default;
+    ~OrderStack();
     size_t get_length() const;
     void add_order(const Order &order);
     Order &get_first();
     void remove_first();
 
   private:
-    std::vector < Order > stack_;
+    Order *stack_;
     size_t capacity_;
     size_t count_;
     size_t start_;

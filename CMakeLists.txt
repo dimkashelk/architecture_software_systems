@@ -12,9 +12,7 @@ add_executable(main_app
         code/counter.h
         code/counter.cpp
         code/OrderStack/orderstack.cpp
-        code/OrderStack/orderstack.h
-        code/OrderStack/orderallocator.cpp
-        code/OrderStack/orderallocator.h)
+        code/OrderStack/orderstack.h)
 target_include_directories(main_app PRIVATE code)
 
 # Тесты
@@ -28,9 +26,7 @@ add_executable(test_order
         code/counter.cpp
         code/OrderStack/orderstack.cpp
         code/OrderStack/orderstack.h
-        test/test_order_stack.cpp
-        code/OrderStack/orderallocator.cpp
-        code/OrderStack/orderallocator.h)
+        test/test_order_stack.cpp)
 target_include_directories(test_order PRIVATE code)
 target_link_libraries(test_order GTest::gtest GTest::gtest_main pthread)
 

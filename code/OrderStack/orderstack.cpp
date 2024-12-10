@@ -1,10 +1,14 @@
 #include "orderstack.h"
 dimkashelk::OrderStack::OrderStack(const size_t capacity):
-  stack_(capacity),
+  stack_(static_cast < Order * >(::operator new(sizeof(Order) * capacity))),
   capacity_(capacity),
   count_(0),
   start_(0)
 {}
+dimkashelk::OrderStack::~OrderStack()
+{
+  ::operator delete(stack_);
+}
 size_t dimkashelk::OrderStack::get_length() const
 {
   std::lock_guard lock(mtx_);
