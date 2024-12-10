@@ -16,23 +16,8 @@ namespace dimkashelk
     OrderStack& operator=(const OrderStack& other) = delete;
     OrderStack& operator=(OrderStack&& other) = delete;
     ~OrderStack() = default;
-    size_t get_length() const
-    {
-      return count_;
-    }
-    void add_order(const Order &order)
-    {
-      const size_t index = (start_ + count_) % capacity_;
-      if (count_ == capacity_)
-      {
-        start_ = (start_ + 1) % capacity_;
-      }
-      else
-      {
-        ++count_;
-      }
-      stack_[index] = order;
-    }
+    size_t get_length() const;
+    void add_order(const Order &order);
     Order &get_first()
     {
       if (count_ == 0)
