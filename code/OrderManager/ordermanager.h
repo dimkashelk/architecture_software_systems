@@ -11,12 +11,7 @@ namespace dimkashelk
   public:
     OrderManager() = default;
     void add_order(const Order &order);
-    void failed_order(Order &order)
-    {
-      std::lock_guard lock(_mutex);
-      _order_stack.set_status(order, EXECUTION_FAILED);
-      _order_stack.remove_first();
-    }
+    void failed_order(Order &order);
     void done_order(Order &order)
     {
       std::lock_guard lock(_mutex);
