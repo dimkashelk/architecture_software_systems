@@ -11,6 +11,11 @@ namespace dimkashelk
   public:
     OrderStack() = delete;
     explicit OrderStack(size_t capacity);
+    OrderStack(const OrderStack& other) = delete;
+    OrderStack(OrderStack&& other) = delete;
+    OrderStack& operator=(const OrderStack& other) = delete;
+    OrderStack& operator=(OrderStack&& other) = delete;
+    ~OrderStack() = default;
     size_t get_length() const
     {
       return count_;
