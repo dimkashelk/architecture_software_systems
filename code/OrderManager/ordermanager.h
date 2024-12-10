@@ -15,8 +15,8 @@ namespace dimkashelk
     void done_order(Order &order);
 
   private:
-    OrderStack _order_stack;
-    mutable std::mutex _mutex;
+    OrderStack order_stack_;
+    mutable std::mutex mtx_;
   };
 }
 #endif

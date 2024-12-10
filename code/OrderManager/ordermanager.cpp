@@ -1,18 +1,18 @@
 #include "ordermanager.h"
 void dimkashelk::OrderManager::add_order(const Order &order)
 {
-  std::lock_guard lock(_mutex);
-  _order_stack.add_order(order);
+  std::lock_guard lock(mtx_);
+  order_stack_.add_order(order);
 }
 void dimkashelk::OrderManager::failed_order(Order &order)
 {
-  std::lock_guard lock(_mutex);
-  _order_stack.set_status(order, EXECUTION_FAILED);
-  _order_stack.remove_first();
+  std::lock_guard lock(mtx_);
+  order_stack_.set_status(order, EXECUTION_FAILED);
+  order_stack_.remove_first();
 }
 void dimkashelk::OrderManager::done_order(Order &order)
 {
-  std::lock_guard lock(_mutex);
-  _order_stack.set_status(order, EXECUTION_DONE);
-  _order_stack.remove_first();
+  std::lock_guard lock(mtx_);
+  order_stack_.set_status(order, EXECUTION_DONE);
+  order_stack_.remove_first();
 }
