@@ -1,6 +1,6 @@
 #ifndef ORDERSTACK_H
 #define ORDERSTACK_H
-#include <iostream>
+#include <mutex>
 #include <vector>
 #include "order.h"
 
@@ -33,6 +33,7 @@ namespace dimkashelk
     size_t capacity_;
     size_t count_;
     size_t start_;
+    mutable std::mutex mtx_;
   };
 }
 #endif

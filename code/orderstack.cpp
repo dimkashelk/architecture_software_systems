@@ -7,10 +7,12 @@ dimkashelk::OrderStack::OrderStack(const size_t capacity):
 {}
 size_t dimkashelk::OrderStack::get_length() const
 {
+  std::lock_guard lock(mtx_);
   return count_;
 }
 void dimkashelk::OrderStack::add_order(const Order &order)
 {
+  std::lock_guard lock(mtx_);
   const size_t index = (start_ + count_) % capacity_;
   if (count_ == capacity_)
   {
@@ -24,6 +26,7 @@ void dimkashelk::OrderStack::add_order(const Order &order)
 }
 dimkashelk::Order &dimkashelk::OrderStack::get_first()
 {
+  std::lock_guard lock(mtx_);
   if (count_ == 0)
   {
     throw std::runtime_error("Stack is empty!");
