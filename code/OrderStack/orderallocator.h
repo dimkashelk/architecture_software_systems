@@ -11,17 +11,9 @@ namespace dimkashelk
   public:
     OrderAllocator() = default;
     Order *allocate(std::size_t n);
-    void deallocate(Order *ptr, std::size_t n)
-    {
-      std::cout << "Deallocating " << n * sizeof(Order) << " bytes\n";
-      ::operator delete(ptr);
-    }
+    void deallocate(Order *ptr, std::size_t n);
     template< typename U, typename... Args >
-    void construct(U *ptr, Args &&... args)
-    {
-      std::cout << "Constructing object\n";
-      new(ptr) U(std::forward < Args >(args)...);
-    }
+    void construct(U *ptr, Args &&... args);
     template< typename U >
     void destroy(U *ptr)
     {
