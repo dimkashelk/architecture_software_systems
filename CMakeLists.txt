@@ -29,7 +29,7 @@ add_executable(main_app
 target_include_directories(main_app PRIVATE ${SOURCE_DIR})
 
 add_library(order_lib STATIC ${ORDER_SOURCES})
-target_include_directories(order_lib PUBLIC ${SOURCE_DIR}) # PUBLIC позволяет использовать путь в зависимых целях
+target_include_directories(order_lib PUBLIC ${SOURCE_DIR})
 
 find_package(GTest REQUIRED)
 
@@ -41,6 +41,11 @@ add_executable(test_order_stack ${TEST_DIR}/test_order_stack.cpp)
 target_include_directories(test_order_stack PRIVATE ${SOURCE_DIR} ${TEST_DIR})
 target_link_libraries(test_order_stack PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
+add_executable(test_order_manager ${TEST_DIR}/test_order_manager.cpp)
+target_include_directories(test_order_manager PRIVATE ${SOURCE_DIR} ${TEST_DIR})
+target_link_libraries(test_order_manager PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
+
 enable_testing()
 add_test(NAME OrderTest COMMAND test_order)
 add_test(NAME OrderStackTest COMMAND test_order_stack)
+add_test(NAME OrderManagerTest COMMAND test_order_manager)
