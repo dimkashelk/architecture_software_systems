@@ -10,12 +10,12 @@ void dimkashelk::OrderManager::add_order(const Order &order)
 void dimkashelk::OrderManager::failed_order(Order &order)
 {
   std::lock_guard lock(mtx_);
-  order_stack_.set_status(order, EXECUTION_FAILED);
+  order.set_status(EXECUTION_FAILED);
   order_stack_.remove_first();
 }
 void dimkashelk::OrderManager::done_order(Order &order)
 {
   std::lock_guard lock(mtx_);
-  order_stack_.set_status(order, EXECUTION_DONE);
+  order.set_status(EXECUTION_DONE);
   order_stack_.remove_first();
 }
