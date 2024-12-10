@@ -1,5 +1,6 @@
 #include <gtest/gtest.h>
-#include "../code/order.h"
+#include "counter.h"
+#include "order.h"
 TEST(OrderTest, IncrementalIdGeneration)
 {
   const size_t id1 = dimkashelk::details::Counter::get_obj()->get_id();
