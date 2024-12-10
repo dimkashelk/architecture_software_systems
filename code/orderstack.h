@@ -18,15 +18,7 @@ namespace dimkashelk
     ~OrderStack() = default;
     size_t get_length() const;
     void add_order(const Order &order);
-    Order &get_first()
-    {
-      if (count_ == 0)
-      {
-        throw std::runtime_error("Stack is empty!");
-      }
-      const size_t last_index = (start_ + count_ - 1) % capacity_;
-      return stack_[last_index];
-    }
+    Order &get_first();
     void remove_first()
     {
       if (count_ == 0)
