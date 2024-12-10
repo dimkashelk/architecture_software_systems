@@ -7,7 +7,7 @@ namespace dimkashelk
   class Order
   {
   public:
-    Order() = delete;
+    Order() = default;
     Order(const Order &other) = default;
     Order(Order &&other) = default;
     Order &operator=(const Order&) = default;
