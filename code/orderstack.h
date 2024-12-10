@@ -19,14 +19,7 @@ namespace dimkashelk
     size_t get_length() const;
     void add_order(const Order &order);
     Order &get_first();
-    void remove_first()
-    {
-      if (count_ == 0)
-      {
-        throw std::runtime_error("Stack is empty!");
-      }
-      --count_;
-    }
+    void remove_first();
 
   private:
     std::vector< Order > stack_;

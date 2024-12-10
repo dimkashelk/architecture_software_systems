@@ -34,3 +34,12 @@ dimkashelk::Order &dimkashelk::OrderStack::get_first()
   const size_t last_index = (start_ + count_ - 1) % capacity_;
   return stack_[last_index];
 }
+void dimkashelk::OrderStack::remove_first()
+{
+  std::lock_guard lock(mtx_);
+  if (count_ == 0)
+  {
+    throw std::runtime_error("Stack is empty!");
+  }
+  --count_;
+}
