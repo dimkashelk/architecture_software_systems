@@ -1,7 +1,7 @@
 #include "orderallocator.h"
 #include "order.h"
 
-namespace dimkashelk
+namespace dimkashelk::details
 {
   Order *OrderAllocator::allocate(const size_t n)
   {
@@ -20,5 +20,10 @@ namespace dimkashelk
   void OrderAllocator::construct(U *ptr, Args &&... args)
   {
     new(ptr) U(std::forward < Args >(args)...);
+  }
+  template< typename U >
+  void OrderAllocator::destroy(U *ptr)
+  {
+    ptr->~U();
   }
 }
