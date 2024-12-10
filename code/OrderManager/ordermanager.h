@@ -9,7 +9,7 @@ namespace dimkashelk
   class OrderManager
   {
   public:
-    OrderManager() = default;
+    explicit OrderManager(size_t size_order);
     void add_order(const Order &order);
     void failed_order(Order &order);
     void done_order(Order &order);

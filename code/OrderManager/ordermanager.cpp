@@ -1,4 +1,7 @@
 #include "ordermanager.h"
+dimkashelk::OrderManager::OrderManager(const size_t size_order):
+  order_stack_(size_order)
+{}
 void dimkashelk::OrderManager::add_order(const Order &order)
 {
   std::lock_guard lock(mtx_);
