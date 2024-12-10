@@ -10,7 +10,9 @@ add_executable(main_app
         code/order.h
         code/execution_status.h
         code/counter.h
-        code/counter.cpp)
+        code/counter.cpp
+        code/orderstack.cpp
+        code/orderstack.h)
 target_include_directories(main_app PRIVATE code)
 
 # Тесты
@@ -21,7 +23,9 @@ add_executable(test_order
         code/order.h
         code/execution_status.h
         code/counter.h
-        code/counter.cpp)
+        code/counter.cpp
+        code/orderstack.cpp
+        code/orderstack.h)
 target_include_directories(test_order PRIVATE code)
 target_link_libraries(test_order GTest::gtest GTest::gtest_main pthread)
 
