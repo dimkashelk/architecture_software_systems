@@ -8,7 +8,7 @@ TEST(RobotTest, SetOrderSuccessfully)
   dimkashelk::Robot robot;
   const dimkashelk::Order order(1, 5);
   ASSERT_NO_THROW(robot.set_order(order));
-  EXPECT_TRUE(robot.available() == true);
+  EXPECT_TRUE(robot.available());
 }
 TEST(RobotTest, StartOrderSuccessfully)
 {
@@ -21,13 +21,12 @@ TEST(RobotTest, StartOrderSuccessfully)
 TEST(RobotTest, FinishOrderSuccessfully)
 {
   dimkashelk::Robot robot;
-  dimkashelk::Order order(3, 8);
+  constexpr size_t from = 3;
+  constexpr size_t to = 5;
+  const dimkashelk::Order order(from, to);
   robot.set_order(order);
-  auto future = std::async(std::launch::async, [&robot]()
-  {
-    robot.start_order();
-  });
-  future.wait();
+  robot.start_order();
+  std::this_thread::sleep_for(std::chrono::seconds(to - from + 1));
   EXPECT_TRUE(robot.available());
 }
 TEST(RobotTest, CannotSetOrderWhenBusy)
@@ -36,11 +35,7 @@ TEST(RobotTest, CannotSetOrderWhenBusy)
   dimkashelk::Order order1(4, 9);
   dimkashelk::Order order2(5, 10);
   robot.set_order(order1);
-  auto future = std::async(std::launch::async, [&robot]()
-  {
-    robot.start_order();
-  });
-  future.wait();
+  robot.start_order();
   EXPECT_THROW(robot.set_order(order2), std::runtime_error);
 }
 TEST(RobotTest, ThrowsWhenStartingWithoutOrder)
@@ -51,26 +46,23 @@ TEST(RobotTest, ThrowsWhenStartingWithoutOrder)
 TEST(RobotTest, ThrowsWhenCalculatingWaitWithoutOrder)
 {
   dimkashelk::Robot robot;
-  // Приватные методы недоступны напрямую, однако можно протестировать через public API.
   EXPECT_THROW(robot.start_order(), std::runtime_error);
 }
 TEST(RobotTest, MultiThreadedExecution)
 {
   dimkashelk::Robot robot;
-  dimkashelk::Order order1(10, 15);
-  dimkashelk::Order order2(20, 25);
-  std::thread t1([&]()
-  {
-    robot.set_order(order1);
-    robot.start_order();
-  });
-  t1.join();
+  constexpr size_t from_1 = 3;
+  constexpr size_t to_1 = 5;
+  constexpr size_t from_2 = 1;
+  constexpr size_t to_2 = 2;
+  const dimkashelk::Order order1(from_1, to_1);
+  const dimkashelk::Order order2(from_2, to_2);
+  robot.set_order(order1);
+  robot.start_order();
+  std::this_thread::sleep_for(std::chrono::seconds(to_1 - from_1 + 1));
   EXPECT_TRUE(robot.available());
-  std::thread t2([&]()
-  {
-    robot.set_order(order2);
-    robot.start_order();
-  });
-  t2.join();
+  robot.set_order(order2);
+  robot.start_order();
+  std::this_thread::sleep_for(std::chrono::seconds(to_2 - from_2 + 1));
   EXPECT_TRUE(robot.available());
 }
