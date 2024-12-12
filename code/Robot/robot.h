@@ -13,19 +13,7 @@ namespace dimkashelk
   {
   public:
     void set_order(const Order &order);
-    void start_order()
-    {
-      {
-        std::lock_guard lock(mtx_);
-        if (!current_order_.has_value())
-        {
-          throw std::runtime_error("No order assigned to the robot.");
-        }
-        work_now_ = true;
-        current_order_->set_status(EXECUTION_RUN);
-      }
-      run();
-    }
+    void start_order();
     bool available() const
     {
       std::lock_guard lock(mtx_);
