@@ -17,17 +17,7 @@ namespace dimkashelk
     bool available() const;
 
   private:
-    void finish_order()
-    {
-      std::lock_guard lock(mtx_);
-      if (!work_now_ || !current_order_.has_value())
-      {
-        throw std::runtime_error("Cannot finish an order. Robot is not working.");
-      }
-      current_order_->set_status(EXECUTION_DONE);
-      work_now_ = false;
-      current_order_.reset();
-    }
+    void finish_order();
     void run()
     {
       const int wait_time = calculate_wait_time();
