@@ -21,6 +21,11 @@ namespace dimkashelk
     Конструктор по умолчанию, создает пустого робота без заказов
     */
     Robot();
+    /*!
+    Метод, устанавливающий заказ для исполнения
+    \param order Заказ, который роботу необходимо выполнить
+    \throw std::runtime_error Выбрасывает исключение, если робот выполняет перемещение другого заказа
+    */
     void set_order(const Order &order);
     void start_order();
     bool available() const;
