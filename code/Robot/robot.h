@@ -27,6 +27,12 @@ namespace dimkashelk
     \throw std::runtime_error Выбрасывает исключение, если робот выполняет перемещение другого заказа
     */
     void set_order(const Order &order);
+    /*!
+    Метод, запускающий исполнение заказа
+    Заказ будет выполнен в отдельном потоке, созданном в данном методе
+    \throw std::runtime_error Выбрасывает исключение, если робот выполняет перемещение другого заказа
+    \throw std::logic_error Выбрасывает исключение, если для робота не установлен заказ
+    */
     void start_order();
     bool available() const;
     ~Robot();
