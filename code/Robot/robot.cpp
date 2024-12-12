@@ -52,5 +52,14 @@ size_t dimkashelk::Robot::calculate_wait_time() const
   {
     throw std::runtime_error("No order assigned to calculate wait time.");
   }
-  return std::abs(static_cast < size_t >(current_order_->get_to() - current_order_->get_from()));
+  const size_t to = current_order_->get_to();
+  const size_t from = current_order_->get_from();
+  if (to > from)
+  {
+    return to - from;
+  }
+  else
+  {
+    return from - to;
+  }
 }
