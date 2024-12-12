@@ -41,12 +41,12 @@ TEST(RobotTest, CannotSetOrderWhenBusy)
 TEST(RobotTest, ThrowsWhenStartingWithoutOrder)
 {
   dimkashelk::Robot robot;
-  EXPECT_THROW(robot.start_order(), std::runtime_error);
+  EXPECT_THROW(robot.start_order(), std::logic_error);
 }
 TEST(RobotTest, ThrowsWhenCalculatingWaitWithoutOrder)
 {
   dimkashelk::Robot robot;
-  EXPECT_THROW(robot.start_order(), std::runtime_error);
+  EXPECT_THROW(robot.start_order(), std::logic_error);
 }
 TEST(RobotTest, MultiThreadedExecution)
 {
