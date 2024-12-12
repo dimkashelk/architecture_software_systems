@@ -9,15 +9,22 @@
 
 namespace dimkashelk
 {
+  /*!
+  \brief Робот, выполняющий заказ
+
+  Класс робота, выполняющего заказ на перемещение объекта.
+*/
   class Robot
   {
   public:
+    /*!
+    Конструктор по умолчанию, создает пустого робота без заказов
+    */
     Robot();
-    ~Robot();
     void set_order(const Order &order);
     void start_order();
     bool available() const;
-
+    ~Robot();
   private:
     void finish_order();
     void run();
