@@ -19,7 +19,7 @@ namespace dimkashelk
   private:
     void finish_order();
     void run();
-    int calculate_wait_time() const;
+    size_t calculate_wait_time() const;
     std::optional < Order > current_order_;
     bool work_now_ = false;
     mutable std::mutex mtx_;
