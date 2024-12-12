@@ -12,6 +12,7 @@ set(ORDER_SOURCES
         ${SOURCE_DIR}/Order/counter.cpp
         ${SOURCE_DIR}/OrderStack/orderstack.cpp
         ${SOURCE_DIR}/OrderManager/ordermanager.cpp
+        ${SOURCE_DIR}/Robot/robot.cpp
 )
 
 set(ORDER_HEADERS
@@ -20,6 +21,7 @@ set(ORDER_HEADERS
         ${SOURCE_DIR}/Order/counter.h
         ${SOURCE_DIR}/OrderStack/orderstack.h
         ${SOURCE_DIR}/OrderManager/ordermanager.h
+        ${SOURCE_DIR}/Robot/robot.h
 )
 
 add_executable(main_app
