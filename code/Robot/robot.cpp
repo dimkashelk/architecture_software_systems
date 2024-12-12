@@ -37,7 +37,7 @@ void dimkashelk::Robot::start_order()
     }
     if (!current_order_.has_value())
     {
-      throw std::runtime_error("No order assigned to the robot.");
+      throw std::logic_error("No order assigned to the robot.");
     }
     work_now_ = true;
     current_order_->set_status(EXECUTION_RUN);
