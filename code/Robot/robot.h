@@ -14,11 +14,7 @@ namespace dimkashelk
   public:
     void set_order(const Order &order);
     void start_order();
-    bool available() const
-    {
-      std::lock_guard lock(mtx_);
-      return !work_now_;
-    }
+    bool available() const;
 
   private:
     void finish_order()

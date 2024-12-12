@@ -21,3 +21,8 @@ void dimkashelk::Robot::start_order()
   }
   run();
 }
+bool dimkashelk::Robot::available() const
+{
+  std::lock_guard lock(mtx_);
+  return !work_now_;
+}
