@@ -42,7 +42,7 @@ void dimkashelk::Robot::finish_order()
 }
 void dimkashelk::Robot::run()
 {
-  const int wait_time = calculate_wait_time();
+  const size_t wait_time = calculate_wait_time();
   std::this_thread::sleep_for(std::chrono::seconds(wait_time));
   finish_order();
 }
