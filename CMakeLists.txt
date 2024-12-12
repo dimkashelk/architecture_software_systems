@@ -47,7 +47,12 @@ add_executable(test_order_manager ${TEST_DIR}/test_order_manager.cpp)
 target_include_directories(test_order_manager PRIVATE ${SOURCE_DIR} ${TEST_DIR})
 target_link_libraries(test_order_manager PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
+add_executable(test_robot ${TEST_DIR}/test_robot.cpp)
+target_include_directories(test_robot PRIVATE ${SOURCE_DIR} ${TEST_DIR})
+target_link_libraries(test_robot PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
+
 enable_testing()
 add_test(NAME OrderTest COMMAND test_order)
 add_test(NAME OrderStackTest COMMAND test_order_stack)
 add_test(NAME OrderManagerTest COMMAND test_order_manager)
+add_test(NAME OrderRobot COMMAND test_robot)
