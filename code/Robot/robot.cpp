@@ -1,4 +1,7 @@
 #include "robot.h"
+#include <thread>
+#include <chrono>
+#include <Order/execution_status.h>
 void dimkashelk::Robot::set_order(const Order &order)
 {
   std::lock_guard lock(mtx_);
