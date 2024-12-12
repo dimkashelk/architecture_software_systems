@@ -18,12 +18,7 @@ namespace dimkashelk
 
   private:
     void finish_order();
-    void run()
-    {
-      const int wait_time = calculate_wait_time();
-      std::this_thread::sleep_for(std::chrono::seconds(wait_time));
-      finish_order();
-    }
+    void run();
     int calculate_wait_time() const
     {
       if (!current_order_.has_value())
