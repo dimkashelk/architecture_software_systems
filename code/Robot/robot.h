@@ -35,8 +35,12 @@ namespace dimkashelk
     void start_order();
     /*!
     Метод, позволяющий проверить доступность робота
+    \return bool
     */
     bool available() const;
+    /*!
+    Деструктор, ожидающий завершения перемещения объекта
+    */
     ~Robot();
   private:
     void finish_order();
