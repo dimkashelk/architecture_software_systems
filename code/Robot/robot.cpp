@@ -22,7 +22,7 @@ void dimkashelk::Robot::start_order()
     work_now_ = true;
     current_order_->set_status(EXECUTION_RUN);
   }
-  run();
+  std::thread(&Robot::run, this).detach();
 }
 bool dimkashelk::Robot::available() const
 {
