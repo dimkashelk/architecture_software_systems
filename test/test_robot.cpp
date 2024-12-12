@@ -10,3 +10,11 @@ TEST(RobotTest, SetOrderSuccessfully)
   ASSERT_NO_THROW(robot.set_order(order));
   EXPECT_TRUE(robot.available() == false);
 }
+TEST(RobotTest, StartOrderSuccessfully)
+{
+  dimkashelk::Robot robot;
+  const dimkashelk::Order order(2, 7);
+  robot.set_order(order);
+  ASSERT_NO_THROW(robot.start_order());
+  EXPECT_FALSE(robot.available());
+}
