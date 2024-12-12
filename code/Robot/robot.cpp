@@ -43,3 +43,11 @@ void dimkashelk::Robot::run()
   std::this_thread::sleep_for(std::chrono::seconds(wait_time));
   finish_order();
 }
+int dimkashelk::Robot::calculate_wait_time() const
+{
+  if (!current_order_.has_value())
+  {
+    throw std::runtime_error("No order assigned to calculate wait time.");
+  }
+  return std::abs(static_cast < int >(current_order_->get_to() - current_order_->get_from()));
+}

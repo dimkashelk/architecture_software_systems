@@ -19,14 +19,7 @@ namespace dimkashelk
   private:
     void finish_order();
     void run();
-    int calculate_wait_time() const
-    {
-      if (!current_order_.has_value())
-      {
-        throw std::runtime_error("No order assigned to calculate wait time.");
-      }
-      return std::abs(static_cast < int >(current_order_->get_to() - current_order_->get_from()));
-    }
+    int calculate_wait_time() const;
     std::optional < Order > current_order_;
     bool work_now_ = false;
     mutable std::mutex mtx_;
