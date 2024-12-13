@@ -15,3 +15,13 @@ TEST(ClientTest, GeneratesOrders)
   }
   ASSERT_EQ(orders.size(), ids.size()) << "The order IDs must be unique";
 }
+TEST(ClientTest, StopsGracefully)
+{
+  dimkashelk::MockOrderManager order_manager(3);
+  {
+    dimkashelk::Client client(order_manager);
+
+    std::this_thread::sleep_for(std::chrono::seconds(2));
+  }
+  SUCCEED() << "Client должен корректно завершить свой поток при уничтожении";
+}
