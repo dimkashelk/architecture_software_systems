@@ -16,6 +16,25 @@ namespace dimkashelk
     ~WarehouseManager();
 
   private:
+    void process_orders();
+
+    void assign_order_to_robot(const Order &order)
+    {
+      // Циклическое назначение робота
+      for (size_t i = 0; i < robots_.size(); ++i)
+      {
+        size_t index = (current_robot_index_ + i) % robots_.size();
+        if (robots_[index].available())
+        {
+          robots_[index].set_order(order);
+          robots_[index].start_order();
+          current_robot_index_ = (index + 1) % robots_.size();
+          return;
+        }
+      }
+
+      // Если нет доступных роботов, заказ не назначается (опционально можно обработать ошибку)
+    }
     std::vector < Robot > robots_;
     OrderStack &order_stack_;
     std::thread worker_thread_;

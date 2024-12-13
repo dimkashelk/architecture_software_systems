@@ -38,3 +38,24 @@ dimkashelk::WarehouseManager::~WarehouseManager()
     worker_thread_.join();
   }
 }
+void dimkashelk::WarehouseManager::process_orders()
+{
+  while (true)
+  {
+    std::unique_lock < std::mutex > lock(mutex_);
+    cv_.wait(lock, [this]
+    {
+      return stop_flag_ || order_stack_.get_length() > 0;
+    });
+    if (stop_flag_)
+    {
+      break;
+    }
+    if (order_stack_.get_length() > 0)
+    {
+      Order order = order_stack_.get_first();
+      order_stack_.remove_first();
+      assign_order_to_robot(order);
+    }
+  }
+}
