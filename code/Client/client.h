@@ -12,12 +12,13 @@ namespace dimkashelk
   class Client
   {
   public:
-    Client();
-    void generate_order();
+    explicit Client(OrderManager &order_manager);
     const std::vector < Order > &get_orders() const;
     ~Client();
 
   private:
+    void generate_order();
+    void run();
     std::vector < Order > orders_;
     OrderManager &order_manager_;
     std::thread worker_thread_;
