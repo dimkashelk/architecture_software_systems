@@ -38,3 +38,15 @@ void dimkashelk::WarehouseManager::set_status(Order &order, ExecutionStatus stat
   std::lock_guard lock(mutex_);
   order.set_status(status);
 }
+dimkashelk::WarehouseManager::~WarehouseManager()
+{
+  {
+    std::lock_guard lock(mutex_);
+    stop_flag_ = true;
+  }
+  cv_.notify_all();
+  if (worker_thread_.joinable())
+  {
+    worker_thread_.join();
+  }
+}

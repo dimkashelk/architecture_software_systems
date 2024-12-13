@@ -13,6 +13,7 @@ namespace dimkashelk
     bool available_robots();
     void add_order(const Order &order);
     void set_status(Order &order, ExecutionStatus status);
+    ~WarehouseManager();
 
   private:
     std::vector < Robot > robots_;
