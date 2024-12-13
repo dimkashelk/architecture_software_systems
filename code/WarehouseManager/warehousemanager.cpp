@@ -1,7 +1,11 @@
 #include "warehousemanager.h"
-dimkashelk::WarehouseManager::WarehouseManager(std::vector < Robot > robots):
-  robots_(std::move(robots))
+dimkashelk::WarehouseManager::WarehouseManager(std::vector < Robot > &robots, OrderStack &order_stack):
+  robots_(std::move(robots)),
+  order_stack_(order_stack),
+  stop_flag_(false),
+  current_robot_index_(0)
 {
+  worker_thread_ = std::thread(&WarehouseManager::process_orders, this);
 }
 bool dimkashelk::WarehouseManager::available_robots()
 {
