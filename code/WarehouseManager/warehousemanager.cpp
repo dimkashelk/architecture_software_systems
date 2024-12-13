@@ -42,7 +42,7 @@ void dimkashelk::WarehouseManager::process_orders()
 {
   while (true)
   {
-    std::unique_lock < std::mutex > lock(mutex_);
+    std::unique_lock lock(mutex_);
     cv_.wait(lock, [this]
     {
       return stop_flag_ || order_stack_.get_length() > 0;
@@ -51,11 +51,25 @@ void dimkashelk::WarehouseManager::process_orders()
     {
       break;
     }
-    if (order_stack_.get_length() > 0)
+    if (order_stack_.get_length() > 0 and available_robots())
     {
       Order order = order_stack_.get_first();
       order_stack_.remove_first();
       assign_order_to_robot(order);
+    }
+  }
+}
+void dimkashelk::WarehouseManager::assign_order_to_robot(const Order &order)
+{
+  for (size_t i = 0; i < robots_.size(); ++i)
+  {
+    const size_t index = (current_robot_index_ + i) % robots_.size();
+    if (robots_[index].available())
+    {
+      robots_[index].set_order(order);
+      robots_[index].start_order();
+      current_robot_index_ = (index + 1) % robots_.size();
+      return;
     }
   }
 }
