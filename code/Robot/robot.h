@@ -13,11 +13,10 @@ namespace dimkashelk
   {
   public:
     Robot();
-    ~Robot();
     void set_order(const Order &order);
     void start_order();
     bool available() const;
-
+    ~Robot();
   private:
     void finish_order();
     void run();
