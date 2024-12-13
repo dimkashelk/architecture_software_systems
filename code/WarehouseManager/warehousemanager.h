@@ -10,24 +10,7 @@ namespace dimkashelk
   public:
     explicit WarehouseManager(std::vector < Robot > robots);
     bool available_robots();
-    void add_order(const Order &order)
-    {
-      std::lock_guard lock(mutex_);
-      if (!available_robots())
-      {
-        throw std::runtime_error("No available robots to handle the order");
-      }
-      for (auto &robot: robots_)
-      {
-        if (robot.available())
-        {
-          robot.set_order(order);
-          robot.start_order();
-          current_order_ = order;
-          break;
-        }
-      }
-    }
+    void add_order(const Order &order);
     void set_status(Order &order, ExecutionStatus status)
     {
       std::lock_guard lock(mutex_);

@@ -10,3 +10,21 @@ bool dimkashelk::WarehouseManager::available_robots()
     return robot.available();
   });
 }
+void dimkashelk::WarehouseManager::add_order(const Order &order)
+{
+  std::lock_guard lock(mutex_);
+  if (!available_robots())
+  {
+    throw std::runtime_error("No available robots to handle the order");
+  }
+  for (auto &robot: robots_)
+  {
+    if (robot.available())
+    {
+      robot.set_order(order);
+      robot.start_order();
+      current_order_ = order;
+      break;
+    }
+  }
+}
