@@ -1,6 +1,7 @@
 #include "client.h"
 #include <cstdlib>
 #include <ctime>
+#include <mutex>
 void dimkashelk::Client::generate_order()
 {
   std::srand(static_cast < unsigned >(std::time(nullptr)));
@@ -15,5 +16,6 @@ void dimkashelk::Client::generate_order()
 }
 const std::vector < dimkashelk::Order > &dimkashelk::Client::get_orders() const
 {
+  std::lock_guard lock(mtx_);
   return orders_;
 }
