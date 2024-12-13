@@ -53,10 +53,7 @@ add_executable(test_robot ${TEST_DIR}/test_robot.cpp)
 target_include_directories(test_robot PRIVATE ${SOURCE_DIR} ${TEST_DIR})
 target_link_libraries(test_robot PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
-add_executable(test_client ${TEST_DIR}/test_client.cpp
-        ${TEST_DIR}/code/mockordermanager.cpp
-        ${TEST_DIR}/code/mockordermanager.h
-)
+add_executable(test_client ${TEST_DIR}/test_client.cpp)
 target_include_directories(test_client PRIVATE ${SOURCE_DIR} ${TEST_DIR})
 target_link_libraries(test_client PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
