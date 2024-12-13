@@ -13,6 +13,7 @@ namespace dimkashelk
     void add_order(const Order &order);
     void failed_order(Order &order) const;
     void done_order(Order &order) const;
+    size_t count_orders() const;
 
   private:
     OrderStack order_stack_;
