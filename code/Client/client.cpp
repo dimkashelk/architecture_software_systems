@@ -13,3 +13,7 @@ void dimkashelk::Client::generate_order()
   Order new_order(from, to);
   orders_.emplace_back(new_order);
 }
+const std::vector < dimkashelk::Order > &dimkashelk::Client::get_orders() const
+{
+  return orders_;
+}

@@ -10,10 +10,7 @@ namespace dimkashelk
   public:
     Client();
     void generate_order();
-    const std::vector < Order > &get_orders() const
-    {
-      return orders_;
-    }
+    const std::vector < Order > &get_orders() const;
 
   private:
     std::vector < Order > orders_;
