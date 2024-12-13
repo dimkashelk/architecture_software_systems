@@ -9,18 +9,7 @@ namespace dimkashelk
   {
   public:
     explicit WarehouseManager(std::vector < Robot > robots);
-    bool available_robots()
-    {
-      std::lock_guard lock(mutex_);
-      for (const auto &robot: robots_)
-      {
-        if (robot.available())
-        {
-          return true;
-        }
-      }
-      return false;
-    }
+    bool available_robots();
     void add_order(const Order &order)
     {
       std::lock_guard lock(mutex_);
