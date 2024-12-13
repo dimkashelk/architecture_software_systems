@@ -14,6 +14,7 @@ set(ORDER_SOURCES
         ${SOURCE_DIR}/OrderManager/ordermanager.cpp
         ${SOURCE_DIR}/Robot/robot.cpp
         ${SOURCE_DIR}/Client/client.cpp
+        ${SOURCE_DIR}/WarehouseManager/warehousemanager.cpp
 )
 
 set(ORDER_HEADERS
@@ -24,6 +25,7 @@ set(ORDER_HEADERS
         ${SOURCE_DIR}/OrderManager/ordermanager.h
         ${SOURCE_DIR}/Robot/robot.h
         ${SOURCE_DIR}/Client/client.h
+        ${SOURCE_DIR}/WarehouseManager/warehousemanager.h
 )
 
 add_executable(main_app
