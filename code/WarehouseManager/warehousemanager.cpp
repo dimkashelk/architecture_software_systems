@@ -1,7 +1,8 @@
 #include "warehousemanager.h"
 dimkashelk::WarehouseManager::WarehouseManager(std::vector < Robot > robots):
   robots_(std::move(robots))
-{}
+{
+}
 bool dimkashelk::WarehouseManager::available_robots()
 {
   std::lock_guard lock(mutex_);
@@ -27,4 +28,9 @@ void dimkashelk::WarehouseManager::add_order(const Order &order)
       break;
     }
   }
+}
+void dimkashelk::WarehouseManager::set_status(Order &order, ExecutionStatus status)
+{
+  std::lock_guard lock(mutex_);
+  order.set_status(status);
 }
