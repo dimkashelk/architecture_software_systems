@@ -7,6 +7,7 @@ namespace dimkashelk
   class MockOrderManager: public OrderManager
   {
   public:
+    explicit MockOrderManager(size_t size);
     void add_order(const Order &order);
     const std::vector < Order > &get_received_orders() const;
 
