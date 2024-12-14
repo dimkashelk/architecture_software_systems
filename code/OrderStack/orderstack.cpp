@@ -10,7 +10,7 @@ size_t dimkashelk::OrderStack::get_length() const
   std::lock_guard lock(mtx_);
   return count_;
 }
-void dimkashelk::OrderStack::add_order(const Order &order)
+void dimkashelk::OrderStack::add_order(const std::shared_ptr < Order > &order)
 {
   std::lock_guard lock(mtx_);
   const size_t index = (start_ + count_) % capacity_;
@@ -24,7 +24,7 @@ void dimkashelk::OrderStack::add_order(const Order &order)
   }
   stack_[index] = order;
 }
-dimkashelk::Order &dimkashelk::OrderStack::get_first()
+std::shared_ptr < dimkashelk::Order > &dimkashelk::OrderStack::get_first()
 {
   std::lock_guard lock(mtx_);
   if (count_ == 0)

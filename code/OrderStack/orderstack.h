@@ -1,8 +1,9 @@
 #ifndef ORDERSTACK_H
 #define ORDERSTACK_H
+#include <memory>
 #include <mutex>
 #include <vector>
-#include "Order/order.h"
+#include <Order/order.h>
 
 namespace dimkashelk
 {
@@ -17,12 +18,12 @@ namespace dimkashelk
     OrderStack &operator=(OrderStack &&other) = delete;
     ~OrderStack() = default;
     size_t get_length() const;
-    void add_order(const Order &order);
-    Order &get_first();
+    void add_order(const std::shared_ptr < Order > &order);
+    std::shared_ptr < Order > &get_first();
     void remove_first();
 
   private:
-    std::vector < Order > stack_;
+    std::vector < std::shared_ptr < Order > > stack_;
     size_t capacity_;
     size_t count_;
     size_t start_;
