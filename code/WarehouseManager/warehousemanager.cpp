@@ -56,13 +56,13 @@ void dimkashelk::WarehouseManager::process_orders()
     }
     if (order_stack_->get_length() > 0)
     {
-      Order order = order_stack_->get_first();
+      auto order = order_stack_->get_first();
       order_stack_->remove_first();
       assign_order_to_robot(order);
     }
   }
 }
-void dimkashelk::WarehouseManager::assign_order_to_robot(const Order &order)
+void dimkashelk::WarehouseManager::assign_order_to_robot(const std::shared_ptr < Order > &order)
 {
   for (size_t i = 0; i < robots_.size(); ++i)
   {

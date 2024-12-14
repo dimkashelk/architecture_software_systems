@@ -13,7 +13,7 @@ namespace dimkashelk
   {
   public:
     Robot();
-    void set_order(const Order &order);
+    void set_order(const std::shared_ptr < Order > &order);
     void start_order();
     bool available() const;
     ~Robot();
@@ -22,7 +22,7 @@ namespace dimkashelk
     void finish_order();
     void run();
     size_t calculate_wait_time() const;
-    std::optional < Order > current_order_{};
+    std::optional < std::shared_ptr < Order > > current_order_{};
     bool work_now_;
     std::atomic < bool > stop_flag_;
     mutable std::mutex mtx_{};

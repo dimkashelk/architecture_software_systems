@@ -5,7 +5,8 @@
 dimkashelk::Robot::Robot() :
   work_now_(false),
   stop_flag_(false)
-{}
+{
+}
 dimkashelk::Robot::~Robot()
 {
   {
@@ -18,7 +19,7 @@ dimkashelk::Robot::~Robot()
     worker_thread_.join();
   }
 }
-void dimkashelk::Robot::set_order(const Order &order)
+void dimkashelk::Robot::set_order(const std::shared_ptr < Order > &order)
 {
   std::lock_guard lock(mtx_);
   if (work_now_)
@@ -40,7 +41,7 @@ void dimkashelk::Robot::start_order()
       throw std::logic_error("No order assigned to the robot.");
     }
     work_now_ = true;
-    current_order_->set_status(EXECUTION_RUN);
+    current_order_->get()->set_status(EXECUTION_RUN);
   }
   if (worker_thread_.joinable())
   {
@@ -63,7 +64,7 @@ void dimkashelk::Robot::finish_order()
   {
     throw std::runtime_error("Cannot finish an order. Robot is not working.");
   }
-  current_order_->set_status(EXECUTION_DONE);
+  current_order_->get()->set_status(EXECUTION_DONE);
   work_now_ = false;
   current_order_.reset();
   cv_.notify_all();
@@ -89,8 +90,8 @@ size_t dimkashelk::Robot::calculate_wait_time() const
   {
     throw std::runtime_error("No order assigned to calculate wait time.");
   }
-  const size_t to = current_order_->get_to();
-  const size_t from = current_order_->get_from();
+  const size_t to = current_order_->get()->get_to();
+  const size_t from = current_order_->get()->get_from();
   if (to > from)
   {
     return to - from;

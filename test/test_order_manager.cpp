@@ -4,39 +4,39 @@
 #include <Order/execution_status.h>
 TEST(OrderManagerTest, ADD_ORDER)
 {
-  dimkashelk::OrderManager manager(3);
+  const dimkashelk::OrderManager manager(3);
   const dimkashelk::Order order(1, 2);
-  manager.add_order(order);
+  manager.add_order(std::make_shared < dimkashelk::Order >(order));
 }
 TEST(OrderManagerTest, ADD_MORE_ORDERS)
 {
-  dimkashelk::OrderManager manager(3);
+  const dimkashelk::OrderManager manager(3);
   const dimkashelk::Order order(1, 2);
-  manager.add_order(order);
-  manager.add_order(order);
-  manager.add_order(order);
-  manager.add_order(order);
-  manager.add_order(order);
+  manager.add_order(std::make_shared < dimkashelk::Order >(order));
+  manager.add_order(std::make_shared < dimkashelk::Order >(order));
+  manager.add_order(std::make_shared < dimkashelk::Order >(order));
+  manager.add_order(std::make_shared < dimkashelk::Order >(order));
+  manager.add_order(std::make_shared < dimkashelk::Order >(order));
 }
 TEST(OrderManagerTest, ORDER_DONE)
 {
   dimkashelk::OrderManager manager(3);
   dimkashelk::Order order(1, 2);
-  manager.add_order(order);
+  manager.add_order(std::make_shared < dimkashelk::Order >(order));
   manager.done_order(order);
   EXPECT_EQ(order.get_status(), dimkashelk::EXECUTION_DONE) << "Order done";
 }
 TEST(OrderManagerTest, ORDER_DONE_ALOT)
 {
-  dimkashelk::OrderManager manager(3);
+  const dimkashelk::OrderManager manager(3);
   dimkashelk::Order order1(1, 2);
-  manager.add_order(order1);
+  manager.add_order(std::make_shared < dimkashelk::Order >(order1));
   dimkashelk::Order order2(3, 6);
-  manager.add_order(order2);
+  manager.add_order(std::make_shared < dimkashelk::Order >(order2));
   dimkashelk::Order order3(3, 6);
-  manager.add_order(order3);
+  manager.add_order(std::make_shared < dimkashelk::Order >(order3));
   dimkashelk::Order order4(3, 6);
-  manager.add_order(order4);
+  manager.add_order(std::make_shared < dimkashelk::Order >(order4));
   manager.done_order(order1);
   manager.done_order(order2);
   manager.done_order(order3);
