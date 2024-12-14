@@ -25,11 +25,12 @@ void dimkashelk::Client::generate_order()
     to = std::rand() % range;
   }
   Order new_order(from, to);
+  auto shared_new_order = std::make_shared < Order >(new_order);
   {
     std::lock_guard lock(mtx_);
-    orders_.emplace_back(new_order);
+    orders_.push_back(shared_new_order);
   }
-  order_manager_.add_order(new_order);
+  order_manager_.add_order(shared_new_order);
 }
 void dimkashelk::Client::run()
 {
@@ -40,7 +41,7 @@ void dimkashelk::Client::run()
     std::this_thread::sleep_for(std::chrono::seconds(time));
   }
 }
-const std::vector < dimkashelk::Order > &dimkashelk::Client::get_orders() const
+const std::vector < std::shared_ptr < dimkashelk::Order > > &dimkashelk::Client::get_orders() const
 {
   std::lock_guard lock(mtx_);
   return orders_;
