@@ -22,7 +22,7 @@ namespace dimkashelk
   private:
     void process_orders();
     void assign_order_to_robot(const Order &order);
-    std::vector < Robot > robots_;
+    std::vector < std::shared_ptr < Robot > > robots_;
     std::shared_ptr < OrderStack > order_stack_;
     std::thread worker_thread_;
     std::mutex mutex_;

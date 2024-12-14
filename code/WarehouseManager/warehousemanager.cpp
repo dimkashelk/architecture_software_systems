@@ -8,15 +8,15 @@ dimkashelk::WarehouseManager::WarehouseManager(const size_t count_robots, OrderM
   worker_thread_ = std::thread(&WarehouseManager::process_orders, this);
   for (size_t i = 0; i < robots_.size(); ++i)
   {
-    robots_.emplace_back();
+    robots_[i] = std::make_shared < Robot >();
   }
 }
 bool dimkashelk::WarehouseManager::available_robots()
 {
   std::lock_guard lock(mutex_);
-  return std::any_of(robots_.begin(), robots_.end(), [](const Robot &robot)
+  return std::any_of(robots_.begin(), robots_.end(), [](const std::shared_ptr < Robot > &robot)
   {
-    return robot.available();
+    return robot->available();
   });
 }
 void dimkashelk::WarehouseManager::add_order(const Order &order)
@@ -27,7 +27,6 @@ void dimkashelk::WarehouseManager::add_order(const Order &order)
 }
 void dimkashelk::WarehouseManager::set_status(Order &order, ExecutionStatus status)
 {
-  std::lock_guard lock(mutex_);
   order.set_status(status);
 }
 dimkashelk::WarehouseManager::~WarehouseManager()
@@ -55,7 +54,7 @@ void dimkashelk::WarehouseManager::process_orders()
     {
       break;
     }
-    if (order_stack_->get_length() > 0 and available_robots())
+    if (order_stack_->get_length() > 0)
     {
       Order order = order_stack_->get_first();
       order_stack_->remove_first();
@@ -67,11 +66,10 @@ void dimkashelk::WarehouseManager::assign_order_to_robot(const Order &order)
 {
   for (size_t i = 0; i < robots_.size(); ++i)
   {
-    const size_t index = (current_robot_index_ + i) % robots_.size();
-    if (robots_[index].available())
+    if (const size_t index = (current_robot_index_ + i) % robots_.size(); robots_[index]->available())
     {
-      robots_[index].set_order(order);
-      robots_[index].start_order();
+      robots_[index]->set_order(order);
+      robots_[index]->start_order();
       current_robot_index_ = (index + 1) % robots_.size();
       return;
     }
