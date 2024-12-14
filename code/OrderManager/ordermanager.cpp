@@ -1,11 +1,11 @@
 #include "ordermanager.h"
 dimkashelk::OrderManager::OrderManager(const size_t size_order):
-  order_stack_(size_order)
+  order_stack_(std::make_shared<OrderStack>(size_order))
 {}
-void dimkashelk::OrderManager::add_order(const Order &order)
+void dimkashelk::OrderManager::add_order(const Order &order) const
 {
   std::lock_guard lock(mtx_);
-  order_stack_.add_order(order);
+  order_stack_->add_order(order);
 }
 void dimkashelk::OrderManager::failed_order(Order &order) const
 {
@@ -19,5 +19,5 @@ void dimkashelk::OrderManager::done_order(Order &order) const
 }
 size_t dimkashelk::OrderManager::count_orders() const
 {
-  return order_stack_.get_length();
+  return order_stack_->get_length();
 }
