@@ -1,7 +1,12 @@
 #include "eventmanager.h"
 #include <iostream>
+#include <filesystem>
 dimkashelk::EventManager::EventManager()
 {
+  if (const std::filesystem::path logDir = "log"; !exists(logDir))
+  {
+    create_directory(logDir);
+  }
   logFile.open("log/main.log", std::ios::app);
   if (!logFile.is_open())
   {

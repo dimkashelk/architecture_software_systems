@@ -72,3 +72,5 @@ add_test(NAME OrderManagerTest COMMAND test_order_manager)
 add_test(NAME RobotTest COMMAND test_robot)
 add_test(NAME ClientTest COMMAND test_client)
 add_test(NAME WarehouseManager COMMAND test_warehouse_manager)
+
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/log)
