@@ -19,7 +19,7 @@ bool dimkashelk::WarehouseManager::available_robots()
     return robot->available();
   });
 }
-void dimkashelk::WarehouseManager::add_order(const Order &order)
+void dimkashelk::WarehouseManager::add_order(const std::shared_ptr < Order > &order)
 {
   std::lock_guard lock(mutex_);
   order_stack_->add_order(order);
