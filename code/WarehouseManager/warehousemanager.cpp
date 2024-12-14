@@ -22,7 +22,7 @@ bool dimkashelk::WarehouseManager::available_robots()
 void dimkashelk::WarehouseManager::add_order(const Order &order)
 {
   std::lock_guard lock(mutex_);
-  order_stack_.add_order(order);
+  order_stack_->add_order(order);
   cv_.notify_one();
 }
 void dimkashelk::WarehouseManager::set_status(Order &order, ExecutionStatus status)
@@ -49,16 +49,16 @@ void dimkashelk::WarehouseManager::process_orders()
     std::unique_lock lock(mutex_);
     cv_.wait(lock, [this]
     {
-      return stop_flag_ || order_stack_.get_length() > 0;
+      return stop_flag_ || order_stack_->get_length() > 0;
     });
     if (stop_flag_)
     {
       break;
     }
-    if (order_stack_.get_length() > 0 and available_robots())
+    if (order_stack_->get_length() > 0 and available_robots())
     {
-      Order order = order_stack_.get_first();
-      order_stack_.remove_first();
+      Order order = order_stack_->get_first();
+      order_stack_->remove_first();
       assign_order_to_robot(order);
     }
   }
