@@ -15,6 +15,7 @@ set(ORDER_SOURCES
         ${SOURCE_DIR}/Robot/robot.cpp
         ${SOURCE_DIR}/Client/client.cpp
         ${SOURCE_DIR}/WarehouseManager/warehousemanager.cpp
+        ${SOURCE_DIR}/EventManager/eventmanager.cpp
 )
 
 set(ORDER_HEADERS
@@ -26,6 +27,7 @@ set(ORDER_HEADERS
         ${SOURCE_DIR}/Robot/robot.h
         ${SOURCE_DIR}/Client/client.h
         ${SOURCE_DIR}/WarehouseManager/warehousemanager.h
+        ${SOURCE_DIR}/EventManager/eventmanager.h
 )
 
 add_executable(main_app
@@ -70,3 +72,5 @@ add_test(NAME OrderManagerTest COMMAND test_order_manager)
 add_test(NAME RobotTest COMMAND test_robot)
 add_test(NAME ClientTest COMMAND test_client)
 add_test(NAME WarehouseManager COMMAND test_warehouse_manager)
+
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/log)
