@@ -1,8 +1,9 @@
 #include "ordermanager.h"
 dimkashelk::OrderManager::OrderManager(const size_t size_order):
-  order_stack_(std::make_shared<OrderStack>(size_order))
-{}
-void dimkashelk::OrderManager::add_order(const Order &order) const
+  order_stack_(std::make_shared < OrderStack >(size_order))
+{
+}
+void dimkashelk::OrderManager::add_order(const std::shared_ptr < Order > &order) const
 {
   std::lock_guard lock(mtx_);
   order_stack_->add_order(order);

@@ -15,7 +15,7 @@ namespace dimkashelk
 
   public:
     explicit OrderManager(size_t size_order);
-    void add_order(const Order &order) const;
+    void add_order(const std::shared_ptr < Order > &order) const;
     void failed_order(Order &order) const;
     void done_order(Order &order) const;
     size_t count_orders() const;
