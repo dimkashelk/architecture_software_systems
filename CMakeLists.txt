@@ -14,6 +14,7 @@ set(ORDER_SOURCES
         ${SOURCE_DIR}/OrderManager/ordermanager.cpp
         ${SOURCE_DIR}/Robot/robot.cpp
         ${SOURCE_DIR}/Client/client.cpp
+        ${SOURCE_DIR}/WarehouseManager/warehousemanager.cpp
 )
 
 set(ORDER_HEADERS
@@ -24,6 +25,7 @@ set(ORDER_HEADERS
         ${SOURCE_DIR}/OrderManager/ordermanager.h
         ${SOURCE_DIR}/Robot/robot.h
         ${SOURCE_DIR}/Client/client.h
+        ${SOURCE_DIR}/WarehouseManager/warehousemanager.h
 )
 
 add_executable(main_app
@@ -57,9 +59,14 @@ add_executable(test_client ${TEST_DIR}/test_client.cpp)
 target_include_directories(test_client PRIVATE ${SOURCE_DIR} ${TEST_DIR})
 target_link_libraries(test_client PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
+add_executable(test_warehouse_manager ${TEST_DIR}/test_warehouse_manager.cpp)
+target_include_directories(test_warehouse_manager PRIVATE ${SOURCE_DIR} ${TEST_DIR})
+target_link_libraries(test_warehouse_manager PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
+
 enable_testing()
 add_test(NAME OrderTest COMMAND test_order)
 add_test(NAME OrderStackTest COMMAND test_order_stack)
 add_test(NAME OrderManagerTest COMMAND test_order_manager)
 add_test(NAME RobotTest COMMAND test_robot)
 add_test(NAME ClientTest COMMAND test_client)
+add_test(NAME WarehouseManager COMMAND test_warehouse_manager)
