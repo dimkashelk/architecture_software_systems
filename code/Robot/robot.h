@@ -17,6 +17,7 @@ namespace dimkashelk
     void start_order();
     bool available() const;
     ~Robot();
+
   private:
     void finish_order();
     void run();

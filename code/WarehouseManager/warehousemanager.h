@@ -1,15 +1,19 @@
 #ifndef WAREHOUSEMANAGER_H
 #define WAREHOUSEMANAGER_H
 #include <vector>
+#include <OrderManager/ordermanager.h>
 #include <OrderStack/orderstack.h>
 #include <Robot/robot.h>
 
 namespace dimkashelk
 {
+  class OrderManager;
   class WarehouseManager
   {
+    friend class OrderManager;
+
   public:
-    WarehouseManager(std::vector < Robot > &robots, OrderStack &order_stack);
+    WarehouseManager(size_t count_robots, OrderManager &order_manager);
     bool available_robots();
     void add_order(const Order &order);
     void set_status(Order &order, ExecutionStatus status);

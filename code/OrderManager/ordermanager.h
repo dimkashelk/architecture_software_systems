@@ -3,11 +3,15 @@
 #include <mutex>
 #include <Order/order.h>
 #include <OrderStack/orderstack.h>
+#include <WarehouseManager/warehousemanager.h>
 
 namespace dimkashelk
 {
+  class WarehouseManager;
   class OrderManager
   {
+    friend class WarehouseManager;
+
   public:
     explicit OrderManager(size_t size_order);
     void add_order(const Order &order);
