@@ -11,10 +11,7 @@ namespace dimkashelk::details
     static Counter *get_obj();
 
   private:
-    Counter() :
-      id_(0)
-    {
-    }
+    Counter();
     size_t id_;
     static Counter *obj_;
     static std::mutex static_mtx_;
