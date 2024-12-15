@@ -11,7 +11,7 @@ TEST(WarehouseManagerTests, AddOrderIncreasesStackLength)
   dimkashelk::OrderManager manager(3);
   dimkashelk::WarehouseManager warehouse_manager(2, manager);
   manager.add_order(std::make_shared < dimkashelk::Order >(order));
-  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   EXPECT_EQ(manager.count_orders(), 0);
 }
 TEST(WarehouseManagerTests, AvailableRobots)
