@@ -8,7 +8,7 @@ dimkashelk::WarehouseManager::WarehouseManager(const size_t count_robots, OrderM
   worker_thread_ = std::thread(&WarehouseManager::process_orders, this);
   for (size_t i = 0; i < robots_.size(); ++i)
   {
-    robots_[i] = std::make_shared < Robot >();
+    robots_[i] = std::make_shared < Robot >(i);
   }
 }
 bool dimkashelk::WarehouseManager::available_robots()
