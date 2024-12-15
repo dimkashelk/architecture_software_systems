@@ -27,9 +27,12 @@ void dimkashelk::Robot::set_order(const std::shared_ptr < Order > &order)
   std::lock_guard lock(mtx_);
   if (work_now_)
   {
+    EventManager::getInstance().logEvent("(Robot) " + current_order_->get()->to_string() +
+                                         " already set in " + to_string());
     throw std::runtime_error("Robot is busy and cannot accept a new order.");
   }
   current_order_ = order;
+  EventManager::getInstance().logEvent("(Robot) " + current_order_->get()->to_string() + " set to " + to_string());
 }
 void dimkashelk::Robot::start_order()
 {
@@ -103,4 +106,13 @@ size_t dimkashelk::Robot::calculate_wait_time() const
   {
     return from - to;
   }
+}
+std::string dimkashelk::Robot::to_string() const
+{
+  const std::string str = "Robot{id=" + std::to_string(id_) + ", work_now=" + std::to_string(work_now_);
+  if (!current_order_.has_value())
+  {
+    return str + "}";
+  }
+  return str + ", order=" + current_order_->get()->to_string() + "}";
 }
