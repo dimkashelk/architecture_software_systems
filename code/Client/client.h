@@ -5,6 +5,7 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include <EventManager/eventmanager.h>
 #include <Order/order.h>
 
 namespace dimkashelk
@@ -13,13 +14,14 @@ namespace dimkashelk
   class Client
   {
   public:
-    explicit Client(OrderManager &order_manager);
+    explicit Client(size_t id, OrderManager &order_manager);
     const std::vector < std::shared_ptr < Order > > &get_orders() const;
     ~Client();
 
   private:
     void generate_order();
     void run();
+    size_t id_;
     std::vector < std::shared_ptr < Order > > orders_;
     OrderManager &order_manager_;
     std::thread worker_thread_;

@@ -5,10 +5,12 @@
 #include <vector>
 #include <Order/order.h>
 #include <OrderManager/ordermanager.h>
-dimkashelk::Client::Client(OrderManager &order_manager):
+dimkashelk::Client::Client(const size_t id, OrderManager &order_manager):
+  id_(id),
   order_manager_(order_manager),
   stop_flag_(false)
 {
+  EventManager::getInstance().logEvent("(Client) Client with id " + std::to_string(id) + " created");
   std::srand(static_cast < unsigned >(std::time(nullptr)));
   worker_thread_ = std::thread([this]
   {
