@@ -16,13 +16,13 @@ namespace dimkashelk
     void set_order(const std::shared_ptr < Order > &order);
     void start_order();
     bool available() const;
+    std::string to_string() const;
     ~Robot();
 
   private:
     void finish_order();
     void run();
     size_t calculate_wait_time() const;
-    std::string to_string() const;
     size_t id_;
     std::optional < std::shared_ptr < Order > > current_order_{};
     bool work_now_;
