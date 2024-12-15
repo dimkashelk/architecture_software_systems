@@ -40,13 +40,16 @@ void dimkashelk::Robot::start_order()
     std::lock_guard lock(mtx_);
     if (work_now_)
     {
+      EventManager::getInstance().logEvent("(Robot) " + to_string() + " already work with " + current_order_->get()->to_string());
       throw std::runtime_error("Robot is busy and cannot accept a new order.");
     }
     if (!current_order_.has_value())
     {
+      EventManager::getInstance().logEvent("(Robot) no order in " + to_string());
       throw std::logic_error("No order assigned to the robot.");
     }
     work_now_ = true;
+    EventManager::getInstance().logEvent("(Robot) " + to_string() + " start work with " + current_order_->get()->to_string());
     current_order_->get()->set_status(EXECUTION_RUN);
   }
   if (worker_thread_.joinable())
