@@ -11,5 +11,23 @@ namespace dimkashelk
     EXECUTION_DONE = 3,
     EXECUTION_FAILED = 4,
   };
+  inline std::string executionStatusToString(const ExecutionStatus executionStatus)
+  {
+    switch (executionStatus)
+    {
+      case EXECUTION_CREATE:
+        return "CREATE";
+      case EXECUTION_IN_STACK:
+        return "IN_STACK";
+      case EXECUTION_RUN:
+        return "RUN";
+      case EXECUTION_DONE:
+        return "DONE";
+      case EXECUTION_FAILED:
+        return "FAILED";
+      default:
+        return "UNKNOWN";
+    }
+  }
 }
 #endif

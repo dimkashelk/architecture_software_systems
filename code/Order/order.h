@@ -1,6 +1,8 @@
 #ifndef ORDER_H
 #define ORDER_H
 #include <cstddef>
+#include <string>
+
 #include "execution_status.h"
 namespace dimkashelk
 {
@@ -13,6 +15,7 @@ namespace dimkashelk
     Order &operator=(const Order&) = default;
     Order &operator=(Order&&) = default;
     Order(size_t from, size_t to);
+    std::string to_string() const;
     void set_status(ExecutionStatus status) noexcept;
     ExecutionStatus get_status() const noexcept;
     size_t get_id() const noexcept;
@@ -21,10 +24,10 @@ namespace dimkashelk
     ~Order() = default;
 
   private:
-    size_t _id;
-    size_t _from;
-    size_t _to;
-    ExecutionStatus _status;
+    size_t id_;
+    size_t from_;
+    size_t to_;
+    ExecutionStatus status_;
   };
 }
 #endif

@@ -5,14 +5,14 @@
 #include <Robot/robot.h>
 TEST(RobotTest, SetOrderSuccessfully)
 {
-  dimkashelk::Robot robot;
+  dimkashelk::Robot robot(0);
   const dimkashelk::Order order(1, 5);
   ASSERT_NO_THROW(robot.set_order(std::make_shared<dimkashelk::Order>(order)));
   EXPECT_TRUE(robot.available());
 }
 TEST(RobotTest, StartOrderSuccessfully)
 {
-  dimkashelk::Robot robot;
+  dimkashelk::Robot robot(0);
   const dimkashelk::Order order(2, 7);
   robot.set_order(std::make_shared<dimkashelk::Order>(order));
   ASSERT_NO_THROW(robot.start_order());
@@ -20,7 +20,7 @@ TEST(RobotTest, StartOrderSuccessfully)
 }
 TEST(RobotTest, FinishOrderSuccessfully)
 {
-  dimkashelk::Robot robot;
+  dimkashelk::Robot robot(0);
   constexpr size_t from = 3;
   constexpr size_t to = 5;
   const dimkashelk::Order order(from, to);
@@ -31,7 +31,7 @@ TEST(RobotTest, FinishOrderSuccessfully)
 }
 TEST(RobotTest, CannotSetOrderWhenBusy)
 {
-  dimkashelk::Robot robot;
+  dimkashelk::Robot robot(0);
   dimkashelk::Order order1(4, 9);
   dimkashelk::Order order2(5, 10);
   robot.set_order(std::make_shared<dimkashelk::Order>(order1));
@@ -40,17 +40,17 @@ TEST(RobotTest, CannotSetOrderWhenBusy)
 }
 TEST(RobotTest, ThrowsWhenStartingWithoutOrder)
 {
-  dimkashelk::Robot robot;
+  dimkashelk::Robot robot(0);
   EXPECT_THROW(robot.start_order(), std::logic_error);
 }
 TEST(RobotTest, ThrowsWhenCalculatingWaitWithoutOrder)
 {
-  dimkashelk::Robot robot;
+  dimkashelk::Robot robot(0);
   EXPECT_THROW(robot.start_order(), std::logic_error);
 }
 TEST(RobotTest, MultiThreadedExecution)
 {
-  dimkashelk::Robot robot;
+  dimkashelk::Robot robot(0);
   constexpr size_t from_1 = 3;
   constexpr size_t to_1 = 5;
   constexpr size_t from_2 = 1;

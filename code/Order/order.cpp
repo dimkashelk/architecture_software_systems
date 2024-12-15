@@ -1,28 +1,38 @@
 #include "order.h"
+#include <EventManager/eventmanager.h>
 #include "counter.h"
 dimkashelk::Order::Order(const size_t from, const size_t to):
-  _id(details::Counter::get_obj()->get_id()),
-  _from(from),
-  _to(to),
-  _status(EXECUTION_CREATE)
-{}
+  id_(details::Counter::get_obj()->get_id()),
+  from_(from),
+  to_(to),
+  status_(EXECUTION_CREATE)
+{
+  EventManager::getInstance().logEvent("(Order) create order with id=" + std::to_string(id_) + ", from=" + std::to_string(from_) + ", to=" + std::to_string(to_));
+}
+std::string dimkashelk::Order::to_string() const
+{
+  return "Order{id=" + std::to_string(id_) + ", from=" + std::to_string(from_) + ", to=" + std::to_string(to_) +
+         ", status=" + executionStatusToString(status_) + "}";
+}
 void dimkashelk::Order::set_status(const ExecutionStatus status) noexcept
 {
-  _status = status;
+  EventManager::getInstance().logEvent("(Order) Update status of " + to_string() +
+                                       " to status: " + executionStatusToString(status));
+  status_ = status;
 }
 dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const noexcept
 {
-  return _status;
+  return status_;
 }
 size_t dimkashelk::Order::get_id() const noexcept
 {
-  return _id;
+  return id_;
 }
 size_t dimkashelk::Order::get_from() const noexcept
 {
-  return _from;
+  return from_;
 }
 size_t dimkashelk::Order::get_to() const noexcept
 {
-  return _to;
+  return to_;
 }

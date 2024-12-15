@@ -5,15 +5,21 @@
 #include <vector>
 #include <Order/order.h>
 #include <OrderManager/ordermanager.h>
-dimkashelk::Client::Client(OrderManager &order_manager):
+dimkashelk::Client::Client(const size_t id, OrderManager &order_manager):
+  id_(id),
   order_manager_(order_manager),
   stop_flag_(false)
 {
+  EventManager::getInstance().logEvent("(Client) Client{id=" + std::to_string(id) + "} created");
   std::srand(static_cast < unsigned >(std::time(nullptr)));
   worker_thread_ = std::thread([this]
   {
     this->run();
   });
+}
+std::string dimkashelk::Client::to_string() const
+{
+  return "Client{id=" + std::to_string(id_) + "}";
 }
 void dimkashelk::Client::generate_order()
 {
@@ -25,7 +31,8 @@ void dimkashelk::Client::generate_order()
     to = std::rand() % range;
   }
   Order new_order(from, to);
-  auto shared_new_order = std::make_shared < Order >(new_order);
+  EventManager::getInstance().logEvent("(Client) " + to_string() + " generating order with id=" + std::to_string(new_order.get_id()));
+  const auto shared_new_order = std::make_shared < Order >(new_order);
   {
     std::lock_guard lock(mtx_);
     orders_.push_back(shared_new_order);
@@ -37,7 +44,7 @@ void dimkashelk::Client::run()
   while (!stop_flag_)
   {
     generate_order();
-    const size_t time = static_cast < size_t >(std::rand() % 3);
+    const auto time = static_cast < size_t >(std::rand() % 3);
     std::this_thread::sleep_for(std::chrono::seconds(time));
   }
 }
