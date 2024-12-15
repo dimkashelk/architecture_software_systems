@@ -10,12 +10,16 @@ dimkashelk::Client::Client(const size_t id, OrderManager &order_manager):
   order_manager_(order_manager),
   stop_flag_(false)
 {
-  EventManager::getInstance().logEvent("(Client) Client with id " + std::to_string(id) + " created");
+  EventManager::getInstance().logEvent("(Client) Client{id=" + std::to_string(id) + "} created");
   std::srand(static_cast < unsigned >(std::time(nullptr)));
   worker_thread_ = std::thread([this]
   {
     this->run();
   });
+}
+std::string dimkashelk::Client::to_string() const
+{
+  return "Client{id=" + std::to_string(id_) + "}";
 }
 void dimkashelk::Client::generate_order()
 {
@@ -27,7 +31,8 @@ void dimkashelk::Client::generate_order()
     to = std::rand() % range;
   }
   Order new_order(from, to);
-  auto shared_new_order = std::make_shared < Order >(new_order);
+  EventManager::getInstance().logEvent("(Client) " + to_string() + " generating " + new_order.to_string());
+  const auto shared_new_order = std::make_shared < Order >(new_order);
   {
     std::lock_guard lock(mtx_);
     orders_.push_back(shared_new_order);

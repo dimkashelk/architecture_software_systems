@@ -15,6 +15,7 @@ namespace dimkashelk
   {
   public:
     explicit Client(size_t id, OrderManager &order_manager);
+    std::string to_string() const;
     const std::vector < std::shared_ptr < Order > > &get_orders() const;
     ~Client();
 
