@@ -76,6 +76,7 @@ void dimkashelk::WarehouseManager::assign_order_to_robot(const std::shared_ptr <
   {
     if (const size_t index = (current_robot_index_ + i) % robots_.size(); robots_[index]->available())
     {
+      EventManager::getInstance().logEvent("(WarehouseManager) set " + order->to_string() + " to robot " + robots_[index]->to_string());
       robots_[index]->set_order(order);
       robots_[index]->start_order();
       current_robot_index_ = (index + 1) % robots_.size();
