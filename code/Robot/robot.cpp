@@ -1,12 +1,14 @@
 #include "robot.h"
 #include <thread>
 #include <chrono>
+#include <EventManager/eventmanager.h>
 #include <Order/execution_status.h>
 dimkashelk::Robot::Robot(const size_t id):
   id_(id),
   work_now_(false),
   stop_flag_(false)
 {
+  EventManager::getInstance().logEvent("(Robot) robot with id=" + std::to_string(id_) + " created");
 }
 dimkashelk::Robot::~Robot()
 {
