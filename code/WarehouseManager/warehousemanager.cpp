@@ -30,8 +30,10 @@ void dimkashelk::WarehouseManager::add_order(const std::shared_ptr < Order > &or
   order_stack_->add_order(order);
   cv_.notify_one();
 }
-void dimkashelk::WarehouseManager::set_status(Order &order, ExecutionStatus status)
+void dimkashelk::WarehouseManager::set_status(Order &order, const ExecutionStatus status)
 {
+  std::lock_guard lock(mutex_);
+  EventManager::getInstance().logEvent("(WarehouseManager) set_status to " + order.to_string() + " status:" + executionStatusToString(status));
   order.set_status(status);
 }
 dimkashelk::WarehouseManager::~WarehouseManager()

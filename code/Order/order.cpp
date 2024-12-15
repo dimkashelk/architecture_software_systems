@@ -14,7 +14,7 @@ std::string dimkashelk::Order::to_string() const
 }
 void dimkashelk::Order::set_status(const ExecutionStatus status) noexcept
 {
-  EventManager::getInstance().logEvent("(Order) Update status: " + to_string() + " to status: " + executionStatusToString(status_));
+  EventManager::getInstance().logEvent("(Order) Update status of " + to_string() + " to status: " + executionStatusToString(status_));
   status_ = status;
 }
 dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const noexcept
