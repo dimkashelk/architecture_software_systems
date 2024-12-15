@@ -1,5 +1,5 @@
 #include "orderstack.h"
-#include <EventManager/eventmanager.h>
+#include <eventmanager.h>
 dimkashelk::OrderStack::OrderStack(const size_t capacity):
   stack_(capacity),
   capacity_(capacity),

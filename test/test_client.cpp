@@ -1,6 +1,6 @@
-#include <Client/client.h>
 #include <gtest/gtest.h>
-#include <OrderManager/ordermanager.h>
+#include <client.h>
+#include <ordermanager.h>
 TEST(ClientTest, GeneratesOrders)
 {
   dimkashelk::OrderManager order_manager(3);

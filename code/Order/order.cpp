@@ -1,13 +1,15 @@
 #include "order.h"
-#include <EventManager/eventmanager.h>
-#include "counter.h"
+#include <eventmanager.h>
+#include <counter.h>
 dimkashelk::Order::Order(const size_t from, const size_t to):
   id_(details::Counter::get_obj()->get_id()),
   from_(from),
   to_(to),
   status_(EXECUTION_CREATE)
 {
-  EventManager::getInstance().logEvent("(Order) create order with id=" + std::to_string(id_) + ", from=" + std::to_string(from_) + ", to=" + std::to_string(to_));
+  EventManager::getInstance().logEvent(
+    "(Order) create order with id=" + std::to_string(id_) + ", from=" + std::to_string(from_) + ", to=" +
+    std::to_string(to_));
 }
 std::string dimkashelk::Order::to_string() const
 {

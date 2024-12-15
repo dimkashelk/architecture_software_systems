@@ -30,39 +30,63 @@ set(ORDER_HEADERS
         ${SOURCE_DIR}/EventManager/eventmanager.h
 )
 
+set(INCLUDE_HEADERS
+        ${SOURCE_DIR}/Order
+        ${SOURCE_DIR}/Order
+        ${SOURCE_DIR}/Order
+        ${SOURCE_DIR}/OrderStack
+        ${SOURCE_DIR}/OrderManager/
+        ${SOURCE_DIR}/Robot
+        ${SOURCE_DIR}/Client
+        ${SOURCE_DIR}/WarehouseManager
+        ${SOURCE_DIR}/EventManager
+)
+
+set(TEST_DIRECTORIES
+        ${SOURCE_DIR} 
+        ${TEST_DIR} 
+        ${INCLUDE_HEADERS}
+)
+
 add_executable(main_app
         main.cpp
         ${ORDER_SOURCES}
 )
-target_include_directories(main_app PRIVATE ${SOURCE_DIR})
+target_include_directories(main_app PRIVATE
+        ${SOURCE_DIR}
+        ${INCLUDE_HEADERS}
+)
 
 add_library(order_lib STATIC ${ORDER_SOURCES})
-target_include_directories(order_lib PUBLIC ${SOURCE_DIR})
+target_include_directories(order_lib PUBLIC
+        ${SOURCE_DIR}
+        ${INCLUDE_HEADERS}
+)
 
 find_package(GTest REQUIRED)
 
 add_executable(test_order ${TEST_DIR}/test_order.cpp)
-target_include_directories(test_order PRIVATE ${SOURCE_DIR} ${TEST_DIR})
+target_include_directories(test_order PRIVATE ${TEST_DIRECTORIES})
 target_link_libraries(test_order PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
 add_executable(test_order_stack ${TEST_DIR}/test_order_stack.cpp)
-target_include_directories(test_order_stack PRIVATE ${SOURCE_DIR} ${TEST_DIR})
+target_include_directories(test_order_stack PRIVATE ${TEST_DIRECTORIES})
 target_link_libraries(test_order_stack PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
 add_executable(test_order_manager ${TEST_DIR}/test_order_manager.cpp)
-target_include_directories(test_order_manager PRIVATE ${SOURCE_DIR} ${TEST_DIR})
+target_include_directories(test_order_manager PRIVATE ${TEST_DIRECTORIES})
 target_link_libraries(test_order_manager PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
 add_executable(test_robot ${TEST_DIR}/test_robot.cpp)
-target_include_directories(test_robot PRIVATE ${SOURCE_DIR} ${TEST_DIR})
+target_include_directories(test_robot PRIVATE ${TEST_DIRECTORIES})
 target_link_libraries(test_robot PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
 add_executable(test_client ${TEST_DIR}/test_client.cpp)
-target_include_directories(test_client PRIVATE ${SOURCE_DIR} ${TEST_DIR})
+target_include_directories(test_client PRIVATE ${TEST_DIRECTORIES})
 target_link_libraries(test_client PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
 add_executable(test_warehouse_manager ${TEST_DIR}/test_warehouse_manager.cpp)
-target_include_directories(test_warehouse_manager PRIVATE ${SOURCE_DIR} ${TEST_DIR})
+target_include_directories(test_warehouse_manager PRIVATE ${TEST_DIRECTORIES})
 target_link_libraries(test_warehouse_manager PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
 
 enable_testing()

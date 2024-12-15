@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include <Order/order.h>
-#include <OrderManager/ordermanager.h>
-#include <Order/execution_status.h>
+#include <order.h>
+#include <ordermanager.h>
+#include <execution_status.h>
 TEST(OrderManagerTest, ADD_ORDER)
 {
   const dimkashelk::OrderManager manager(3);

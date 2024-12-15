@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "Order/order.h"
-#include "OrderStack/orderstack.h"
+#include <order.h>
+#include <OrderStack/orderstack.h>
 TEST(OrderStackTest, ADD_1_ORDER)
 {
   dimkashelk::OrderStack order_stack(3);

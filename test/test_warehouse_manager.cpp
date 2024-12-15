@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
-#include <Order/order.h>
-#include <Robot/robot.h>
-#include <OrderStack/orderstack.h>
 #include <thread>
-#include <OrderManager/ordermanager.h>
-#include <WarehouseManager/warehousemanager.h>
+#include <order.h>
+#include <robot.h>
+#include <orderstack.h>
+#include <ordermanager.h>
+#include <warehousemanager.h>
 TEST(WarehouseManagerTests, AddOrderIncreasesStackLength)
 {
   dimkashelk::Order order(1, 2);
