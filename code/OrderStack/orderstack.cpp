@@ -48,5 +48,8 @@ void dimkashelk::OrderStack::remove_first()
   {
     throw std::runtime_error("Stack is empty!");
   }
+  const size_t last_index = (start_ + count_ - 1) % capacity_;
+  EventManager::getInstance().logEvent("(OrderStack) delete " + stack_[last_index]->to_string() +
+                                       " from " + std::to_string(last_index));
   --count_;
 }
