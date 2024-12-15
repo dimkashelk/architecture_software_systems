@@ -1,4 +1,5 @@
 #include "order.h"
+#include <EventManager/eventmanager.h>
 #include "counter.h"
 dimkashelk::Order::Order(const size_t from, const size_t to):
   id_(details::Counter::get_obj()->get_id()),
@@ -8,10 +9,12 @@ dimkashelk::Order::Order(const size_t from, const size_t to):
 {}
 std::string dimkashelk::Order::to_string() const
 {
-  return "Order{id=" + std::to_string(id_) + ", from=" + std::to_string(from_) + ", to=" + std::to_string(to_) + ", status=" + std::to_string(status_) + "}";
+  return "Order{id=" + std::to_string(id_) + ", from=" + std::to_string(from_) + ", to=" + std::to_string(to_) +
+         ", status=" + executionStatusToString(status_) + "}";
 }
 void dimkashelk::Order::set_status(const ExecutionStatus status) noexcept
 {
+  EventManager::getInstance().logEvent("(Order) Update status: " + to_string() + " to status: " + executionStatusToString(status_));
   status_ = status;
 }
 dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const noexcept
