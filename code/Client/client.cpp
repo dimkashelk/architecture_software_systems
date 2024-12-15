@@ -31,7 +31,7 @@ void dimkashelk::Client::generate_order()
     to = std::rand() % range;
   }
   Order new_order(from, to);
-  EventManager::getInstance().logEvent("(Client) " + to_string() + " generating " + new_order.to_string());
+  EventManager::getInstance().logEvent("(Client) " + to_string() + " generating order with id=" + std::to_string(new_order.get_id()));
   const auto shared_new_order = std::make_shared < Order >(new_order);
   {
     std::lock_guard lock(mtx_);
