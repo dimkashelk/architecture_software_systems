@@ -1,7 +1,9 @@
 #include "ordermanager.h"
+#include <EventManager/eventmanager.h>
 dimkashelk::OrderManager::OrderManager(const size_t size_order):
   order_stack_(std::make_shared < OrderStack >(size_order))
 {
+  EventManager::getInstance().logEvent("(OrderManager) constructor called");
 }
 void dimkashelk::OrderManager::add_order(const std::shared_ptr < Order > &order) const
 {
