@@ -1,10 +1,13 @@
 #include "orderstack.h"
+#include <EventManager/eventmanager.h>
 dimkashelk::OrderStack::OrderStack(const size_t capacity):
   stack_(capacity),
   capacity_(capacity),
   count_(0),
   start_(0)
-{}
+{
+  EventManager::getInstance().logEvent("(OrderStack) constructor called");
+}
 size_t dimkashelk::OrderStack::get_length() const
 {
   std::lock_guard lock(mtx_);
