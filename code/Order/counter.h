@@ -8,15 +8,7 @@ namespace dimkashelk::details
   {
   public:
     size_t get_id();
-    static Counter *get_obj()
-    {
-      std::lock_guard lock(static_mtx_);
-      if (obj_ == nullptr)
-      {
-        obj_ = new Counter();
-      }
-      return obj_;
-    }
+    static Counter *get_obj();
 
   private:
     Counter() :

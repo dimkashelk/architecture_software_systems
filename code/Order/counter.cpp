@@ -9,4 +9,13 @@ namespace dimkashelk::details
     std::lock_guard lock(mtx_);
     return id_++;
   }
+  Counter *Counter::get_obj()
+  {
+    std::lock_guard lock(static_mtx_);
+    if (obj_ == nullptr)
+    {
+      obj_ = new Counter();
+    }
+    return obj_;
+  }
 }
