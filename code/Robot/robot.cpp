@@ -2,7 +2,8 @@
 #include <thread>
 #include <chrono>
 #include <Order/execution_status.h>
-dimkashelk::Robot::Robot() :
+dimkashelk::Robot::Robot(const size_t id):
+  id_(id),
   work_now_(false),
   stop_flag_(false)
 {
