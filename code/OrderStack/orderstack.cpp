@@ -26,6 +26,7 @@ void dimkashelk::OrderStack::add_order(const std::shared_ptr < Order > &order)
     ++count_;
   }
   stack_[index] = order;
+  EventManager::getInstance().logEvent("(OrderStack) add " + order->to_string() + " in position: " + std::to_string(index));
 }
 std::shared_ptr < dimkashelk::Order > &dimkashelk::OrderStack::get_first()
 {
