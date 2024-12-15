@@ -9,6 +9,7 @@ void dimkashelk::OrderManager::add_order(const std::shared_ptr < Order > &order)
 {
   std::lock_guard lock(mtx_);
   order_stack_->add_order(order);
+  EventManager::getInstance().logEvent("(OrderManager) add order " + order->to_string() + " to order stack");
 }
 void dimkashelk::OrderManager::failed_order(Order &order) const
 {
