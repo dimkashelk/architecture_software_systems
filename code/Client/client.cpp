@@ -44,7 +44,7 @@ void dimkashelk::Client::run()
   while (!stop_flag_)
   {
     generate_order();
-    const size_t time = static_cast < size_t >(std::rand() % 3);
+    const auto time = static_cast < size_t >(std::rand() % 3);
     std::this_thread::sleep_for(std::chrono::seconds(time));
   }
 }
