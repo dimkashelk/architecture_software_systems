@@ -24,10 +24,10 @@ namespace dimkashelk
     ~Order() = default;
 
   private:
-    size_t _id;
-    size_t _from;
-    size_t _to;
-    ExecutionStatus _status;
+    size_t id_;
+    size_t from_;
+    size_t to_;
+    ExecutionStatus status_;
   };
 }
 #endif
