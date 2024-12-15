@@ -63,6 +63,7 @@ void dimkashelk::WarehouseManager::process_orders()
     }
     if (order_stack_->get_length() > 0)
     {
+      EventManager::getInstance().logEvent("(WarehouseManager) find order");
       auto order = order_stack_->get_first();
       order_stack_->remove_first();
       assign_order_to_robot(order);
