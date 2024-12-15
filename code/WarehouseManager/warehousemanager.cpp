@@ -1,14 +1,18 @@
 #include "warehousemanager.h"
-dimkashelk::WarehouseManager::WarehouseManager(const size_t count_robots, OrderManager &order_manager):
+#include <EventManager/eventmanager.h>
+dimkashelk::WarehouseManager::WarehouseManager(const size_t count_robots, const OrderManager &order_manager):
   robots_(count_robots),
   order_stack_(order_manager.order_stack_),
   stop_flag_(false),
   current_robot_index_(0)
 {
+  EventManager::getInstance().logEvent("(WarehouseManager) created");
   worker_thread_ = std::thread(&WarehouseManager::process_orders, this);
   for (size_t i = 0; i < robots_.size(); ++i)
   {
     robots_[i] = std::make_shared < Robot >(i);
+    EventManager::getInstance().logEvent("(WarehouseManager) added " + robots_[i]->to_string() +
+                                         " in position " + std::to_string(i));
   }
 }
 bool dimkashelk::WarehouseManager::available_robots()

@@ -13,7 +13,7 @@ namespace dimkashelk
     friend class OrderManager;
 
   public:
-    WarehouseManager(size_t count_robots, OrderManager &order_manager);
+    WarehouseManager(size_t count_robots, const OrderManager &order_manager);
     bool available_robots();
     void add_order(const std::shared_ptr < Order > &order);
     void set_status(Order &order, ExecutionStatus status);
