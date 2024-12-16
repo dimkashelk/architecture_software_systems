@@ -13,6 +13,10 @@ size_t dimkashelk::OrderStack::get_length() const
   std::lock_guard lock(mtx_);
   return count_;
 }
+size_t dimkashelk::OrderStack::get_capacity() const
+{
+  return capacity_;
+}
 void dimkashelk::OrderStack::add_order(const std::shared_ptr < Order > &order)
 {
   std::lock_guard lock(mtx_);
