@@ -29,3 +29,10 @@ size_t dimkashelk::OrderManager::get_stack_capacity() const
   std::lock_guard lock(mtx_);
   return order_stack_->get_capacity();
 }
+void dimkashelk::OrderManager::resize_stack(const size_t new_capacity) const
+{
+  std::lock_guard lock(mtx_);
+  EventManager::getInstance().logEvent("(OrderManager) resize_stack called "
+                                       "with new size: " + std::to_string(new_capacity));
+  order_stack_->resize(new_capacity);
+}

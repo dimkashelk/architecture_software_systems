@@ -20,6 +20,7 @@ namespace dimkashelk
     void done_order(Order &order) const;
     size_t count_orders() const;
     size_t get_stack_capacity() const;
+    void resize_stack(size_t new_capacity) const;
 
   private:
     std::shared_ptr < OrderStack > order_stack_;
