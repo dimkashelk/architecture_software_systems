@@ -27,8 +27,8 @@ jobs:
         uses: WillBrennan/yaqti@2021.07.27.1
         with:
           version: '6.8.0'
-          host: 'linux'
-          target: 'desktop'
+          os: 'linux'
+          platform: 'desktop'
           modules: 'qtcharts qtpurchasing qtwebengine qtnetworkauth qtscript debug_info'
 
       - name: Version qmake
