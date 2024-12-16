@@ -23,6 +23,7 @@ namespace dimkashelk
     void generate_order();
     void run();
     size_t id_;
+    std::atomic < bool > stopped_;
     std::vector < std::shared_ptr < Order > > orders_;
     OrderManager &order_manager_;
     std::thread worker_thread_;

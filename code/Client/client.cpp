@@ -7,6 +7,7 @@
 #include <ordermanager.h>
 dimkashelk::Client::Client(const size_t id, OrderManager &order_manager):
   id_(id),
+  stopped_(false),
   order_manager_(order_manager),
   stop_flag_(false)
 {
@@ -43,7 +44,10 @@ void dimkashelk::Client::run()
 {
   while (!stop_flag_)
   {
-    generate_order();
+    if (!stopped_)
+    {
+      generate_order();
+    }
     const auto time = static_cast < size_t >(std::rand() % 3);
     std::this_thread::sleep_for(std::chrono::seconds(time));
   }
