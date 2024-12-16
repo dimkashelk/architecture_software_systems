@@ -17,6 +17,28 @@ size_t dimkashelk::OrderStack::get_capacity() const
 {
   return capacity_;
 }
+void dimkashelk::OrderStack::resize(const size_t new_capacity)
+{
+  if (new_capacity == capacity_)
+  {
+    return;
+  }
+  std::lock_guard lock(mtx_);
+  std::vector < std::shared_ptr < Order > > new_stack(new_capacity);
+  if (new_capacity < capacity_)
+  {
+    for (size_t i = new_capacity + 1; i < capacity_; ++i)
+    {
+      stack_[i]->set_status(EXECUTION_REJECTED);
+    }
+    std::copy_n(stack_.begin(), new_capacity, new_stack.begin());
+  }
+  else
+  {
+    std::copy_n(stack_.begin(), capacity_, new_stack.begin());
+  }
+  std::swap(stack_, new_stack);
+}
 void dimkashelk::OrderStack::add_order(const std::shared_ptr < Order > &order)
 {
   std::lock_guard lock(mtx_);
