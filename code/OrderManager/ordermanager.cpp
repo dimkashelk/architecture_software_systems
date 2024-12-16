@@ -33,6 +33,10 @@ void dimkashelk::OrderManager::decrement_stack() const
 {
   resize_stack(order_stack_->get_length() - 1);
 }
+void dimkashelk::OrderManager::increment_stack() const
+{
+  resize_stack(order_stack_->get_length() + 1);
+}
 void dimkashelk::OrderManager::resize_stack(const size_t new_capacity) const
 {
   std::lock_guard lock(mtx_);

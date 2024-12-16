@@ -21,6 +21,7 @@ namespace dimkashelk
     size_t count_orders() const;
     size_t get_stack_capacity() const;
     void decrement_stack() const;
+    void increment_stack() const;
     void resize_stack(size_t new_capacity) const;
 
   private:
