@@ -19,5 +19,7 @@ public:
 
 private:
   Ui::MainWindow *ui;
+  bool work_now_;
+  void start_stop();
 };
 #endif
