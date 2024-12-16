@@ -24,5 +24,6 @@ private:
   void decrease_clients();
   void increase_clients();
   void decrease_robots();
+  void increase_robots();
 };
 #endif
