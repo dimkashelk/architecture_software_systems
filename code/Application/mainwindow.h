@@ -22,5 +22,6 @@ private:
   bool work_now_;
   void start_stop();
   void decrease_clients();
+  void increase_clients();
 };
 #endif
