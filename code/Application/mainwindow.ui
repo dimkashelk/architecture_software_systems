@@ -46,33 +46,61 @@
                                 <item>
                                     <widget class="QGroupBox" name="group_clients">
                                         <property name="title">
-                                            <string>Количество клиентов</string>
+                                            <string>Клиенты</string>
                                         </property>
-                                        <layout class="QHBoxLayout" name="layout_clients">
-                                            <item>
-                                                <widget class="QPushButton" name="button_clients_decrease">
-                                                    <property name="text">
-                                                        <string>-</string>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                            <item>
-                                                <widget class="QLabel" name="label_clients">
-                                                    <property name="text">
-                                                        <string>0</string>
-                                                    </property>
-                                                    <property name="alignment">
-                                                        <set>Qt::AlignmentFlag::AlignCenter</set>
-                                                    </property>
-                                                </widget>
-                                            </item>
-                                            <item>
-                                                <widget class="QPushButton" name="button_clients_increase">
-                                                    <property name="text">
-                                                        <string>+</string>
-                                                    </property>
-                                                </widget>
-                                            </item>
+                                        <layout class="QVBoxLayout" name="vlayout_clients">
+                                            <layout class="QHBoxLayout" name="layout_clients_count">
+                                                <item>
+                                                    <widget class="QPushButton" name="button_clients_count_decrease">
+                                                        <property name="text">
+                                                            <string>-</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QLabel" name="label_clients_count">
+                                                        <property name="text">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="alignment">
+                                                            <set>Qt::AlignmentFlag::AlignCenter</set>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QPushButton" name="button_clients_count_increase">
+                                                        <property name="text">
+                                                            <string>+</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
+                                            <layout class="QHBoxLayout" name="layout_clients_delay">
+                                                <item>
+                                                    <widget class="QPushButton" name="button_clients_delay_decrease">
+                                                        <property name="text">
+                                                            <string>-</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QLabel" name="label_clients_delay">
+                                                        <property name="text">
+                                                            <string>0</string>
+                                                        </property>
+                                                        <property name="alignment">
+                                                            <set>Qt::AlignmentFlag::AlignCenter</set>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                                <item>
+                                                    <widget class="QPushButton" name="button_clients_delay_increase">
+                                                        <property name="text">
+                                                            <string>+</string>
+                                                        </property>
+                                                    </widget>
+                                                </item>
+                                            </layout>
                                         </layout>
                                     </widget>
                                 </item>
