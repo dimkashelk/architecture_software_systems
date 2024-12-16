@@ -22,6 +22,10 @@ std::string dimkashelk::Client::to_string() const
 {
   return "Client{id=" + std::to_string(id_) + "}";
 }
+void dimkashelk::Client::start()
+{
+  stop_flag_ = false;
+}
 void dimkashelk::Client::generate_order()
 {
   constexpr size_t range = 20;
@@ -54,7 +58,6 @@ void dimkashelk::Client::run()
 }
 const std::vector < std::shared_ptr < dimkashelk::Order > > &dimkashelk::Client::get_orders() const
 {
-  std::lock_guard lock(mtx_);
   return orders_;
 }
 dimkashelk::Client::~Client()
