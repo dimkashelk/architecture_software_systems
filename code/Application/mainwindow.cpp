@@ -9,6 +9,7 @@ MainWindow::MainWindow(QWidget *parent):
   connect(ui->button_start_stop, &QPushButton::clicked, this, &MainWindow::start_stop);
   connect(ui->button_clients_decrease, &QPushButton::clicked, this, &MainWindow::decrease_clients);
   connect(ui->button_clients_increase, &QPushButton::clicked, this, &MainWindow::increase_clients);
+  connect(ui->button_robots_decrease, &QPushButton::clicked, this, &MainWindow::decrease_robots);
 }
 MainWindow::~MainWindow()
 {
@@ -23,6 +24,10 @@ void MainWindow::decrease_clients()
   // TODO: реализовать метод
 }
 void MainWindow::increase_clients()
+{
+  // TODO: реализовать метод
+}
+void MainWindow::decrease_robots()
 {
   // TODO: реализовать метод
 }
