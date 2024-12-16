@@ -25,5 +25,6 @@ private:
   void increase_clients();
   void decrease_robots();
   void increase_robots();
+  void decrease_stack();
 };
 #endif
