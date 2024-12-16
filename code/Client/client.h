@@ -18,6 +18,7 @@ namespace dimkashelk
     std::string to_string() const;
     void start();
     void stop();
+    void set_delay(size_t new_delay);
     const std::vector < std::shared_ptr < Order > > &get_orders() const;
     ~Client();
 
@@ -25,6 +26,7 @@ namespace dimkashelk
     void generate_order();
     void run();
     size_t id_;
+    std::atomic < size_t > delay_;
     std::atomic < bool > stopped_;
     std::vector < std::shared_ptr < Order > > orders_;
     OrderManager &order_manager_;
