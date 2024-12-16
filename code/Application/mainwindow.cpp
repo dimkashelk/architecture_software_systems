@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent):
   connect(ui->button_robots_decrease, &QPushButton::clicked, this, &MainWindow::decrease_robots);
   connect(ui->button_robots_increase, &QPushButton::clicked, this, &MainWindow::increase_robots);
   connect(ui->button_stack_decrease, &QPushButton::clicked, this, &MainWindow::decrease_stack);
+  connect(ui->button_stack_increase, &QPushButton::clicked, this, &MainWindow::increase_stack);
 }
 MainWindow::~MainWindow()
 {
@@ -38,6 +39,10 @@ void MainWindow::increase_robots()
   // TODO: реализовать метод
 }
 void MainWindow::decrease_stack()
+{
+  // TODO: реализовать метод
+}
+void MainWindow::increase_stack()
 {
   // TODO: реализовать метод
 }

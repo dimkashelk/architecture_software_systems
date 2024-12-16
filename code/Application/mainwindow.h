@@ -26,5 +26,6 @@ private:
   void decrease_robots();
   void increase_robots();
   void decrease_stack();
+  void increase_stack();
 };
 #endif
