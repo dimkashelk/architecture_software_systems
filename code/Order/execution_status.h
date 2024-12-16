@@ -26,6 +26,8 @@ namespace dimkashelk
         return "DONE";
       case EXECUTION_FAILED:
         return "FAILED";
+      case EXECUTION_REJECTED:
+        return "REJECTED";
       default:
         return "UNKNOWN";
     }
