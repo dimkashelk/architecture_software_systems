@@ -26,7 +26,7 @@ jobs:
       - name: Install Qt5/Qt6 (yaqti)
         uses: WillBrennan/yaqti@2021.07.27.1
         with:
-          version: '6.8.0'
+          version: '6.2.0'
           os: 'linux'
           platform: 'desktop'
           modules: 'qtcharts'
