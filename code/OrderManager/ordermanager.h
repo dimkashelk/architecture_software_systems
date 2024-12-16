@@ -2,9 +2,9 @@
 #define ORDERMANAGER_H
 #include <memory>
 #include <mutex>
-#include <Order/order.h>
-#include <OrderStack/orderstack.h>
-#include <WarehouseManager/warehousemanager.h>
+#include <order.h>
+#include <orderstack.h>
+#include <warehousemanager.h>
 
 namespace dimkashelk
 {

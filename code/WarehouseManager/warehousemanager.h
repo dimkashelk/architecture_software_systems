@@ -1,9 +1,9 @@
 #ifndef WAREHOUSEMANAGER_H
 #define WAREHOUSEMANAGER_H
 #include <vector>
-#include <OrderManager/ordermanager.h>
-#include <OrderStack/orderstack.h>
-#include <Robot/robot.h>
+#include <ordermanager.h>
+#include <orderstack.h>
+#include <robot.h>
 
 namespace dimkashelk
 {

@@ -1,8 +1,8 @@
 #include "robot.h"
 #include <thread>
 #include <chrono>
-#include <EventManager/eventmanager.h>
-#include <Order/execution_status.h>
+#include <eventmanager.h>
+#include <execution_status.h>
 dimkashelk::Robot::Robot(const size_t id):
   id_(id),
   work_now_(false),

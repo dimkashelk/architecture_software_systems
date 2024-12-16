@@ -2,8 +2,8 @@
 #define ORDER_H
 #include <cstddef>
 #include <string>
+#include <execution_status.h>
 
-#include "execution_status.h"
 namespace dimkashelk
 {
   class Order
@@ -12,8 +12,8 @@ namespace dimkashelk
     Order() = default;
     Order(const Order &other) = default;
     Order(Order &&other) = default;
-    Order &operator=(const Order&) = default;
-    Order &operator=(Order&&) = default;
+    Order &operator=(const Order &) = default;
+    Order &operator=(Order &&) = default;
     Order(size_t from, size_t to);
     std::string to_string() const;
     void set_status(ExecutionStatus status) noexcept;

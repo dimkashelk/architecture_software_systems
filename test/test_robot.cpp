@@ -1,8 +1,7 @@
 #include <gtest/gtest.h>
-#include <Order/order.h>
 #include <thread>
-#include <future>
-#include <Robot/robot.h>
+#include <robot.h>
+#include <order.h>
 TEST(RobotTest, SetOrderSuccessfully)
 {
   dimkashelk::Robot robot(0);

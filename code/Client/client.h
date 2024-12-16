@@ -5,8 +5,8 @@
 #include <mutex>
 #include <thread>
 #include <vector>
-#include <EventManager/eventmanager.h>
-#include <Order/order.h>
+#include <eventmanager.h>
+#include <order.h>
 
 namespace dimkashelk
 {

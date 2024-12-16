@@ -1,5 +1,5 @@
 #include "warehousemanager.h"
-#include <EventManager/eventmanager.h>
+#include <eventmanager.h>
 dimkashelk::WarehouseManager::WarehouseManager(const size_t count_robots, const OrderManager &order_manager):
   robots_(count_robots),
   order_stack_(order_manager.order_stack_),

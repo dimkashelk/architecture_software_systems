@@ -3,8 +3,8 @@
 #include <ctime>
 #include <mutex>
 #include <vector>
-#include <Order/order.h>
-#include <OrderManager/ordermanager.h>
+#include <order.h>
+#include <ordermanager.h>
 dimkashelk::Client::Client(const size_t id, OrderManager &order_manager):
   id_(id),
   order_manager_(order_manager),

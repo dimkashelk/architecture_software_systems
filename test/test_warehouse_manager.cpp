@@ -1,17 +1,17 @@
 #include <gtest/gtest.h>
-#include <Order/order.h>
-#include <Robot/robot.h>
-#include <OrderStack/orderstack.h>
 #include <thread>
-#include <OrderManager/ordermanager.h>
-#include <WarehouseManager/warehousemanager.h>
+#include <order.h>
+#include <robot.h>
+#include <orderstack.h>
+#include <ordermanager.h>
+#include <warehousemanager.h>
 TEST(WarehouseManagerTests, AddOrderIncreasesStackLength)
 {
   dimkashelk::Order order(1, 2);
   dimkashelk::OrderManager manager(3);
   dimkashelk::WarehouseManager warehouse_manager(2, manager);
   manager.add_order(std::make_shared < dimkashelk::Order >(order));
-  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+  std::this_thread::sleep_for(std::chrono::seconds(2));
   EXPECT_EQ(manager.count_orders(), 0);
 }
 TEST(WarehouseManagerTests, AvailableRobots)
