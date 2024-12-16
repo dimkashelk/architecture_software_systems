@@ -36,6 +36,12 @@ void dimkashelk::WarehouseManager::set_status(Order &order, const ExecutionStatu
                                        executionStatusToString(status));
   order.set_status(status);
 }
+void dimkashelk::WarehouseManager::add_robot()
+{
+  std::lock_guard lock(mutex_);
+  robots_.push_back(std::make_shared < Robot >(robots_.size() + 1));
+  EventManager::getInstance().logEvent("(WWarehouseManager) add new " + robots_.back()->to_string());
+}
 dimkashelk::WarehouseManager::~WarehouseManager()
 {
   {
