@@ -25,10 +25,12 @@ std::string dimkashelk::Client::to_string() const
 void dimkashelk::Client::start()
 {
   stopped_ = false;
+  EventManager::getInstance().logEvent("(Client) " + to_string() + " start");
 }
 void dimkashelk::Client::stop()
 {
   stopped_ = true;
+  EventManager::getInstance().logEvent("(Client) " + to_string() + " stop");
 }
 void dimkashelk::Client::generate_order()
 {
@@ -40,8 +42,8 @@ void dimkashelk::Client::generate_order()
     to = std::rand() % range;
   }
   Order new_order(from, to);
-  EventManager::getInstance().logEvent(
-    "(Client) " + to_string() + " generating order with id=" + std::to_string(new_order.get_id()));
+  EventManager::getInstance().logEvent("(Client) " + to_string() + " generated order with id="
+                                       + std::to_string(new_order.get_id()));
   const auto shared_new_order = std::make_shared < Order >(new_order);
   {
     std::lock_guard lock(mtx_);
