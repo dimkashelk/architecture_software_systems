@@ -21,5 +21,6 @@ private:
   Ui::MainWindow *ui;
   bool work_now_;
   void start_stop();
+  void decrease_clients();
 };
 #endif
