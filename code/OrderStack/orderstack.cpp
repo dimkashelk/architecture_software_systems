@@ -21,6 +21,9 @@ void dimkashelk::OrderStack::resize(const size_t new_capacity)
 {
   if (new_capacity == capacity_)
   {
+    EventManager::getInstance().logEvent("(OrderStack) resize failed: new capacity (" +
+                                         std::to_string(new_capacity) + ") equal to "
+                                         "old capacity (" + std::to_string(capacity_) + ")");
     return;
   }
   std::lock_guard lock(mtx_);
@@ -31,10 +34,14 @@ void dimkashelk::OrderStack::resize(const size_t new_capacity)
     {
       stack_[i]->set_status(EXECUTION_REJECTED);
     }
+    EventManager::getInstance().logEvent("(OrderStack) resize done: new capacity < "
+                                         "old capacity, rejected " + std::to_string(capacity_ - new_capacity) +
+                                         " orders");
     std::copy_n(stack_.begin(), new_capacity, new_stack.begin());
   }
   else
   {
+    EventManager::getInstance().logEvent("(OrderStack) resize done: new capacity > old capacity");
     std::copy_n(stack_.begin(), capacity_, new_stack.begin());
   }
   std::swap(stack_, new_stack);
