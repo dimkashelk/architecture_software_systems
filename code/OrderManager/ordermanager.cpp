@@ -24,3 +24,8 @@ size_t dimkashelk::OrderManager::count_orders() const
   std::lock_guard lock(mtx_);
   return order_stack_->get_length();
 }
+size_t dimkashelk::OrderManager::get_stack_capacity() const
+{
+  std::lock_guard lock(mtx_);
+  return order_stack_->get_capacity();
+}
