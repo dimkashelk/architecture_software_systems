@@ -52,18 +52,22 @@ void dimkashelk::OrderStack::increase_size()
   const auto capacity_old = capacity_;
   stack_.insert(std::next(stack_.begin(), start_), nullptr);
   capacity_ = stack_.size();
-  EventManager::getInstance().logEvent("(OrderStack) resize done: new capacity > old capacity ("
-                                       + std::to_string(capacity_) + " < " + std::to_string(capacity_old)
+  EventManager::getInstance().logEvent("(OrderStack) increase done ("
+                                       + std::to_string(capacity_) + " > " + std::to_string(capacity_old)
                                        + ")");
   ++start_;
 }
 void dimkashelk::OrderStack::decrease_size()
 {
+  if (capacity_ == 0)
+  {
+    return;
+  }
   std::lock_guard lock(mtx_);
   const auto capacity_old = capacity_;
   stack_.erase(std::next(stack_.begin(), start_));
   capacity_ = stack_.size();
-  EventManager::getInstance().logEvent("(OrderStack) resize done: new capacity < old capacity ("
+  EventManager::getInstance().logEvent("(OrderStack) decrease done ("
                                        + std::to_string(capacity_) + " < " + std::to_string(capacity_old)
                                        + ")");
   start_ = start_ % capacity_;
