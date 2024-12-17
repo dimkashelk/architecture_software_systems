@@ -122,8 +122,6 @@ set(TEST_SOURCES
         ${TEST_DIR}/test_warehouse_manager.cpp
 )
 
-set(TEST_OUTPUT_DIR ${CMAKE_BINARY_DIR}/tests)
-
 foreach (test_source ${TEST_SOURCES})
     get_filename_component(test_name ${test_source} NAME_WE)
     add_executable(${test_name} ${test_source})
