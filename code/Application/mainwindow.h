@@ -34,6 +34,7 @@ private:
   void increase_clients_count();
   void decrease_clients_delay();
   void increase_clients_delay();
+  void update_clients_delay() const;
   void decrease_robots();
   void increase_robots();
   void decrease_stack();

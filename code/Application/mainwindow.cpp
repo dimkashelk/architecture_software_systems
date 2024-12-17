@@ -46,16 +46,16 @@ void MainWindow::decrease_clients_delay()
   if (client_delay_ > 0)
   {
     --client_delay_;
-    for (size_t i = 0; i < clients_.size(); ++i)
-    {
-      clients_[i]->set_delay(client_delay_);
-    }
-    set_clients_delay();
+    update_clients_delay();
   }
 }
 void MainWindow::increase_clients_delay()
 {
   ++client_delay_;
+  update_clients_delay();
+}
+void MainWindow::update_clients_delay() const
+{
   for (size_t i = 0; i < clients_.size(); ++i)
   {
     clients_[i]->set_delay(client_delay_);
