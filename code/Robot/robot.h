@@ -22,8 +22,9 @@ namespace dimkashelk
   private:
     void finish_order();
     void run();
-    size_t calculate_wait_time() const;
+    size_t calculate_wait_time();
     size_t id_;
+    double wait_time_coeff_;
     std::optional < std::shared_ptr < Order > > current_order_{};
     bool work_now_;
     std::atomic < bool > stop_flag_;

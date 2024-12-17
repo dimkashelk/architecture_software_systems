@@ -1,10 +1,12 @@
 #include "robot.h"
 #include <thread>
 #include <chrono>
+#include <cmath>
 #include <eventmanager.h>
 #include <execution_status.h>
 dimkashelk::Robot::Robot(const size_t id):
   id_(id),
+  wait_time_coeff_(0.0),
   work_now_(false),
   stop_flag_(false)
 {
@@ -98,19 +100,11 @@ void dimkashelk::Robot::run()
   }
   finish_order();
 }
-size_t dimkashelk::Robot::calculate_wait_time() const
+size_t dimkashelk::Robot::calculate_wait_time()
 {
-  if (!current_order_.has_value())
-  {
-    throw std::runtime_error("No order assigned to calculate wait time.");
-  }
-  const size_t to = current_order_->get()->get_to();
-  const size_t from = current_order_->get()->get_from();
-  if (to > from)
-  {
-    return to - from;
-  }
-  return from - to;
+  const size_t wait_time = static_cast < size_t >(std::exp(wait_time_coeff_));
+  wait_time_coeff_ += 0.5;
+  return wait_time;
 }
 std::string dimkashelk::Robot::to_string() const
 {
