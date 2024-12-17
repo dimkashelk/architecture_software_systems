@@ -26,7 +26,11 @@ void MainWindow::start_stop()
 }
 void MainWindow::decrease_clients_count()
 {
-  // TODO: реализовать метод
+  if (count_clients_ > 0)
+  {
+    --count_clients_;
+    clients_.pop_back();
+  }
 }
 void MainWindow::increase_clients_count()
 {
