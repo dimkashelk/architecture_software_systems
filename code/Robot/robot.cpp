@@ -8,7 +8,7 @@ dimkashelk::Robot::Robot(const size_t id):
   wait_time_coeff_(0.0),
   work_now_(false),
   stop_flag_(false),
-  gen_(rd_),
+  gen_(rd_()),
   dis_(0.0, 1.0)
 {
   EventManager::getInstance().logEvent("(Robot) robot with id=" + std::to_string(id_) + " created");
