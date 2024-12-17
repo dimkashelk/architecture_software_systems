@@ -25,7 +25,7 @@ TEST(RobotTest, FinishOrderSuccessfully)
   const dimkashelk::Order order(from, to);
   robot.set_order(std::make_shared<dimkashelk::Order>(order));
   robot.start_order();
-  std::this_thread::sleep_for(std::chrono::seconds(to - from + 1));
+  std::this_thread::sleep_for(std::chrono::seconds(3));
   EXPECT_TRUE(robot.available());
 }
 TEST(RobotTest, CannotSetOrderWhenBusy)
