@@ -85,7 +85,9 @@ void MainWindow::decrease_stack()
 }
 void MainWindow::increase_stack()
 {
-  // TODO: реализовать метод
+  ++stack_size_;
+  order_manager_.increment_stack();
+  set_stack_size();
 }
 void MainWindow::set_clients_count() const
 {
