@@ -1,6 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
+#include <client.h>
 QT_BEGIN_NAMESPACE
 
 namespace Ui
@@ -20,6 +21,10 @@ public:
 private:
   Ui::MainWindow *ui;
   bool work_now_;
+  size_t stack_size_;
+  size_t count_clients_;
+  size_t count_robots_;
+  std::vector < std::shared_ptr < dimkashelk::Client > > clients_;
   void start_stop();
   void decrease_clients_count();
   void increase_clients_count();

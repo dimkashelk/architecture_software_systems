@@ -105,6 +105,8 @@ if (QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(application)
 endif ()
 
+target_link_libraries(application PRIVATE order_lib)
+
 add_library(order_lib STATIC ${ORDER_SOURCES})
 target_include_directories(order_lib PUBLIC
         ${SOURCE_DIR}

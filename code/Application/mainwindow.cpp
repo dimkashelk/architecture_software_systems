@@ -3,7 +3,11 @@
 MainWindow::MainWindow(QWidget *parent):
   QMainWindow(parent),
   ui(new Ui::MainWindow),
-  work_now_(false)
+  work_now_(false),
+  stack_size_(5),
+  count_clients_(2),
+  count_robots_(3),
+  clients_(count_clients_)
 {
   ui->setupUi(this);
   connect(ui->button_start_stop, &QPushButton::clicked, this, &MainWindow::start_stop);
