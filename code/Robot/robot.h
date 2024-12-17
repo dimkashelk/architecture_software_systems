@@ -5,6 +5,7 @@
 #include <optional>
 #include <mutex>
 #include <thread>
+#include <random>
 #include <order.h>
 
 namespace dimkashelk
@@ -28,6 +29,9 @@ namespace dimkashelk
     std::optional < std::shared_ptr < Order > > current_order_{};
     bool work_now_;
     std::atomic < bool > stop_flag_;
+    std::random_device rd_{};
+    std::mt19937 gen_;
+    std::uniform_real_distribution < > dis_;
     mutable std::mutex mtx_{};
     std::condition_variable cv_{};
     std::thread worker_thread_{};

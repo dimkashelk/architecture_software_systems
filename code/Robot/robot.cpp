@@ -1,5 +1,4 @@
 #include "robot.h"
-#include <thread>
 #include <chrono>
 #include <cmath>
 #include <eventmanager.h>
@@ -8,7 +7,9 @@ dimkashelk::Robot::Robot(const size_t id):
   id_(id),
   wait_time_coeff_(0.0),
   work_now_(false),
-  stop_flag_(false)
+  stop_flag_(false),
+  gen_(rd_),
+  dis_(0.0, 1.0)
 {
   EventManager::getInstance().logEvent("(Robot) robot with id=" + std::to_string(id_) + " created");
 }
@@ -98,7 +99,14 @@ void dimkashelk::Robot::run()
       return;
     }
   }
-  finish_order();
+  if (dis_(gen_) < 0.05)
+  {
+    failed_order();
+  }
+  else
+  {
+    finish_order();
+  }
 }
 size_t dimkashelk::Robot::calculate_wait_time()
 {
