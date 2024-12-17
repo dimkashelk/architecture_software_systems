@@ -68,7 +68,6 @@ void dimkashelk::Robot::start_order()
 }
 bool dimkashelk::Robot::available() const
 {
-  std::lock_guard lock(mtx_);
   return !work_now_;
 }
 void dimkashelk::Robot::success_order()
@@ -99,7 +98,6 @@ void dimkashelk::Robot::failed_order()
 }
 void dimkashelk::Robot::finish_order()
 {
-  std::unique_lock lock(mtx_);
   work_now_ = false;
   current_order_.reset();
   cv_.notify_all();
@@ -128,8 +126,8 @@ void dimkashelk::Robot::run()
 }
 size_t dimkashelk::Robot::calculate_wait_time()
 {
-  const size_t wait_time = static_cast < size_t >(std::exp(wait_time_coeff_));
-  wait_time_coeff_ += 0.5;
+  const auto wait_time = static_cast < size_t >(std::exp(wait_time_coeff_));
+  wait_time_coeff_ += 0.1;
   return wait_time;
 }
 std::string dimkashelk::Robot::to_string() const
