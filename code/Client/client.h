@@ -26,7 +26,7 @@ namespace dimkashelk
     void generate_order();
     void run();
     size_t id_;
-    std::atomic < size_t > delay_;
+    std::atomic< size_t > delay_;
     std::atomic < bool > stopped_;
     std::vector < std::shared_ptr < Order > > orders_;
     OrderManager &order_manager_;

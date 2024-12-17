@@ -35,6 +35,7 @@ void dimkashelk::Client::stop()
 }
 void dimkashelk::Client::set_delay(const size_t new_delay)
 {
+  std::lock_guard lock(mtx_);
   delay_ = new_delay;
   EventManager::getInstance().logEvent("(Client) " + to_string() + " set delay "
                                        + std::to_string(delay_) + " seconds");

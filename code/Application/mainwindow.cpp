@@ -10,8 +10,7 @@ MainWindow::MainWindow(QWidget *parent):
   count_robots_(3),
   client_delay_(5),
   order_manager_(stack_size_),
-  warehouse_manager_(count_robots_, order_manager_),
-  clients_(count_clients_)
+  warehouse_manager_(count_robots_, order_manager_)
 {
   ui->setupUi(this);
   initUI();
