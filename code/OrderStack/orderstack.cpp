@@ -59,7 +59,7 @@ void dimkashelk::OrderStack::increase_size()
 }
 void dimkashelk::OrderStack::decrease_size()
 {
-  if (capacity_ == 0)
+  if (capacity_ == 1)
   {
     return;
   }
