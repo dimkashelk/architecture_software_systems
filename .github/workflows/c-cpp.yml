@@ -33,11 +33,14 @@ jobs:
           cmake .. -DCMAKE_BUILD_TYPE=Debug
           make
 
-      - name: Verify test executables
+      - name: Show build
         run: |
           ls -a build
+
+      - name: Show tests
+        run: ctest --show-only
 
       - name: Run tests
         run: |
           cd build
-          ctest --output-on-failure
+          ctest -V
