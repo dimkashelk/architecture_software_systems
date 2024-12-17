@@ -24,6 +24,13 @@ void MainWindow::start_stop()
 {
   // TODO: реализовать метод
 }
+void MainWindow::start() const
+{
+  for (size_t i = 0; i < clients_.size(); ++i)
+  {
+    clients_[i]->start();
+  }
+}
 void MainWindow::decrease_clients_count()
 {
   if (count_clients_ > 0)

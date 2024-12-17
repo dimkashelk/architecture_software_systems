@@ -30,6 +30,8 @@ private:
   dimkashelk::WarehouseManager warehouse_manager_;
   std::vector < std::shared_ptr < dimkashelk::Client > > clients_;
   void start_stop();
+  void start() const;
+  void stop();
   void decrease_clients_count();
   void increase_clients_count();
   void decrease_clients_delay();
