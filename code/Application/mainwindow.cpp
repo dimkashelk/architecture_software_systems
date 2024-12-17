@@ -76,7 +76,12 @@ void MainWindow::increase_robots()
 }
 void MainWindow::decrease_stack()
 {
-  // TODO: реализовать метод
+  if (stack_size_ > 0)
+  {
+    --stack_size_;
+    order_manager_.decrement_stack();
+    set_stack_size();
+  }
 }
 void MainWindow::increase_stack()
 {
