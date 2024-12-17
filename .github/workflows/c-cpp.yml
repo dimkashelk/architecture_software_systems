@@ -38,7 +38,9 @@ jobs:
           ls -a build
 
       - name: Show tests
-        run: ctest --show-only
+        run: | 
+          cd build 
+          ctest --show-only
 
       - name: Run tests
         run: |
