@@ -71,7 +71,7 @@ bool dimkashelk::Robot::available() const
   std::lock_guard lock(mtx_);
   return !work_now_;
 }
-void dimkashelk::Robot::finish_order()
+void dimkashelk::Robot::success_order()
 {
   std::unique_lock lock(mtx_);
   if (!work_now_ || !current_order_.has_value())
@@ -79,9 +79,27 @@ void dimkashelk::Robot::finish_order()
     EventManager::getInstance().logEvent("(Robot) " + to_string() + " can't finish order, no order");
     throw std::runtime_error("Cannot finish an order. Robot is not working.");
   }
-  EventManager::getInstance().logEvent(
-    "(Robot) " + to_string() + " finished order " + current_order_->get()->to_string());
+  EventManager::getInstance().logEvent("(Robot) " + to_string() + " finished order " +
+                                       current_order_->get()->to_string());
   current_order_->get()->set_status(EXECUTION_DONE);
+  finish_order();
+}
+void dimkashelk::Robot::failed_order()
+{
+  std::unique_lock lock(mtx_);
+  if (!work_now_ || !current_order_.has_value())
+  {
+    EventManager::getInstance().logEvent("(Robot) " + to_string() + " can't finish order, no order");
+    throw std::runtime_error("Cannot finish an order. Robot is not working.");
+  }
+  EventManager::getInstance().logEvent("(Robot) " + to_string() + " failed order " +
+                                       current_order_->get()->to_string());
+  current_order_->get()->set_status(EXECUTION_FAILED);
+  finish_order();
+}
+void dimkashelk::Robot::finish_order()
+{
+  std::unique_lock lock(mtx_);
   work_now_ = false;
   current_order_.reset();
   cv_.notify_all();
@@ -105,7 +123,7 @@ void dimkashelk::Robot::run()
   }
   else
   {
-    finish_order();
+    success_order();
   }
 }
 size_t dimkashelk::Robot::calculate_wait_time()

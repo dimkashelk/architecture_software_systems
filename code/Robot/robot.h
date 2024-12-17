@@ -21,6 +21,8 @@ namespace dimkashelk
     ~Robot();
 
   private:
+    void success_order();
+    void failed_order();
     void finish_order();
     void run();
     size_t calculate_wait_time();
