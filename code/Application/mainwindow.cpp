@@ -22,7 +22,15 @@ MainWindow::~MainWindow()
 }
 void MainWindow::start_stop()
 {
-  // TODO: реализовать метод
+  if (work_now_)
+  {
+    stop();
+  }
+  else
+  {
+    start();
+  }
+  work_now_ = !work_now_;
 }
 void MainWindow::start() const
 {
