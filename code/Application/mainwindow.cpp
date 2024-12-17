@@ -31,6 +31,13 @@ void MainWindow::start() const
     clients_[i]->start();
   }
 }
+void MainWindow::stop() const
+{
+  for (size_t i = 0; i < clients_.size(); ++i)
+  {
+    clients_[i]->stop();
+  }
+}
 void MainWindow::decrease_clients_count()
 {
   if (count_clients_ > 0)
