@@ -18,6 +18,7 @@ namespace dimkashelk
     void add_order(const std::shared_ptr < Order > &order);
     void set_status(Order &order, ExecutionStatus status);
     void add_robot();
+    void pop_back_robot();
     ~WarehouseManager();
 
   private:

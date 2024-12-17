@@ -4,7 +4,7 @@ dimkashelk::OrderStack::OrderStack(const size_t capacity):
   stack_(capacity),
   capacity_(capacity),
   count_(0),
-  start_(0)
+  start_(1)
 {
   EventManager::getInstance().logEvent("(OrderStack) constructor called");
 }
@@ -30,7 +30,7 @@ void dimkashelk::OrderStack::resize(const size_t new_capacity)
   std::vector < std::shared_ptr < Order > > new_stack(new_capacity);
   if (new_capacity < capacity_)
   {
-    for (size_t i = new_capacity + 1; i < capacity_; ++i)
+    for (size_t i = new_capacity; i < capacity_; ++i)
     {
       stack_[i]->set_status(EXECUTION_REJECTED);
     }
@@ -46,6 +46,32 @@ void dimkashelk::OrderStack::resize(const size_t new_capacity)
   }
   std::swap(stack_, new_stack);
 }
+void dimkashelk::OrderStack::increase_size()
+{
+  std::lock_guard lock(mtx_);
+  const auto capacity_old = capacity_;
+  stack_.insert(std::next(stack_.begin(), start_), nullptr);
+  capacity_ = stack_.size();
+  EventManager::getInstance().logEvent("(OrderStack) increase done ("
+                                       + std::to_string(capacity_) + " > " + std::to_string(capacity_old)
+                                       + ")");
+  ++start_;
+}
+void dimkashelk::OrderStack::decrease_size()
+{
+  if (capacity_ == 1)
+  {
+    return;
+  }
+  std::lock_guard lock(mtx_);
+  const auto capacity_old = capacity_;
+  stack_.erase(std::next(stack_.begin(), start_));
+  capacity_ = stack_.size();
+  EventManager::getInstance().logEvent("(OrderStack) decrease done ("
+                                       + std::to_string(capacity_) + " < " + std::to_string(capacity_old)
+                                       + ")");
+  start_ = start_ % capacity_;
+}
 void dimkashelk::OrderStack::add_order(const std::shared_ptr < Order > &order)
 {
   std::lock_guard lock(mtx_);
@@ -53,6 +79,7 @@ void dimkashelk::OrderStack::add_order(const std::shared_ptr < Order > &order)
   if (count_ == capacity_)
   {
     start_ = (start_ + 1) % capacity_;
+    stack_[index]->set_status(EXECUTION_REJECTED);
   }
   else
   {

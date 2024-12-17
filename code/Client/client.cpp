@@ -8,7 +8,7 @@
 dimkashelk::Client::Client(const size_t id, OrderManager &order_manager):
   id_(id),
   delay_(5),
-  stopped_(false),
+  stopped_(true),
   order_manager_(order_manager),
   stop_flag_(false)
 {
@@ -35,6 +35,7 @@ void dimkashelk::Client::stop()
 }
 void dimkashelk::Client::set_delay(const size_t new_delay)
 {
+  std::lock_guard lock(mtx_);
   delay_ = new_delay;
   EventManager::getInstance().logEvent("(Client) " + to_string() + " set delay "
                                        + std::to_string(delay_) + " seconds");

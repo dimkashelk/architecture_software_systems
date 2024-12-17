@@ -40,7 +40,13 @@ void dimkashelk::WarehouseManager::add_robot()
 {
   std::lock_guard lock(mutex_);
   robots_.push_back(std::make_shared < Robot >(robots_.size() + 1));
-  EventManager::getInstance().logEvent("(WWarehouseManager) add new " + robots_.back()->to_string());
+  EventManager::getInstance().logEvent("(WarehouseManager) add new " + robots_.back()->to_string());
+}
+void dimkashelk::WarehouseManager::pop_back_robot()
+{
+  std::lock_guard lock(mutex_);
+  EventManager::getInstance().logEvent("(WarehouseManager) remove last " + robots_.back()->to_string());
+  robots_.pop_back();
 }
 dimkashelk::WarehouseManager::~WarehouseManager()
 {
@@ -59,15 +65,13 @@ void dimkashelk::WarehouseManager::process_orders()
   EventManager::getInstance().logEvent("(WarehouseManager) processing orders");
   while (true)
   {
-    std::unique_lock lock(mutex_);
-    cv_.wait(lock, [this]
-    {
-      return stop_flag_ || order_stack_->get_length() > 0;
-    });
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
     if (stop_flag_)
     {
       break;
     }
+
     if (order_stack_->get_length() > 0)
     {
       EventManager::getInstance().logEvent("(WarehouseManager) find order");
@@ -81,6 +85,7 @@ void dimkashelk::WarehouseManager::process_orders()
     }
   }
 }
+
 void dimkashelk::WarehouseManager::assign_order_to_robot(const std::shared_ptr < Order > &order)
 {
   for (size_t i = 0; i < robots_.size(); ++i)

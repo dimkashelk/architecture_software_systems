@@ -31,16 +31,13 @@ size_t dimkashelk::OrderManager::get_stack_capacity() const
 }
 void dimkashelk::OrderManager::decrement_stack() const
 {
-  resize_stack(order_stack_->get_length() - 1);
+  order_stack_->decrease_size();
+  EventManager::getInstance().logEvent("(OrderManager) decrement_stack called "
+                                       "with new size: " + std::to_string(order_stack_->get_capacity()));
 }
 void dimkashelk::OrderManager::increment_stack() const
 {
-  resize_stack(order_stack_->get_length() + 1);
-}
-void dimkashelk::OrderManager::resize_stack(const size_t new_capacity) const
-{
-  std::lock_guard lock(mtx_);
-  EventManager::getInstance().logEvent("(OrderManager) resize_stack called "
-                                       "with new size: " + std::to_string(new_capacity));
-  order_stack_->resize(new_capacity);
+  order_stack_->increase_size();
+  EventManager::getInstance().logEvent("(OrderManager) increment_stack called "
+                                       "with new size: " + std::to_string(order_stack_->get_capacity()));
 }

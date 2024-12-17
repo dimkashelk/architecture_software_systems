@@ -1,11 +1,9 @@
-#include <iostream>
-int main()
+#include <QApplication>
+#include <mainwindow.h>
+int main(int argc, char *argv[])
 {
-  auto lang = "C++";
-  std::cout << "Hello and welcome to " << lang << "!\n";
-  for (int i = 1; i <= 5; i++)
-  {
-    std::cout << "i = " << i << std::endl;
-  }
-  return 0;
+  QApplication a(argc, argv);
+  MainWindow w;
+  w.show();
+  return a.exec();
 }

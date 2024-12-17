@@ -52,7 +52,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
 set(APPLICATION_SOURCES
-        ${SOURCE_DIR}/Application/main.cpp
+        main.cpp
         ${SOURCE_DIR}/Application/mainwindow.cpp
         ${SOURCE_DIR}/Application/mainwindow.ui
 )
@@ -104,6 +104,8 @@ target_link_libraries(application PRIVATE Qt6::Widgets)
 if (QT_VERSION_MAJOR EQUAL 6)
     qt_finalize_executable(application)
 endif ()
+
+target_link_libraries(application PRIVATE order_lib)
 
 add_library(order_lib STATIC ${ORDER_SOURCES})
 target_include_directories(order_lib PUBLIC
