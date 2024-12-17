@@ -8,7 +8,7 @@
 dimkashelk::Client::Client(const size_t id, OrderManager &order_manager):
   id_(id),
   delay_(5),
-  stopped_(false),
+  stopped_(true),
   order_manager_(order_manager),
   stop_flag_(false)
 {
