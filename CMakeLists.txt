@@ -129,3 +129,5 @@ foreach (test_source ${TEST_SOURCES})
     target_link_libraries(${test_name} PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
     add_test(NAME ${test_name} COMMAND ${test_name})
 endforeach ()
+
+enable_testing()
