@@ -34,14 +34,14 @@ void MainWindow::start_stop()
 }
 void MainWindow::start() const
 {
-  for (const auto & client : clients_)
+  for (const auto &client: clients_)
   {
     client->start();
   }
 }
 void MainWindow::stop() const
 {
-  for (const auto & client : clients_)
+  for (const auto &client: clients_)
   {
     client->stop();
   }
@@ -51,6 +51,7 @@ void MainWindow::decrease_clients_count()
   if (count_clients_ > 0)
   {
     --count_clients_;
+    dimkashelk::EventManager::getInstance().logEvent("(MainWindow) remove client " + (*clients_.rbegin())->to_string());
     clients_.pop_back();
     set_clients_count();
   }
@@ -58,6 +59,7 @@ void MainWindow::decrease_clients_count()
 void MainWindow::increase_clients_count()
 {
   clients_.push_back(std::make_shared < dimkashelk::Client >(count_clients_, order_manager_));
+  dimkashelk::EventManager::getInstance().logEvent("(MainWindow) add client " + (*clients_.rbegin())->to_string());
   if (work_now_)
   {
     clients_.rbegin()->get()->start();
@@ -80,7 +82,7 @@ void MainWindow::increase_clients_delay()
 }
 void MainWindow::update_clients_delay() const
 {
-  for (const auto & client : clients_)
+  for (const auto &client: clients_)
   {
     client->set_delay(client_delay_);
   }
