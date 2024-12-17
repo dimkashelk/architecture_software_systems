@@ -34,16 +34,16 @@ void MainWindow::start_stop()
 }
 void MainWindow::start() const
 {
-  for (size_t i = 0; i < clients_.size(); ++i)
+  for (const auto & client : clients_)
   {
-    clients_[i]->start();
+    client->start();
   }
 }
 void MainWindow::stop() const
 {
-  for (size_t i = 0; i < clients_.size(); ++i)
+  for (const auto & client : clients_)
   {
-    clients_[i]->stop();
+    client->stop();
   }
 }
 void MainWindow::decrease_clients_count()
@@ -80,9 +80,9 @@ void MainWindow::increase_clients_delay()
 }
 void MainWindow::update_clients_delay() const
 {
-  for (size_t i = 0; i < clients_.size(); ++i)
+  for (const auto & client : clients_)
   {
-    clients_[i]->set_delay(client_delay_);
+    client->set_delay(client_delay_);
   }
   set_clients_delay();
 }
