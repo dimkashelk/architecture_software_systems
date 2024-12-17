@@ -1,4 +1,7 @@
 #include "mainwindow.h"
+
+#include <qguiapplication.h>
+
 #include "ui_mainwindow.h"
 MainWindow::MainWindow(QWidget *parent):
   QMainWindow(parent),
@@ -7,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent):
   stack_size_(5),
   count_clients_(2),
   count_robots_(3),
+  client_delay_(5),
   clients_(count_clients_)
 {
   ui->setupUi(this);
@@ -63,4 +67,8 @@ void MainWindow::increase_stack()
 void MainWindow::set_clients_count() const
 {
   ui->label_clients_count->setText(QString::number(count_clients_));
+}
+void MainWindow::set_clients_delay() const
+{
+  ui->label_clients_delay->setText(QString::number(client_delay_));
 }

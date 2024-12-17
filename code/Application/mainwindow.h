@@ -24,6 +24,7 @@ private:
   size_t stack_size_;
   size_t count_clients_;
   size_t count_robots_;
+  size_t client_delay_;
   std::vector < std::shared_ptr < dimkashelk::Client > > clients_;
   void start_stop();
   void decrease_clients_count();
@@ -35,5 +36,6 @@ private:
   void decrease_stack();
   void increase_stack();
   void set_clients_count() const;
+  void set_clients_delay() const;
 };
 #endif
