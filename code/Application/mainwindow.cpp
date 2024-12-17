@@ -34,7 +34,8 @@ void MainWindow::decrease_clients_count()
 }
 void MainWindow::increase_clients_count()
 {
-  // TODO: реализовать метод
+  clients_.push_back(std::make_shared < dimkashelk::Client >(count_clients_, order_manager_));
+  ++count_clients_;
 }
 void MainWindow::decrease_clients_delay()
 {
