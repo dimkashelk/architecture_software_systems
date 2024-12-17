@@ -66,10 +66,13 @@ void MainWindow::decrease_robots()
 {
   --count_robots_;
   warehouse_manager_.pop_back_robot();
+  set_robots_count();
 }
 void MainWindow::increase_robots()
 {
-  // TODO: реализовать метод
+  ++count_robots_;
+  warehouse_manager_.add_robot();
+  set_robots_count();
 }
 void MainWindow::decrease_stack()
 {
