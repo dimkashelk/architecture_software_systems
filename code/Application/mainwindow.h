@@ -21,8 +21,8 @@ private:
   Ui::MainWindow *ui;
   bool work_now_;
   void start_stop();
-  void decrease_clients();
-  void increase_clients();
+  void decrease_clients_count();
+  void increase_clients_count();
   void decrease_robots();
   void increase_robots();
   void decrease_stack();
