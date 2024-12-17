@@ -40,7 +40,13 @@ void dimkashelk::WarehouseManager::add_robot()
 {
   std::lock_guard lock(mutex_);
   robots_.push_back(std::make_shared < Robot >(robots_.size() + 1));
-  EventManager::getInstance().logEvent("(WWarehouseManager) add new " + robots_.back()->to_string());
+  EventManager::getInstance().logEvent("(WarehouseManager) add new " + robots_.back()->to_string());
+}
+void dimkashelk::WarehouseManager::pop_back_robot()
+{
+  std::lock_guard lock(mutex_);
+  EventManager::getInstance().logEvent("(WarehouseManager) remove last " + robots_.back()->to_string());
+  robots_.pop_back();
 }
 dimkashelk::WarehouseManager::~WarehouseManager()
 {
