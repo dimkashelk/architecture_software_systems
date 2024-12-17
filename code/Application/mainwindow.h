@@ -23,6 +23,7 @@ private:
   void start_stop();
   void decrease_clients_count();
   void increase_clients_count();
+  void decrease_clients_delay();
   void decrease_robots();
   void increase_robots();
   void decrease_stack();

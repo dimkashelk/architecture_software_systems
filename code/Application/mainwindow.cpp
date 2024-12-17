@@ -32,6 +32,10 @@ void MainWindow::increase_clients_count()
 {
   // TODO: реализовать метод
 }
+void MainWindow::decrease_clients_delay()
+{
+  // TODO: реализовать метод
+}
 void MainWindow::decrease_robots()
 {
   // TODO: реализовать метод
