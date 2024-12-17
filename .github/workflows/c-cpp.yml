@@ -21,18 +21,10 @@ jobs:
         run: sudo add-apt-repository universe multiverse
 
       - name: Install dependencies
-        run: sudo apt-get update && sudo apt-get install -y cmake g++ libgtest-dev
+        run: sudo apt-get update && sudo apt-get install -y cmake g++ libgtest-dev gcc gdb
 
-      - name: Install Qt5/Qt6 (yaqti)
-        uses: WillBrennan/yaqti@2021.07.27.1
-        with:
-          version: '6.2.0'
-          os: 'linux'
-          platform: 'desktop'
-          modules: 'qtcharts'
-
-      - name: Version qmake
-        run: qmake --version
+      - name: Install Qt6
+        run: sudo apt-get install -y build-essential libgl1-mesa-dev qt6-base-dev clang qt6-tools-dev qt6-l10n-tools qt6-tools-dev-tools
 
       - name: Build project
         run: |
