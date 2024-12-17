@@ -76,3 +76,7 @@ void MainWindow::set_robots_count() const
 {
   ui->label_robots->setText(QString::number(count_robots_));
 }
+void MainWindow::set_stack_size() const
+{
+  ui->label_stack->setText(QString::number(stack_size_));
+}
