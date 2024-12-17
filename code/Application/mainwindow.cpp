@@ -88,9 +88,12 @@ void MainWindow::update_clients_delay() const
 }
 void MainWindow::decrease_robots()
 {
-  --count_robots_;
-  warehouse_manager_.pop_back_robot();
-  set_robots_count();
+  if (count_robots_ > 1)
+  {
+    --count_robots_;
+    warehouse_manager_.pop_back_robot();
+    set_robots_count();
+  }
 }
 void MainWindow::increase_robots()
 {
