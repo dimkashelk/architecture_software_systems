@@ -30,7 +30,7 @@ jobs:
         run: |
           mkdir -p build
           cd build
-          cmake .. -DCMAKE_BUILD_TYPE=Debug --parallel 4
+          cmake .. -DCMAKE_BUILD_TYPE=Debug
           make
 
       - name: Run tests
