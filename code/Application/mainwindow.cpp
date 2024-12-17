@@ -55,7 +55,12 @@ void MainWindow::decrease_clients_delay()
 }
 void MainWindow::increase_clients_delay()
 {
-  // TODO: реализовать метод
+  ++client_delay_;
+  for (size_t i = 0; i < clients_.size(); ++i)
+  {
+    clients_[i]->set_delay(client_delay_);
+  }
+  set_clients_delay();
 }
 void MainWindow::decrease_robots()
 {
