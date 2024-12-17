@@ -37,7 +37,10 @@ void MainWindow::decrease_clients_count()
 void MainWindow::increase_clients_count()
 {
   clients_.push_back(std::make_shared < dimkashelk::Client >(count_clients_, order_manager_));
-  clients_.rbegin()->get()->start();
+  if (work_now_)
+  {
+    clients_.rbegin()->get()->start();
+  }
   ++count_clients_;
   set_clients_count();
 }
