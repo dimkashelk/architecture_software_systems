@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 #include <QMainWindow>
 #include <client.h>
+#include <warehousemanager.h>
 QT_BEGIN_NAMESPACE
 
 namespace Ui
@@ -25,6 +26,8 @@ private:
   size_t count_clients_;
   size_t count_robots_;
   size_t client_delay_;
+  dimkashelk::OrderManager order_manager_;
+  dimkashelk::WarehouseManager warehouse_manager_;
   std::vector < std::shared_ptr < dimkashelk::Client > > clients_;
   void start_stop();
   void decrease_clients_count();
@@ -40,5 +43,6 @@ private:
   void set_robots_count() const;
   void set_stack_size() const;
   void initUI() const;
+  void init_model();
 };
 #endif

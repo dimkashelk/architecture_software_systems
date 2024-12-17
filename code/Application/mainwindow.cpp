@@ -1,7 +1,5 @@
 #include "mainwindow.h"
-
 #include <qguiapplication.h>
-
 #include "ui_mainwindow.h"
 MainWindow::MainWindow(QWidget *parent):
   QMainWindow(parent),
@@ -11,10 +9,11 @@ MainWindow::MainWindow(QWidget *parent):
   count_clients_(2),
   count_robots_(3),
   client_delay_(5),
+  order_manager_(stack_size_),
+  warehouse_manager_(count_robots_, order_manager_),
   clients_(count_clients_)
 {
   ui->setupUi(this);
-
   initUI();
 }
 MainWindow::~MainWindow()
@@ -79,7 +78,6 @@ void MainWindow::initUI() const
   set_clients_delay();
   set_robots_count();
   set_stack_size();
-
   connect(ui->button_start_stop, &QPushButton::clicked, this, &MainWindow::start_stop);
   connect(ui->button_clients_count_decrease, &QPushButton::clicked, this, &MainWindow::decrease_clients_count);
   connect(ui->button_clients_count_increase, &QPushButton::clicked, this, &MainWindow::increase_clients_count);
@@ -89,4 +87,11 @@ void MainWindow::initUI() const
   connect(ui->button_robots_increase, &QPushButton::clicked, this, &MainWindow::increase_robots);
   connect(ui->button_stack_decrease, &QPushButton::clicked, this, &MainWindow::decrease_stack);
   connect(ui->button_stack_increase, &QPushButton::clicked, this, &MainWindow::increase_stack);
+}
+void MainWindow::init_model()
+{
+  for (size_t i = 0; i < count_clients_; i++)
+  {
+    clients_.push_back(std::make_shared < dimkashelk::Client >(i, order_manager_));
+  }
 }
