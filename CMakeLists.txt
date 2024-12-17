@@ -52,7 +52,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
 
 set(APPLICATION_SOURCES
-        ${SOURCE_DIR}/Application/main.cpp
+        main.cpp
         ${SOURCE_DIR}/Application/mainwindow.cpp
         ${SOURCE_DIR}/Application/mainwindow.ui
 )

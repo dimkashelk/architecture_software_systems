@@ -65,15 +65,13 @@ void dimkashelk::WarehouseManager::process_orders()
   EventManager::getInstance().logEvent("(WarehouseManager) processing orders");
   while (true)
   {
-    std::unique_lock lock(mutex_);
-    cv_.wait(lock, [this]
-    {
-      return stop_flag_ || order_stack_->get_length() > 0;
-    });
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
     if (stop_flag_)
     {
       break;
     }
+
     if (order_stack_->get_length() > 0)
     {
       EventManager::getInstance().logEvent("(WarehouseManager) find order");
@@ -87,6 +85,7 @@ void dimkashelk::WarehouseManager::process_orders()
     }
   }
 }
+
 void dimkashelk::WarehouseManager::assign_order_to_robot(const std::shared_ptr < Order > &order)
 {
   for (size_t i = 0; i < robots_.size(); ++i)
