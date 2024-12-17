@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent):
   connect(ui->button_start_stop, &QPushButton::clicked, this, &MainWindow::start_stop);
   connect(ui->button_clients_count_decrease, &QPushButton::clicked, this, &MainWindow::decrease_clients);
   connect(ui->button_clients_count_increase, &QPushButton::clicked, this, &MainWindow::increase_clients);
+  connect(ui->button_clients_delay_decrease, &QPushButton::clicked, this, &MainWindow::decrease_clients_delay);
+  connect(ui->button_clients_delay_increase, &QPushButton::clicked, this, &MainWindow::increase_clients_delay);
   connect(ui->button_robots_decrease, &QPushButton::clicked, this, &MainWindow::decrease_robots);
   connect(ui->button_robots_increase, &QPushButton::clicked, this, &MainWindow::increase_robots);
   connect(ui->button_stack_decrease, &QPushButton::clicked, this, &MainWindow::decrease_stack);
