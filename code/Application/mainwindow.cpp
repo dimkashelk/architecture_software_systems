@@ -100,7 +100,7 @@ void MainWindow::increase_robots()
 }
 void MainWindow::decrease_stack()
 {
-  if (stack_size_ > 0)
+  if (stack_size_ > 1)
   {
     --stack_size_;
     order_manager_.decrement_stack();
