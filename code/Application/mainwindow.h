@@ -37,5 +37,6 @@ private:
   void increase_stack();
   void set_clients_count() const;
   void set_clients_delay() const;
+  void set_robots_count() const;
 };
 #endif

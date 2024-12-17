@@ -72,3 +72,7 @@ void MainWindow::set_clients_delay() const
 {
   ui->label_clients_delay->setText(QString::number(client_delay_));
 }
+void MainWindow::set_robots_count() const
+{
+  ui->label_robots->setText(QString::number(count_robots_));
+}
