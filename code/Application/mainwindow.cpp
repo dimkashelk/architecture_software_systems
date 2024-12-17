@@ -60,3 +60,7 @@ void MainWindow::increase_stack()
 {
   // TODO: реализовать метод
 }
+void MainWindow::set_clients_count() const
+{
+  ui->label_clients_count->setText(QString::number(count_clients_));
+}
