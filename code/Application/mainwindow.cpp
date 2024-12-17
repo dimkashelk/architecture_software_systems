@@ -64,7 +64,8 @@ void MainWindow::update_clients_delay() const
 }
 void MainWindow::decrease_robots()
 {
-  // TODO: реализовать метод
+  --count_robots_;
+  warehouse_manager_.pop_back_robot();
 }
 void MainWindow::increase_robots()
 {
