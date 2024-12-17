@@ -1,11 +1,18 @@
-cmake_minimum_required(VERSION 3.22)
+cmake_minimum_required(VERSION 3.16)
 project(architecture_software_systems)
+
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SOURCE_DIR ${CMAKE_SOURCE_DIR}/code)
 set(TEST_DIR ${CMAKE_SOURCE_DIR}/test)
+set(LOG_DIR ${CMAKE_CURRENT_SOURCE_DIR}/log)
+
+file(MAKE_DIRECTORY ${LOG_DIR})
 
 set(ORDER_SOURCES
         ${SOURCE_DIR}/Order/order.cpp
@@ -32,30 +39,71 @@ set(ORDER_HEADERS
 
 set(INCLUDE_HEADERS
         ${SOURCE_DIR}/Order
-        ${SOURCE_DIR}/Order
-        ${SOURCE_DIR}/Order
         ${SOURCE_DIR}/OrderStack
-        ${SOURCE_DIR}/OrderManager/
+        ${SOURCE_DIR}/OrderManager
         ${SOURCE_DIR}/Robot
         ${SOURCE_DIR}/Client
         ${SOURCE_DIR}/WarehouseManager
         ${SOURCE_DIR}/EventManager
+        ${SOURCE_DIR}/Application
 )
 
-set(TEST_DIRECTORIES
-        ${SOURCE_DIR} 
-        ${TEST_DIR} 
-        ${INCLUDE_HEADERS}
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets LinguistTools)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets LinguistTools)
+
+set(APPLICATION_SOURCES
+        ${SOURCE_DIR}/Application/main.cpp
+        ${SOURCE_DIR}/Application/mainwindow.cpp
+        ${SOURCE_DIR}/Application/mainwindow.ui
 )
 
-add_executable(main_app
-        main.cpp
-        ${ORDER_SOURCES}
+set(APPLICATION_HEADERS
+        ${SOURCE_DIR}/Application/mainwindow.h
 )
-target_include_directories(main_app PRIVATE
-        ${SOURCE_DIR}
-        ${INCLUDE_HEADERS}
+
+set(APPLICATION_FILES
+        ${APPLICATION_HEADERS}
+        ${APPLICATION_SOURCES}
 )
+
+if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    qt_add_executable(application
+            MANUAL_FINALIZATION
+            ${APPLICATION_FILES}
+    )
+else ()
+    add_executable(application
+            ${APPLICATION_FILES}
+    )
+endif ()
+
+if (${QT_VERSION} VERSION_LESS 6.1.0)
+    set(BUNDLE_ID_OPTION MACOSX_BUNDLE_GUI_IDENTIFIER com.example.application)
+endif ()
+
+set_target_properties(application PROPERTIES
+        MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
+        MACOSX_BUNDLE_SHORT_VERSION_STRING "${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}"
+        MACOSX_BUNDLE "TRUE"
+        WIN32_EXECUTABLE "TRUE"
+)
+
+if (BUNDLE_ID_OPTION)
+    set_target_properties(application PROPERTIES ${BUNDLE_ID_OPTION})
+endif()
+
+include(GNUInstallDirs)
+install(TARGETS application
+        BUNDLE DESTINATION .
+        LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+        RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+target_link_libraries(application PRIVATE Qt6::Widgets)
+
+if (QT_VERSION_MAJOR EQUAL 6)
+    qt_finalize_executable(application)
+endif ()
 
 add_library(order_lib STATIC ${ORDER_SOURCES})
 target_include_directories(order_lib PUBLIC
@@ -65,36 +113,21 @@ target_include_directories(order_lib PUBLIC
 
 find_package(GTest REQUIRED)
 
-add_executable(test_order ${TEST_DIR}/test_order.cpp)
-target_include_directories(test_order PRIVATE ${TEST_DIRECTORIES})
-target_link_libraries(test_order PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
+set(TEST_SOURCES
+        ${TEST_DIR}/test_order.cpp
+        ${TEST_DIR}/test_order_stack.cpp
+        ${TEST_DIR}/test_order_manager.cpp
+        ${TEST_DIR}/test_robot.cpp
+        ${TEST_DIR}/test_client.cpp
+        ${TEST_DIR}/test_warehouse_manager.cpp
+)
 
-add_executable(test_order_stack ${TEST_DIR}/test_order_stack.cpp)
-target_include_directories(test_order_stack PRIVATE ${TEST_DIRECTORIES})
-target_link_libraries(test_order_stack PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
-
-add_executable(test_order_manager ${TEST_DIR}/test_order_manager.cpp)
-target_include_directories(test_order_manager PRIVATE ${TEST_DIRECTORIES})
-target_link_libraries(test_order_manager PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
-
-add_executable(test_robot ${TEST_DIR}/test_robot.cpp)
-target_include_directories(test_robot PRIVATE ${TEST_DIRECTORIES})
-target_link_libraries(test_robot PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
-
-add_executable(test_client ${TEST_DIR}/test_client.cpp)
-target_include_directories(test_client PRIVATE ${TEST_DIRECTORIES})
-target_link_libraries(test_client PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
-
-add_executable(test_warehouse_manager ${TEST_DIR}/test_warehouse_manager.cpp)
-target_include_directories(test_warehouse_manager PRIVATE ${TEST_DIRECTORIES})
-target_link_libraries(test_warehouse_manager PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
+foreach (test_source ${TEST_SOURCES})
+    get_filename_component(test_name ${test_source} NAME_WE)
+    add_executable(${test_name} ${test_source})
+    target_include_directories(${test_name} PRIVATE ${TEST_DIR} ${SOURCE_DIR} ${INCLUDE_HEADERS})
+    target_link_libraries(${test_name} PRIVATE order_lib GTest::gtest GTest::gtest_main pthread)
+    add_test(NAME ${test_name} COMMAND ${test_name})
+endforeach ()
 
 enable_testing()
-add_test(NAME OrderTest COMMAND test_order)
-add_test(NAME OrderStackTest COMMAND test_order_stack)
-add_test(NAME OrderManagerTest COMMAND test_order_manager)
-add_test(NAME RobotTest COMMAND test_robot)
-add_test(NAME ClientTest COMMAND test_client)
-add_test(NAME WarehouseManager COMMAND test_warehouse_manager)
-
-file(MAKE_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/log)
