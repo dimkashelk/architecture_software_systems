@@ -14,15 +14,8 @@ MainWindow::MainWindow(QWidget *parent):
   clients_(count_clients_)
 {
   ui->setupUi(this);
-  connect(ui->button_start_stop, &QPushButton::clicked, this, &MainWindow::start_stop);
-  connect(ui->button_clients_count_decrease, &QPushButton::clicked, this, &MainWindow::decrease_clients_count);
-  connect(ui->button_clients_count_increase, &QPushButton::clicked, this, &MainWindow::increase_clients_count);
-  connect(ui->button_clients_delay_decrease, &QPushButton::clicked, this, &MainWindow::decrease_clients_delay);
-  connect(ui->button_clients_delay_increase, &QPushButton::clicked, this, &MainWindow::increase_clients_delay);
-  connect(ui->button_robots_decrease, &QPushButton::clicked, this, &MainWindow::decrease_robots);
-  connect(ui->button_robots_increase, &QPushButton::clicked, this, &MainWindow::increase_robots);
-  connect(ui->button_stack_decrease, &QPushButton::clicked, this, &MainWindow::decrease_stack);
-  connect(ui->button_stack_increase, &QPushButton::clicked, this, &MainWindow::increase_stack);
+
+  initUI();
 }
 MainWindow::~MainWindow()
 {
@@ -79,4 +72,21 @@ void MainWindow::set_robots_count() const
 void MainWindow::set_stack_size() const
 {
   ui->label_stack->setText(QString::number(stack_size_));
+}
+void MainWindow::initUI() const
+{
+  set_clients_count();
+  set_clients_delay();
+  set_robots_count();
+  set_stack_size();
+
+  connect(ui->button_start_stop, &QPushButton::clicked, this, &MainWindow::start_stop);
+  connect(ui->button_clients_count_decrease, &QPushButton::clicked, this, &MainWindow::decrease_clients_count);
+  connect(ui->button_clients_count_increase, &QPushButton::clicked, this, &MainWindow::increase_clients_count);
+  connect(ui->button_clients_delay_decrease, &QPushButton::clicked, this, &MainWindow::decrease_clients_delay);
+  connect(ui->button_clients_delay_increase, &QPushButton::clicked, this, &MainWindow::increase_clients_delay);
+  connect(ui->button_robots_decrease, &QPushButton::clicked, this, &MainWindow::decrease_robots);
+  connect(ui->button_robots_increase, &QPushButton::clicked, this, &MainWindow::increase_robots);
+  connect(ui->button_stack_decrease, &QPushButton::clicked, this, &MainWindow::decrease_stack);
+  connect(ui->button_stack_increase, &QPushButton::clicked, this, &MainWindow::increase_stack);
 }
