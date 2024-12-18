@@ -2,7 +2,9 @@
 #define EVENTMANAGER_H
 #include <string>
 #include <fstream>
+#include <mainwindow.h>
 #include <mutex>
+#include <vector>
 
 namespace dimkashelk
 {
@@ -11,14 +13,19 @@ namespace dimkashelk
   public:
     static EventManager &getInstance();
     void logEvent(const std::string &event);
+    std::mutex &getMutex();
+    std::vector < std::string > &getEvents();
+    void freeEvents();
 
   private:
     EventManager();
     ~EventManager();
     EventManager(const EventManager &) = delete;
     EventManager &operator=(const EventManager &) = delete;
+    std::vector < std::string > events_;
     std::ofstream logFile;
     std::mutex logMutex;
+    std::shared_ptr < Ui::MainWindow > mainWindow_;
   };
 }
 #endif
