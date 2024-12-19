@@ -7,7 +7,9 @@ dimkashelk::Robot::Robot(const size_t id):
   id_(id),
   wait_time_coeff_(0.0),
   start_time_(std::chrono::high_resolution_clock::now()),
+  end_time_last_order_({start_time_, start_time_}),
   work_time_(0),
+  current_order_work_time_(0),
   work_now_(false),
   stop_flag_(false),
   gen_(rd_()),
@@ -42,6 +44,8 @@ void dimkashelk::Robot::set_order(const std::shared_ptr < Order > &order)
 void dimkashelk::Robot::start()
 {
   start_time_ = std::chrono::high_resolution_clock::now();
+  end_time_last_order_.first = start_time_;
+  end_time_last_order_.second = start_time_;
 }
 void dimkashelk::Robot::start_order()
 {
@@ -86,6 +90,15 @@ double dimkashelk::Robot::get_usage_percent() const
   }
   return static_cast < double >(work_time_) / static_cast < double >(diff);
 }
+double dimkashelk::Robot::get_usage_percent_relative() const
+{
+  const auto diff = (end_time_last_order_.second - end_time_last_order_.first).count();
+  if (diff == 0)
+  {
+    return 0;
+  }
+  return static_cast < double >(current_order_work_time_) / static_cast < double >(diff);
+}
 void dimkashelk::Robot::success_order()
 {
   std::unique_lock lock(mtx_);
@@ -117,6 +130,8 @@ void dimkashelk::Robot::finish_order()
   work_now_ = false;
   current_order_.reset();
   cv_.notify_all();
+  end_time_last_order_.first = end_time_last_order_.second;
+  end_time_last_order_.second = std::chrono::high_resolution_clock::now();
 }
 void dimkashelk::Robot::run()
 {
@@ -141,7 +156,8 @@ void dimkashelk::Robot::run()
     success_order();
   }
   const auto end_run_time = std::chrono::high_resolution_clock::now();
-  work_time_ += std::chrono::duration_cast < std::chrono::microseconds >(end_run_time - start_run_time).count();
+  current_order_work_time_ = (end_run_time - start_run_time).count();
+  work_time_ += current_order_work_time_;
 }
 size_t dimkashelk::Robot::calculate_wait_time()
 {

@@ -36,14 +36,14 @@ void dimkashelk::WarehouseManager::set_status(Order &order, const ExecutionStatu
                                        executionStatusToString(status));
   order.set_status(status);
 }
-std::vector < double > dimkashelk::WarehouseManager::get_statistics() const
+std::vector < std::pair < double, double > > dimkashelk::WarehouseManager::get_statistics() const
 {
   std::lock_guard lock(mutex_);
-  std::vector < double > res;
+  std::vector < std::pair < double, double > > res;
   res.reserve(robots_.size());
   for (auto &robot: robots_)
   {
-    res.push_back(robot->get_usage_percent());
+    res.push_back({robot->get_usage_percent(), robot->get_usage_percent_relative()});
   }
   return res;
 }

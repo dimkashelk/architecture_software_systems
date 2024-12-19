@@ -17,7 +17,7 @@ namespace dimkashelk
     bool available_robots();
     void add_order(const std::shared_ptr < Order > &order);
     void set_status(Order &order, ExecutionStatus status);
-    std::vector < double > get_statistics() const;
+    std::vector < std::pair < double, double > > get_statistics() const;
     void start() const;
     void add_robot();
     void pop_back_robot();
