@@ -6,6 +6,7 @@
 #include <execution_status.h>
 #include <functional>
 #include <map>
+#include <mutex>
 
 namespace dimkashelk
 {
@@ -33,6 +34,7 @@ namespace dimkashelk
     size_t from_;
     size_t to_;
     ExecutionStatus status_;
+    mutable std::mutex mutex_;
     std::chrono::high_resolution_clock::time_point put_in_stack_time_;
     std::chrono::high_resolution_clock::time_point put_out_stack_time_;
     std::chrono::high_resolution_clock::time_point run_start_time_;
