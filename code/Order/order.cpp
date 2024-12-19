@@ -16,13 +16,28 @@ std::string dimkashelk::Order::to_string() const
   return "Order{id=" + std::to_string(id_) + ", from=" + std::to_string(from_) + ", to=" + std::to_string(to_) +
          ", status=" + executionStatusToString(status_) + "}";
 }
-void dimkashelk::Order::set_status(const ExecutionStatus status) noexcept
+void dimkashelk::Order::set_status(const ExecutionStatus status)
 {
   EventManager::getInstance().logEvent("(Order) Update status of " + to_string() +
                                        " to status: " + executionStatusToString(status));
+  if (status_ == EXECUTION_CREATE and status == EXECUTION_IN_STACK)
+  {
+    put_in_stack_time_ = std::chrono::system_clock::now();
+  }
+  else if (status_ == EXECUTION_IN_STACK and status == EXECUTION_RUN)
+  {
+    run_start_time_ = put_out_stack_time_ = std::chrono::system_clock::now();
+  }
+  else if (status_ == EXECUTION_RUN and
+           (status == EXECUTION_FAILED or
+            status == EXECUTION_DONE or
+            status == EXECUTION_REJECTED))
+  {
+    run_stop_time_ = std::chrono::system_clock::now();
+  }
   status_ = status;
 }
-dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const noexcept
+dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const
 {
   return status_;
 }
