@@ -11,8 +11,9 @@ dimkashelk::Order::Order(const Order &other):
   run_start_time_(other.run_start_time_),
   run_stop_time_(other.run_stop_time_),
   actions_(other.actions_)
-{}
-dimkashelk::Order & dimkashelk::Order::operator=(Order &&)
+{
+}
+dimkashelk::Order &dimkashelk::Order::operator=(Order &&)
 {
   this->id_ = std::move(id_);
   this->from_ = std::move(from_);
@@ -49,8 +50,19 @@ void dimkashelk::Order::set_status(const ExecutionStatus status)
 {
   EventManager::getInstance().logEvent("(Order) Update status of " + to_string() +
                                        " to status: " + executionStatusToString(status));
-  actions_[status_][status](*this);
-  status_ = status;
+  if (actions_.contains(status_))
+  {
+    if (actions_[status_].contains(status))
+    {
+      actions_[status_][status](*this);
+      status_ = status;
+      return;
+    }
+  }
+  EventManager::getInstance().logEvent("(Order) Update status of " + to_string() +
+                                       " to status: " + executionStatusToString(status));
+  throw std::invalid_argument("(Order) Invalid status: " + executionStatusToString(status_) +
+                              " and " + executionStatusToString(status));
 }
 dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const
 {
