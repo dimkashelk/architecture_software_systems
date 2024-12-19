@@ -69,11 +69,12 @@ void MainWindow::decrease_clients_count()
 void MainWindow::increase_clients_count()
 {
   clients_.push_back(std::make_shared < dimkashelk::Client >(count_clients_, order_manager_));
+  clients_.back()->set_delay(client_delay_);
   ui->table_clients->insertRow(ui->table_clients->rowCount());
   dimkashelk::EventManager::getInstance().logEvent("(MainWindow) add client " + (*clients_.rbegin())->to_string());
   if (work_now_)
   {
-    clients_.rbegin()->get()->start();
+    clients_.back()->start();
   }
   ++count_clients_;
   set_clients_count();
