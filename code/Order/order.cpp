@@ -1,6 +1,17 @@
 #include "order.h"
 #include <eventmanager.h>
 #include <counter.h>
+dimkashelk::Order::Order(const Order &other):
+  id_(other.id_),
+  from_(other.from_),
+  to_(other.to_),
+  status_(other.status_),
+  put_in_stack_time_(other.put_in_stack_time_),
+  put_out_stack_time_(other.put_out_stack_time_),
+  run_start_time_(other.run_start_time_),
+  run_stop_time_(other.run_stop_time_),
+  actions_(other.actions_)
+{}
 dimkashelk::Order::Order(const size_t from, const size_t to):
   id_(details::Counter::get_obj()->get_id()),
   from_(from),
@@ -62,6 +73,10 @@ long dimkashelk::Order::get_time_execute() const
     throw std::invalid_argument("Order::get_time_execute: invalid status");
   }
   return (run_stop_time_ - run_start_time_).count();
+}
+std::mutex &dimkashelk::Order::get_mutex() const
+{
+  return mutex_;
 }
 void dimkashelk::Order::set_put_in()
 {
