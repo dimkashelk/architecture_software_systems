@@ -1,12 +1,19 @@
 #include "robot.h"
-#include <thread>
 #include <chrono>
-#include <EventManager/eventmanager.h>
-#include <Order/execution_status.h>
+#include <cmath>
+#include <eventmanager.h>
+#include <execution_status.h>
 dimkashelk::Robot::Robot(const size_t id):
   id_(id),
+  wait_time_coeff_(0.0),
+  start_time_(std::chrono::high_resolution_clock::now()),
+  end_time_last_order_({start_time_, start_time_}),
+  work_time_(0),
+  current_order_work_time_(0),
   work_now_(false),
-  stop_flag_(false)
+  stop_flag_(false),
+  gen_(rd_()),
+  dis_(0.0, 1.0)
 {
   EventManager::getInstance().logEvent("(Robot) robot with id=" + std::to_string(id_) + " created");
 }
@@ -33,6 +40,12 @@ void dimkashelk::Robot::set_order(const std::shared_ptr < Order > &order)
   }
   current_order_ = order;
   EventManager::getInstance().logEvent("(Robot) " + current_order_->get()->to_string() + " set to " + to_string());
+}
+void dimkashelk::Robot::start()
+{
+  start_time_ = std::chrono::high_resolution_clock::now();
+  end_time_last_order_.first = start_time_;
+  end_time_last_order_.second = start_time_;
 }
 void dimkashelk::Robot::start_order()
 {
@@ -65,10 +78,28 @@ void dimkashelk::Robot::start_order()
 }
 bool dimkashelk::Robot::available() const
 {
-  std::lock_guard lock(mtx_);
   return !work_now_;
 }
-void dimkashelk::Robot::finish_order()
+double dimkashelk::Robot::get_usage_percent() const
+{
+  const auto current_time = std::chrono::high_resolution_clock::now();
+  const auto diff = (current_time - start_time_).count();
+  if (diff == 0)
+  {
+    return 0;
+  }
+  return static_cast < double >(work_time_) / static_cast < double >(diff);
+}
+double dimkashelk::Robot::get_usage_percent_relative() const
+{
+  const auto diff = (end_time_last_order_.second - end_time_last_order_.first).count();
+  if (diff == 0)
+  {
+    return 0;
+  }
+  return static_cast < double >(current_order_work_time_) / static_cast < double >(diff);
+}
+void dimkashelk::Robot::success_order()
 {
   std::unique_lock lock(mtx_);
   if (!work_now_ || !current_order_.has_value())
@@ -76,15 +107,35 @@ void dimkashelk::Robot::finish_order()
     EventManager::getInstance().logEvent("(Robot) " + to_string() + " can't finish order, no order");
     throw std::runtime_error("Cannot finish an order. Robot is not working.");
   }
-  EventManager::getInstance().logEvent(
-    "(Robot) " + to_string() + " finished order " + current_order_->get()->to_string());
+  EventManager::getInstance().logEvent("(Robot) " + to_string() + " finished order " +
+                                       current_order_->get()->to_string());
   current_order_->get()->set_status(EXECUTION_DONE);
+  finish_order();
+}
+void dimkashelk::Robot::failed_order()
+{
+  std::unique_lock lock(mtx_);
+  if (!work_now_ || !current_order_.has_value())
+  {
+    EventManager::getInstance().logEvent("(Robot) " + to_string() + " can't finish order, no order");
+    throw std::runtime_error("Cannot finish an order. Robot is not working.");
+  }
+  EventManager::getInstance().logEvent("(Robot) " + to_string() + " failed order " +
+                                       current_order_->get()->to_string());
+  current_order_->get()->set_status(EXECUTION_FAILED);
+  finish_order();
+}
+void dimkashelk::Robot::finish_order()
+{
   work_now_ = false;
   current_order_.reset();
   cv_.notify_all();
+  end_time_last_order_.first = end_time_last_order_.second;
+  end_time_last_order_.second = std::chrono::high_resolution_clock::now();
 }
 void dimkashelk::Robot::run()
 {
+  const auto start_run_time = std::chrono::high_resolution_clock::now();
   const size_t wait_time = calculate_wait_time();
   {
     std::unique_lock lock(mtx_);
@@ -96,21 +147,23 @@ void dimkashelk::Robot::run()
       return;
     }
   }
-  finish_order();
+  if (dis_(gen_) < 0.05)
+  {
+    failed_order();
+  }
+  else
+  {
+    success_order();
+  }
+  const auto end_run_time = std::chrono::high_resolution_clock::now();
+  current_order_work_time_ = (end_run_time - start_run_time).count();
+  work_time_ += current_order_work_time_;
 }
-size_t dimkashelk::Robot::calculate_wait_time() const
+size_t dimkashelk::Robot::calculate_wait_time()
 {
-  if (!current_order_.has_value())
-  {
-    throw std::runtime_error("No order assigned to calculate wait time.");
-  }
-  const size_t to = current_order_->get()->get_to();
-  const size_t from = current_order_->get()->get_from();
-  if (to > from)
-  {
-    return to - from;
-  }
-  return from - to;
+  const auto wait_time = static_cast < size_t >(std::exp(wait_time_coeff_));
+  wait_time_coeff_ += 0.1;
+  return wait_time;
 }
 std::string dimkashelk::Robot::to_string() const
 {

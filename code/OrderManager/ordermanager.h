@@ -2,9 +2,9 @@
 #define ORDERMANAGER_H
 #include <memory>
 #include <mutex>
-#include <Order/order.h>
-#include <OrderStack/orderstack.h>
-#include <WarehouseManager/warehousemanager.h>
+#include <order.h>
+#include <orderstack.h>
+#include <warehousemanager.h>
 
 namespace dimkashelk
 {
@@ -19,6 +19,9 @@ namespace dimkashelk
     void failed_order(Order &order) const;
     void done_order(Order &order) const;
     size_t count_orders() const;
+    size_t get_stack_capacity() const;
+    void decrement_stack() const;
+    void increment_stack() const;
 
   private:
     std::shared_ptr < OrderStack > order_stack_;

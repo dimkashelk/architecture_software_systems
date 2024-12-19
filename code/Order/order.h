@@ -1,26 +1,33 @@
 #ifndef ORDER_H
 #define ORDER_H
+#include <chrono>
 #include <cstddef>
 #include <string>
+#include <execution_status.h>
+#include <functional>
+#include <map>
+#include <mutex>
 
-#include "execution_status.h"
 namespace dimkashelk
 {
   class Order
   {
   public:
     Order() = default;
-    Order(const Order &other) = default;
+    Order(const Order &other);
     Order(Order &&other) = default;
-    Order &operator=(const Order&) = default;
-    Order &operator=(Order&&) = default;
+    Order &operator=(const Order &) = default;
+    Order &operator=(Order &&);
     Order(size_t from, size_t to);
     std::string to_string() const;
-    void set_status(ExecutionStatus status) noexcept;
-    ExecutionStatus get_status() const noexcept;
-    size_t get_id() const noexcept;
-    size_t get_from() const noexcept;
-    size_t get_to() const noexcept;
+    void set_status(ExecutionStatus status);
+    ExecutionStatus get_status() const;
+    size_t get_id() const;
+    size_t get_from() const;
+    size_t get_to() const;
+    long get_time_in_stack() const;
+    long get_time_execute() const;
+    std::mutex &get_mutex() const;
     ~Order() = default;
 
   private:
@@ -28,6 +35,15 @@ namespace dimkashelk
     size_t from_;
     size_t to_;
     ExecutionStatus status_;
+    mutable std::mutex mutex_{};
+    std::chrono::high_resolution_clock::time_point put_in_stack_time_;
+    std::chrono::high_resolution_clock::time_point put_out_stack_time_;
+    std::chrono::high_resolution_clock::time_point run_start_time_;
+    std::chrono::high_resolution_clock::time_point run_stop_time_;
+    std::map < ExecutionStatus, std::map < ExecutionStatus, std::function < void(Order &) > > > actions_;
+    void set_put_in();
+    void set_put_out();
+    void set_run_stop();
   };
 }
 #endif

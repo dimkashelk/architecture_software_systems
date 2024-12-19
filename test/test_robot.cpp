@@ -1,8 +1,7 @@
 #include <gtest/gtest.h>
-#include <Order/order.h>
 #include <thread>
-#include <future>
-#include <Robot/robot.h>
+#include <robot.h>
+#include <order.h>
 TEST(RobotTest, SetOrderSuccessfully)
 {
   dimkashelk::Robot robot(0);
@@ -13,8 +12,9 @@ TEST(RobotTest, SetOrderSuccessfully)
 TEST(RobotTest, StartOrderSuccessfully)
 {
   dimkashelk::Robot robot(0);
-  const dimkashelk::Order order(2, 7);
-  robot.set_order(std::make_shared<dimkashelk::Order>(order));
+  const auto order = std::make_shared<dimkashelk::Order>(2, 7);
+  order->set_status(dimkashelk::EXECUTION_IN_STACK);
+  robot.set_order(order);
   ASSERT_NO_THROW(robot.start_order());
   EXPECT_FALSE(robot.available());
 }
@@ -23,20 +23,23 @@ TEST(RobotTest, FinishOrderSuccessfully)
   dimkashelk::Robot robot(0);
   constexpr size_t from = 3;
   constexpr size_t to = 5;
-  const dimkashelk::Order order(from, to);
-  robot.set_order(std::make_shared<dimkashelk::Order>(order));
+  const auto order = std::make_shared<dimkashelk::Order>(from, to);
+  order->set_status(dimkashelk::EXECUTION_IN_STACK);
+  robot.set_order(order);
   robot.start_order();
-  std::this_thread::sleep_for(std::chrono::seconds(to - from + 1));
+  std::this_thread::sleep_for(std::chrono::seconds(3));
   EXPECT_TRUE(robot.available());
 }
 TEST(RobotTest, CannotSetOrderWhenBusy)
 {
   dimkashelk::Robot robot(0);
-  dimkashelk::Order order1(4, 9);
-  dimkashelk::Order order2(5, 10);
-  robot.set_order(std::make_shared<dimkashelk::Order>(order1));
+  const auto order1 = std::make_shared<dimkashelk::Order>(4, 9);
+  const auto order2 = std::make_shared<dimkashelk::Order>(5, 10);
+  order1->set_status(dimkashelk::EXECUTION_IN_STACK);
+  order2->set_status(dimkashelk::EXECUTION_IN_STACK);
+  robot.set_order(order1);
   robot.start_order();
-  EXPECT_THROW(robot.set_order(std::make_shared<dimkashelk::Order>(order2)), std::runtime_error);
+  EXPECT_THROW(robot.set_order(order2), std::runtime_error);
 }
 TEST(RobotTest, ThrowsWhenStartingWithoutOrder)
 {
@@ -55,13 +58,15 @@ TEST(RobotTest, MultiThreadedExecution)
   constexpr size_t to_1 = 5;
   constexpr size_t from_2 = 1;
   constexpr size_t to_2 = 2;
-  const dimkashelk::Order order1(from_1, to_1);
-  const dimkashelk::Order order2(from_2, to_2);
-  robot.set_order(std::make_shared<dimkashelk::Order>(order1));
+  const auto order1 = std::make_shared<dimkashelk::Order>(4, 9);
+  const auto order2 = std::make_shared<dimkashelk::Order>(5, 10);
+  order1->set_status(dimkashelk::EXECUTION_IN_STACK);
+  order2->set_status(dimkashelk::EXECUTION_IN_STACK);
+  robot.set_order(order1);
   robot.start_order();
   std::this_thread::sleep_for(std::chrono::seconds(to_1 - from_1 + 1));
   EXPECT_TRUE(robot.available());
-  robot.set_order(std::make_shared<dimkashelk::Order>(order2));
+  robot.set_order(order2);
   robot.start_order();
   std::this_thread::sleep_for(std::chrono::seconds(to_2 - from_2 + 1));
   EXPECT_TRUE(robot.available());

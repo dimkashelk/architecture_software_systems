@@ -10,6 +10,7 @@ namespace dimkashelk
     EXECUTION_RUN = 2,
     EXECUTION_DONE = 3,
     EXECUTION_FAILED = 4,
+    EXECUTION_REJECTED = 5
   };
   inline std::string executionStatusToString(const ExecutionStatus executionStatus)
   {
@@ -25,6 +26,8 @@ namespace dimkashelk
         return "DONE";
       case EXECUTION_FAILED:
         return "FAILED";
+      case EXECUTION_REJECTED:
+        return "REJECTED";
       default:
         return "UNKNOWN";
     }

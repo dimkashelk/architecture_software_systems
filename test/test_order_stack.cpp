@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "Order/order.h"
-#include "OrderStack/orderstack.h"
+#include <order.h>
+#include <OrderStack/orderstack.h>
 TEST(OrderStackTest, ADD_1_ORDER)
 {
   dimkashelk::OrderStack order_stack(3);
@@ -29,22 +29,20 @@ TEST(OrderStackTest, TAKE_FIRST_1)
 TEST(OrderStackTest, TAKE_FIRST_2)
 {
   dimkashelk::OrderStack order_stack(3);
-  std::vector < dimkashelk::Order > orders(5);
   for (int i = 0; i < 5; i++)
   {
-    orders[i] = dimkashelk::Order(1, 2);
-    order_stack.add_order(std::make_shared < dimkashelk::Order >(orders[i]));
+    order_stack.add_order(std::make_shared < dimkashelk::Order >(1, 2));
   }
   auto order_from_stack = order_stack.get_first();
-  EXPECT_EQ(order_from_stack.get()->get_id(), orders[4].get_id()) << "Different id: must id of second element in stack";
+  EXPECT_EQ(order_from_stack.get()->get_id(), 10) << "Different id: must id of second element in stack";
   order_stack.remove_first();
   EXPECT_EQ(order_stack.get_length(), 2) << "Different length";
   order_from_stack = order_stack.get_first();
-  EXPECT_EQ(order_from_stack.get()->get_id(), orders[3].get_id()) << "Different id: must id of first element in stack";
+  EXPECT_EQ(order_from_stack.get()->get_id(), 9) << "Different id: must id of first element in stack";
   order_stack.remove_first();
   EXPECT_EQ(order_stack.get_length(), 1) << "Different length";
   order_from_stack = order_stack.get_first();
-  EXPECT_EQ(order_from_stack.get()->get_id(), orders[2].get_id()) << "Different id: must id of second element in stack";
+  EXPECT_EQ(order_from_stack.get()->get_id(), 8) << "Different id: must id of second element in stack";
   order_stack.remove_first();
   EXPECT_EQ(order_stack.get_length(), 0) << "Different length";
 }

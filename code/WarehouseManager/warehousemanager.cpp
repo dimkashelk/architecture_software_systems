@@ -1,5 +1,5 @@
 #include "warehousemanager.h"
-#include <EventManager/eventmanager.h>
+#include <eventmanager.h>
 dimkashelk::WarehouseManager::WarehouseManager(const size_t count_robots, const OrderManager &order_manager):
   robots_(count_robots),
   order_stack_(order_manager.order_stack_),
@@ -36,6 +36,37 @@ void dimkashelk::WarehouseManager::set_status(Order &order, const ExecutionStatu
                                        executionStatusToString(status));
   order.set_status(status);
 }
+std::vector < std::pair < double, double > > dimkashelk::WarehouseManager::get_statistics() const
+{
+  std::lock_guard lock(mutex_);
+  std::vector < std::pair < double, double > > res;
+  res.reserve(robots_.size());
+  for (auto &robot: robots_)
+  {
+    res.push_back({robot->get_usage_percent(), robot->get_usage_percent_relative()});
+  }
+  return res;
+}
+void dimkashelk::WarehouseManager::start() const
+{
+  std::lock_guard lock(mutex_);
+  for (const auto &robot: robots_)
+  {
+    robot->start();
+  }
+}
+void dimkashelk::WarehouseManager::add_robot()
+{
+  std::lock_guard lock(mutex_);
+  robots_.push_back(std::make_shared < Robot >(robots_.size() + 1));
+  EventManager::getInstance().logEvent("(WarehouseManager) add new " + robots_.back()->to_string());
+}
+void dimkashelk::WarehouseManager::pop_back_robot()
+{
+  std::lock_guard lock(mutex_);
+  EventManager::getInstance().logEvent("(WarehouseManager) remove last " + robots_.back()->to_string());
+  robots_.pop_back();
+}
 dimkashelk::WarehouseManager::~WarehouseManager()
 {
   {
@@ -53,11 +84,7 @@ void dimkashelk::WarehouseManager::process_orders()
   EventManager::getInstance().logEvent("(WarehouseManager) processing orders");
   while (true)
   {
-    std::unique_lock lock(mutex_);
-    cv_.wait(lock, [this]
-    {
-      return stop_flag_ || order_stack_->get_length() > 0;
-    });
+    std::this_thread::sleep_for(std::chrono::seconds(1));
     if (stop_flag_)
     {
       break;

@@ -5,8 +5,8 @@
 #include <mutex>
 #include <thread>
 #include <vector>
-#include <EventManager/eventmanager.h>
-#include <Order/order.h>
+#include <eventmanager.h>
+#include <order.h>
 
 namespace dimkashelk
 {
@@ -14,15 +14,27 @@ namespace dimkashelk
   class Client
   {
   public:
-    explicit Client(size_t id, OrderManager &order_manager);
+    Client(size_t id, OrderManager &order_manager);
     std::string to_string() const;
-    const std::vector < std::shared_ptr < Order > > &get_orders() const;
+    void start();
+    void stop();
+    size_t get_orders_count() const;
+    double get_failure_rate() const;
+    size_t get_rejected_count() const;
+    double get_average_stay_time() const;
+    double get_average_execution_time() const;
+    double get_average_waiting_time() const;
+    double get_waiting_time_variance() const;
+    double get_execution_time_variance() const;
+    void set_delay(size_t new_delay);
     ~Client();
 
   private:
     void generate_order();
     void run();
     size_t id_;
+    std::atomic< size_t > delay_;
+    std::atomic < bool > stopped_;
     std::vector < std::shared_ptr < Order > > orders_;
     OrderManager &order_manager_;
     std::thread worker_thread_;

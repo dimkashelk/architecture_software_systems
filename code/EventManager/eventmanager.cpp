@@ -1,7 +1,8 @@
 #include "eventmanager.h"
 #include <iostream>
 #include <filesystem>
-dimkashelk::EventManager::EventManager()
+dimkashelk::EventManager::EventManager():
+  events_()
 {
   if (const std::filesystem::path logDir = "log"; !exists(logDir))
   {
@@ -37,9 +38,22 @@ void dimkashelk::EventManager::logEvent(const std::string &event)
     timestamp << "[" << std::put_time(std::localtime(&now_time_t), "%Y-%m-%d %H:%M:%S")
       << "." << std::setfill('0') << std::setw(3) << now_ms.count() << "] ";
     logFile << timestamp.str() << event << std::endl;
+    events_.push_back(timestamp.str() + event);
   }
   else
   {
     std::cerr << "Log file is not open!" << std::endl;
   }
+}
+std::mutex &dimkashelk::EventManager::getMutex()
+{
+  return logMutex;
+}
+std::vector < std::string > &dimkashelk::EventManager::getEvents()
+{
+  return events_;
+}
+void dimkashelk::EventManager::freeEvents()
+{
+  events_.clear();
 }

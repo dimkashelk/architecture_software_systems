@@ -1,9 +1,9 @@
 #ifndef WAREHOUSEMANAGER_H
 #define WAREHOUSEMANAGER_H
 #include <vector>
-#include <OrderManager/ordermanager.h>
-#include <OrderStack/orderstack.h>
-#include <Robot/robot.h>
+#include <ordermanager.h>
+#include <orderstack.h>
+#include <robot.h>
 
 namespace dimkashelk
 {
@@ -17,6 +17,10 @@ namespace dimkashelk
     bool available_robots();
     void add_order(const std::shared_ptr < Order > &order);
     void set_status(Order &order, ExecutionStatus status);
+    std::vector < std::pair < double, double > > get_statistics() const;
+    void start() const;
+    void add_robot();
+    void pop_back_robot();
     ~WarehouseManager();
 
   private:
@@ -25,7 +29,7 @@ namespace dimkashelk
     std::vector < std::shared_ptr < Robot > > robots_;
     std::shared_ptr < OrderStack > order_stack_;
     std::thread worker_thread_;
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
     std::condition_variable cv_;
     std::atomic < bool > stop_flag_;
     size_t current_robot_index_;

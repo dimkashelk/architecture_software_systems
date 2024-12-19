@@ -3,7 +3,7 @@
 #include <memory>
 #include <mutex>
 #include <vector>
-#include <Order/order.h>
+#include <order.h>
 
 namespace dimkashelk
 {
@@ -18,6 +18,10 @@ namespace dimkashelk
     OrderStack &operator=(OrderStack &&other) = delete;
     ~OrderStack() = default;
     size_t get_length() const;
+    size_t get_capacity() const;
+    void resize(size_t new_capacity);
+    void increase_size();
+    void decrease_size();
     void add_order(const std::shared_ptr < Order > &order);
     std::shared_ptr < Order > &get_first();
     void remove_first();
