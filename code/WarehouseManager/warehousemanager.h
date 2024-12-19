@@ -18,7 +18,7 @@ namespace dimkashelk
     void add_order(const std::shared_ptr < Order > &order);
     void set_status(Order &order, ExecutionStatus status);
     std::vector < double > get_statistics() const;
-    void start();
+    void start() const;
     void add_robot();
     void pop_back_robot();
     ~WarehouseManager();
