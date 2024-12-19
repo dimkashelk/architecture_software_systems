@@ -18,8 +18,15 @@ namespace dimkashelk
     std::string to_string() const;
     void start();
     void stop();
+    size_t get_orders_count() const;
+    double get_failure_rate() const;
+    size_t get_rejected_count() const;
+    double get_average_stay_time() const;
+    double get_average_execution_time() const;
+    double get_average_waiting_time() const;
+    double get_waiting_time_variance() const;
+    double get_execution_time_variance() const;
     void set_delay(size_t new_delay);
-    const std::vector < std::shared_ptr < Order > > &get_orders() const;
     ~Client();
 
   private:
