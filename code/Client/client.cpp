@@ -51,6 +51,10 @@ size_t dimkashelk::Client::get_rejected_count() const
     return order.get_status() == EXECUTION_REJECTED;
   });
 }
+double dimkashelk::Client::get_average_stay_time() const
+{
+  return get_average_waiting_time() + get_average_execution_time();
+}
 double dimkashelk::Client::get_average_execution_time() const
 {
   long long total_execute_time = 0;
