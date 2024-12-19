@@ -182,6 +182,7 @@ void MainWindow::initUI() const
 }
 void MainWindow::init_table_robot() const
 {
+  ui->table_robots->setEditTriggers(QAbstractItemView::NoEditTriggers);
   ui->table_robots->setColumnCount(2);
   ui->table_robots->setHorizontalHeaderLabels({"№ прибора", "Коэффициент использования"});
   for (size_t i = 0; i < count_robots_; ++i)
@@ -194,6 +195,7 @@ void MainWindow::init_table_robot() const
 void MainWindow::init_table_clients() const
 {
   constexpr size_t count_columns = 9;
+  ui->table_clients->setEditTriggers(QAbstractItemView::NoEditTriggers);
   ui->table_clients->setColumnCount(count_columns);
   ui->table_clients->setHorizontalHeaderLabels({"№ источника", "Количество заявок", "p", "Отказы", "Тпреб", "Тбп", "Тобсл", "Дбп", "Добсл"});
   for (size_t i = 0; i < count_clients_; ++i)
