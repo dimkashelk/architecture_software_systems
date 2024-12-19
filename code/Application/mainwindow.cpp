@@ -188,8 +188,8 @@ void MainWindow::init_table_robot() const
   for (size_t i = 0; i < count_robots_; ++i)
   {
     ui->table_robots->insertRow(ui->table_robots->rowCount());
-    ui->table_robots->setItem(i, 0, new QTableWidgetItem(i + 1));
-    ui->table_robots->setItem(i, 1, new QTableWidgetItem(0));
+    ui->table_robots->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
+    ui->table_robots->setItem(i, 1, new QTableWidgetItem(QString::number(0)));
   }
 }
 void MainWindow::init_table_clients() const
@@ -201,10 +201,10 @@ void MainWindow::init_table_clients() const
   for (size_t i = 0; i < count_clients_; ++i)
   {
     ui->table_clients->insertRow(ui->table_clients->rowCount());
-    ui->table_clients->setItem(i, 0, new QTableWidgetItem(i + 1));
+    ui->table_clients->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
     for (size_t j = 1; j < count_columns; ++j)
     {
-      ui->table_clients->setItem(i, j, new QTableWidgetItem(0));
+      ui->table_clients->setItem(i, j, new QTableWidgetItem(QString::number(0)));
     }
   }
 }
