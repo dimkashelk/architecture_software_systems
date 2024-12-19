@@ -32,6 +32,7 @@ private:
   std::vector < std::shared_ptr < dimkashelk::Client > > clients_;
   std::thread logger_thread_;
   std::thread statistics_clients_thread_;
+  std::thread statistics_robots_thread_;
   std::thread starter_;
   mutable std::mutex mutex_clients_;
   void start_stop();
@@ -56,5 +57,6 @@ private:
   void init_table_clients() const;
   void init_model();
   void update_statistics_clients() const;
+  void update_statistics_robots() const;
 };
 #endif

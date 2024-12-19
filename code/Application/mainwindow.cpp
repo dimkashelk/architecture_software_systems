@@ -234,11 +234,22 @@ void MainWindow::update_statistics_clients() const
       ui->table_clients->setItem(i, 3, new QTableWidgetItem(QString::number(clients_[i]->get_rejected_count())));
       ui->table_clients->setItem(i, 4, new QTableWidgetItem(QString::number(clients_[i]->get_average_stay_time())));
       ui->table_clients->setItem(i, 5, new QTableWidgetItem(QString::number(clients_[i]->get_average_waiting_time())));
-      ui->table_clients->
-        setItem(i, 6, new QTableWidgetItem(QString::number(clients_[i]->get_average_execution_time())));
+      ui->table_clients->setItem(i, 6, new QTableWidgetItem(QString::number(clients_[i]->get_average_execution_time())));
       ui->table_clients->setItem(i, 7, new QTableWidgetItem(QString::number(clients_[i]->get_waiting_time_variance())));
-      ui->table_clients->setItem(
-        i, 8, new QTableWidgetItem(QString::number(clients_[i]->get_execution_time_variance())));
+      ui->table_clients->setItem(i, 8, new QTableWidgetItem(QString::number(clients_[i]->get_execution_time_variance())));
+    }
+  }
+}
+void MainWindow::update_statistics_robots() const
+{
+  while (run_threads_)
+  {
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    auto percents = warehouse_manager_.get_statistics();
+    for (size_t i = 0; i < count_clients_; i++)
+    {
+      ui->table_robots->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
+      ui->table_robots->setItem(i, 1, new QTableWidgetItem(QString::number(percents[i])));
     }
   }
 }
