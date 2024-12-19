@@ -83,7 +83,7 @@ bool dimkashelk::Robot::available() const
 double dimkashelk::Robot::get_usage_percent() const
 {
   const auto current_time = std::chrono::high_resolution_clock::now();
-  const auto diff = std::chrono::duration_cast < std::chrono::microseconds >(current_time - start_time_).count();
+  const auto diff = (current_time - start_time_).count();
   if (diff == 0)
   {
     return 0;
