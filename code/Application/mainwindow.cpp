@@ -104,6 +104,7 @@ void MainWindow::decrease_robots()
   {
     --count_robots_;
     warehouse_manager_.pop_back_robot();
+    ui->table_robots->removeRow(ui->table_robots->rowCount() - 1);
     set_robots_count();
   }
 }
@@ -111,6 +112,7 @@ void MainWindow::increase_robots()
 {
   ++count_robots_;
   warehouse_manager_.add_robot();
+  ui->table_robots->removeRow(ui->table_robots->rowCount() + 1);
   set_robots_count();
 }
 void MainWindow::decrease_stack()
