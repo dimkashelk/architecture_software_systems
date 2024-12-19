@@ -5,7 +5,7 @@ MainWindow::MainWindow(QWidget *parent):
   QMainWindow(parent),
   ui(new Ui::MainWindow),
   work_now_(false),
-  run_logs_(true),
+  run_threads_(true),
   stack_size_(5),
   count_clients_(2),
   count_robots_(3),
@@ -21,7 +21,7 @@ MainWindow::~MainWindow()
 {
   delete ui;
   work_now_ = false;
-  run_logs_ = false;
+  run_threads_ = false;
   if (logger_thread_.joinable())
   {
     logger_thread_.join();
@@ -143,7 +143,7 @@ void MainWindow::set_stack_size() const
 }
 void MainWindow::update_logs() const
 {
-  while (run_logs_)
+  while (run_threads_)
   {
     std::this_thread::sleep_for(std::chrono::seconds(1));
     QStringList string_list;
@@ -213,4 +213,12 @@ void MainWindow::init_model()
     clients_.push_back(std::make_shared < dimkashelk::Client >(i, order_manager_));
   }
   logger_thread_ = std::thread(&MainWindow::update_logs, this);
+}
+void MainWindow::update_statistics_clients() const
+{
+  while (run_threads_)
+  {
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+
+  }
 }
