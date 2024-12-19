@@ -6,6 +6,8 @@
 dimkashelk::Robot::Robot(const size_t id):
   id_(id),
   wait_time_coeff_(0.0),
+  start_time_(std::chrono::high_resolution_clock::now()),
+  work_time_(0),
   work_now_(false),
   stop_flag_(false),
   gen_(rd_()),
@@ -104,6 +106,7 @@ void dimkashelk::Robot::finish_order()
 }
 void dimkashelk::Robot::run()
 {
+  const auto start_run_time = std::chrono::high_resolution_clock::now();
   const size_t wait_time = calculate_wait_time();
   {
     std::unique_lock lock(mtx_);
@@ -123,6 +126,8 @@ void dimkashelk::Robot::run()
   {
     success_order();
   }
+  const auto end_run_time = std::chrono::high_resolution_clock::now();
+  work_time_ += (end_run_time - start_run_time).count();
 }
 size_t dimkashelk::Robot::calculate_wait_time()
 {
