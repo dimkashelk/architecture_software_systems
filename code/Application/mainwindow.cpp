@@ -46,6 +46,7 @@ void MainWindow::start() const
     client->start();
     std::this_thread::sleep_for(std::chrono::milliseconds(client_delay_ * 1000 / count_clients_));
   }
+  warehouse_manager_.start();
 }
 void MainWindow::stop() const
 {
