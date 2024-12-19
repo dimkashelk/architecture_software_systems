@@ -65,3 +65,7 @@ void dimkashelk::Order::set_run_start()
 {
   run_start_time_ = std::chrono::system_clock::now();
 }
+void dimkashelk::Order::set_run_stop()
+{
+  run_stop_time_ = std::chrono::system_clock::now();
+}
