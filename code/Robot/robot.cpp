@@ -137,7 +137,7 @@ void dimkashelk::Robot::run()
     success_order();
   }
   const auto end_run_time = std::chrono::high_resolution_clock::now();
-  work_time_ += std::chrono::duration_cast < std::chrono::microseconds >(end_run_time - start_time_).count();
+  work_time_ += std::chrono::duration_cast < std::chrono::microseconds >(end_run_time - start_run_time).count();
 }
 size_t dimkashelk::Robot::calculate_wait_time()
 {
