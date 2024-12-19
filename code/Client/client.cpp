@@ -41,11 +41,15 @@ size_t dimkashelk::Client::get_orders_count() const
 double dimkashelk::Client::get_failure_rate() const
 {
   std::lock_guard lock(mtx_);
-  const auto failed = std::count_if(orders_.begin(), orders_.end(), [](const Order &order)
+  const auto failed = get_rejected_count();
+  return static_cast < double >(failed) / static_cast < double >(orders_.size());
+}
+size_t dimkashelk::Client::get_rejected_count() const
+{
+  return std::count_if(orders_.begin(), orders_.end(), [](const Order &order)
   {
     return order.get_status() == EXECUTION_REJECTED;
   });
-  return static_cast < double >(failed) / static_cast < double >(orders_.size());
 }
 void dimkashelk::Client::set_delay(const size_t new_delay)
 {
