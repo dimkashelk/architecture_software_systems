@@ -68,8 +68,12 @@ double dimkashelk::Client::get_average_execution_time() const
     const auto order_status = order->get_status();
     if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK and order_status != EXECUTION_RUN)
     {
-      total_execute_time += order->get_time_execute();
-      total_count++;
+      try
+      {
+        total_execute_time += order->get_time_execute();
+        total_count++;
+      } catch (...)
+      {}
     }
   }
   if (total_count == 0)
@@ -88,8 +92,12 @@ double dimkashelk::Client::get_average_waiting_time() const
     const auto order_status = order->get_status();
     if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK)
     {
-      total_waiting_time += order->get_time_in_stack();
-      total_count++;
+      try
+      {
+        total_waiting_time += order->get_time_in_stack();
+        total_count++;
+      } catch (...)
+      {}
     }
   }
   if (total_count == 0)
@@ -108,9 +116,13 @@ double dimkashelk::Client::get_waiting_time_variance() const
     const auto order_status = order->get_status();
     if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK)
     {
-      const auto temp = order->get_time_in_stack() - average_waiting_time;
-      variance += temp * temp;
-      total++;
+      try
+      {
+        const auto temp = order->get_time_in_stack() - average_waiting_time;
+        variance += temp * temp;
+        total++;
+      } catch (...)
+      {}
     }
   }
   if (total == 0)
@@ -129,9 +141,13 @@ double dimkashelk::Client::get_execution_time_variance() const
     const auto order_status = order->get_status();
     if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK)
     {
-      const auto temp = order->get_time_execute() - average_execution_time;
-      variance += temp * temp;
-      total++;
+      try
+      {
+        const auto temp = order->get_time_execute() - average_execution_time;
+        variance += temp * temp;
+        total++;
+      } catch (...)
+      {}
     }
   }
   if (total == 0)
