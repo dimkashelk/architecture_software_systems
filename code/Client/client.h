@@ -25,6 +25,7 @@ namespace dimkashelk
     double get_average_execution_time() const;
     double get_average_waiting_time() const;
     double get_waiting_time_variance() const;
+    double get_execution_time_variance() const;
     void set_delay(size_t new_delay);
     ~Client();
 

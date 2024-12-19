@@ -102,7 +102,24 @@ double dimkashelk::Client::get_waiting_time_variance() const
       total++;
     }
   }
-  return static_cast < double >(average_waiting_time) / static_cast < double >(total);
+  return variance / static_cast < double >(total);
+}
+double dimkashelk::Client::get_execution_time_variance() const
+{
+  const auto average_execution_time = get_average_execution_time();
+  size_t total = 0;
+  double variance = 0;
+  for (const auto &order: orders_)
+  {
+    const auto order_status = order->get_status();
+    if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK)
+    {
+      const auto temp = order->get_time_execute() - average_execution_time;
+      variance += temp * temp;
+      total++;
+    }
+  }
+  return variance / static_cast < double >(total);
 }
 void dimkashelk::Client::set_delay(const size_t new_delay)
 {
