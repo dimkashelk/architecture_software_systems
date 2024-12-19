@@ -61,3 +61,7 @@ void dimkashelk::Order::set_put_out()
 {
   put_out_stack_time_ = std::chrono::system_clock::now();
 }
+void dimkashelk::Order::set_run_start()
+{
+  run_start_time_ = std::chrono::system_clock::now();
+}
