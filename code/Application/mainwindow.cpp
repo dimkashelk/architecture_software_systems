@@ -187,7 +187,7 @@ void MainWindow::init_table_robot() const
 }
 void MainWindow::init_table_clients() const
 {
-  size_t count_columns = 9;
+  constexpr size_t count_columns = 9;
   ui->table_clients->setColumnCount(count_columns);
   ui->table_clients->setHorizontalHeaderLabels({"№ источника", "Количество заявок", "p", "Отказы", "Тпреб", "Тбп", "Тобсл", "Дбп", "Добсл"});
   for (size_t i = 0; i < count_clients_; ++i)
