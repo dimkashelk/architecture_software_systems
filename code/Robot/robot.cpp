@@ -72,6 +72,16 @@ bool dimkashelk::Robot::available() const
 {
   return !work_now_;
 }
+double dimkashelk::Robot::get_usage_percent() const
+{
+  const auto current_time = std::chrono::high_resolution_clock::now();
+  const auto diff = std::chrono::duration_cast < std::chrono::microseconds >(current_time - start_time_).count();
+  if (diff == 0)
+  {
+    return 0;
+  }
+  return static_cast < double >(work_time_) / static_cast < double >(diff);
+}
 void dimkashelk::Robot::success_order()
 {
   std::unique_lock lock(mtx_);
@@ -127,7 +137,7 @@ void dimkashelk::Robot::run()
     success_order();
   }
   const auto end_run_time = std::chrono::high_resolution_clock::now();
-  work_time_ += (end_run_time - start_run_time).count();
+  work_time_ += std::chrono::duration_cast < std::chrono::microseconds >(end_run_time - start_time_).count();
 }
 size_t dimkashelk::Robot::calculate_wait_time()
 {

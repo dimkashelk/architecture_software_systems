@@ -17,6 +17,7 @@ namespace dimkashelk
     void set_order(const std::shared_ptr < Order > &order);
     void start_order();
     bool available() const;
+    double get_usage_percent() const;
     std::string to_string() const;
     ~Robot();
 
