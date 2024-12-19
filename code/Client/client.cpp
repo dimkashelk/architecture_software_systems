@@ -33,10 +33,19 @@ void dimkashelk::Client::stop()
   stopped_ = true;
   EventManager::getInstance().logEvent("(Client) " + to_string() + " stop");
 }
-size_t dimkashelk::Client::get_orders_count()
+size_t dimkashelk::Client::get_orders_count() const
 {
   std::lock_guard lock(mtx_);
   return orders_.size();
+}
+double dimkashelk::Client::get_failure_rate() const
+{
+  std::lock_guard lock(mtx_);
+  const auto failed = std::count_if(orders_.begin(), orders_.end(), [](const Order &order)
+  {
+    return order.get_status() == EXECUTION_REJECTED;
+  });
+  return static_cast < double >(failed) / static_cast < double >(orders_.size());
 }
 void dimkashelk::Client::set_delay(const size_t new_delay)
 {
