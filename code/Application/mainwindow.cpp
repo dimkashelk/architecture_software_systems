@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent):
   QMainWindow(parent),
   ui(new Ui::MainWindow),
   work_now_(false),
+  run_logs_(true),
   stack_size_(5),
   count_clients_(2),
   count_robots_(3),
@@ -134,6 +135,26 @@ void MainWindow::set_stack_size() const
 {
   ui->label_stack->setText(QString::number(stack_size_));
 }
+void MainWindow::update_logs() const
+{
+  while (run_logs_)
+  {
+    std::this_thread::sleep_for(std::chrono::seconds(1));
+    QStringList string_list;
+    {
+      std::lock_guard lock(dimkashelk::EventManager::getInstance().getMutex());
+      auto new_logs = dimkashelk::EventManager::getInstance().getEvents();
+      std::ranges::transform(new_logs, std::back_inserter(string_list),
+                             [](const std::string &item)
+                             {
+                               return QString::fromStdString(item);
+                             });
+      dimkashelk::EventManager::getInstance().freeEvents();
+    }
+    ui->logs->addItems(string_list);
+    ui->logs->scrollToBottom();
+  }
+}
 void MainWindow::initUI() const
 {
   set_clients_count();
@@ -156,4 +177,5 @@ void MainWindow::init_model()
   {
     clients_.push_back(std::make_shared < dimkashelk::Client >(i, order_manager_));
   }
+  logger_thread_ = std::thread(&MainWindow::update_logs, this);
 }
