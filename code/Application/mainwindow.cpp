@@ -5,6 +5,7 @@ MainWindow::MainWindow(QWidget *parent):
   QMainWindow(parent),
   ui(new Ui::MainWindow),
   work_now_(false),
+  run_logs_(true),
   stack_size_(5),
   count_clients_(2),
   count_robots_(3),
@@ -134,6 +135,10 @@ void MainWindow::set_stack_size() const
 {
   ui->label_stack->setText(QString::number(stack_size_));
 }
+void MainWindow::update_logs()
+{
+  ui->list_logs->appendPlainText("qwer");
+}
 void MainWindow::initUI() const
 {
   set_clients_count();
@@ -156,4 +161,5 @@ void MainWindow::init_model()
   {
     clients_.push_back(std::make_shared < dimkashelk::Client >(i, order_manager_));
   }
+  logger_thread_ = std::thread(&MainWindow::update_logs, this);
 }

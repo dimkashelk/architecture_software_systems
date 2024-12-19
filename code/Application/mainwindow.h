@@ -22,6 +22,7 @@ public:
 private:
   Ui::MainWindow *ui;
   bool work_now_;
+  bool run_logs_;
   size_t stack_size_;
   size_t count_clients_;
   size_t count_robots_;
@@ -29,6 +30,7 @@ private:
   dimkashelk::OrderManager order_manager_;
   dimkashelk::WarehouseManager warehouse_manager_;
   std::vector < std::shared_ptr < dimkashelk::Client > > clients_;
+  std::thread logger_thread_;
   void start_stop();
   void start() const;
   void stop() const;
@@ -45,6 +47,7 @@ private:
   void set_clients_delay() const;
   void set_robots_count() const;
   void set_stack_size() const;
+  void update_logs();
   void initUI() const;
   void init_model();
 };
