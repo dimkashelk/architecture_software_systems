@@ -20,6 +20,12 @@ MainWindow::MainWindow(QWidget *parent):
 MainWindow::~MainWindow()
 {
   delete ui;
+  work_now_ = false;
+  run_logs_ = false;
+  if (logger_thread_.joinable())
+  {
+    logger_thread_.join();
+  }
 }
 void MainWindow::start_stop()
 {
