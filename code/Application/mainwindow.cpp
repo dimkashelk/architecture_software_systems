@@ -249,7 +249,7 @@ void MainWindow::update_statistics_robots() const
   {
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     auto percents = warehouse_manager_.get_statistics();
-    for (size_t i = 0; i < count_clients_; i++)
+    for (size_t i = 0; i < count_robots_; i++)
     {
       ui->table_robots->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
       ui->table_robots->setItem(i, 1, new QTableWidgetItem(QString::number(percents[i])));
