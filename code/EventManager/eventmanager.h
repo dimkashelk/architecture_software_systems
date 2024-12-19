@@ -2,7 +2,6 @@
 #define EVENTMANAGER_H
 #include <string>
 #include <fstream>
-#include <mainwindow.h>
 #include <mutex>
 #include <vector>
 
@@ -25,7 +24,6 @@ namespace dimkashelk
     std::vector < std::string > events_;
     std::ofstream logFile;
     std::mutex logMutex;
-    std::shared_ptr < Ui::MainWindow > mainWindow_;
   };
 }
 #endif
