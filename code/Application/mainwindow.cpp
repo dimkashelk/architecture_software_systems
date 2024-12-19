@@ -7,9 +7,9 @@ MainWindow::MainWindow(QWidget *parent):
   work_now_(false),
   run_threads_(true),
   stack_size_(5),
-  count_clients_(2),
+  count_clients_(1),
   count_robots_(3),
-  client_delay_(3),
+  client_delay_(1),
   order_manager_(stack_size_),
   warehouse_manager_(count_robots_, order_manager_)
 {
@@ -35,7 +35,7 @@ void MainWindow::start_stop()
   }
   else
   {
-    auto worker = std::thread(&MainWindow::start, this);
+    starter_ = std::thread(&MainWindow::start, this);
   }
   work_now_ = !work_now_;
 }
@@ -223,7 +223,7 @@ void MainWindow::update_statistics_clients() const
 {
   while (run_threads_)
   {
-    std::this_thread::sleep_for(std::chrono::seconds(1));
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
     for (size_t i = 0; i < count_clients_; i++)
     {
       ui->table_clients->setItem(i, 1, new QTableWidgetItem(QString::number(clients_[i]->get_orders_count())));

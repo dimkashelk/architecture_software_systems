@@ -70,8 +70,12 @@ double dimkashelk::Client::get_average_execution_time() const
     {
       try
       {
-        total_execute_time += order->get_time_execute();
-        total_count++;
+        const auto time = order->get_time_execute();
+        if (time >= 0)
+        {
+          total_execute_time += time;
+          total_count++;
+        }
       } catch (...)
       {}
     }
@@ -94,8 +98,12 @@ double dimkashelk::Client::get_average_waiting_time() const
     {
       try
       {
-        total_waiting_time += order->get_time_in_stack();
-        total_count++;
+        const auto time = order->get_time_in_stack();
+        if (time >= 0)
+        {
+          total_waiting_time += time;
+          total_count++;
+        }
       } catch (...)
       {}
     }
@@ -118,9 +126,13 @@ double dimkashelk::Client::get_waiting_time_variance() const
     {
       try
       {
-        const auto temp = order->get_time_in_stack() - average_waiting_time;
-        variance += temp * temp;
-        total++;
+        const auto time = order->get_time_in_stack();
+        if (time >= 0)
+        {
+          const auto temp = time - average_waiting_time;
+          variance += temp * temp;
+          total++;
+        }
       } catch (...)
       {}
     }
@@ -143,9 +155,13 @@ double dimkashelk::Client::get_execution_time_variance() const
     {
       try
       {
-        const auto temp = order->get_time_execute() - average_execution_time;
-        variance += temp * temp;
-        total++;
+        const auto time = order->get_time_execute();
+        if (time >= 0)
+        {
+          const auto temp = time - average_execution_time;
+          variance += temp * temp;
+          total++;
+        }
       } catch (...)
       {}
     }
