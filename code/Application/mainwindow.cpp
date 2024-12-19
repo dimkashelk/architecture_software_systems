@@ -219,6 +219,7 @@ void MainWindow::init_model()
     clients_.push_back(std::make_shared < dimkashelk::Client >(i, order_manager_));
   }
   logger_thread_ = std::thread(&MainWindow::update_logs, this);
+  statistics_clients_thread_ = std::thread(&MainWindow::update_statistics_clients, this);
 }
 void MainWindow::update_statistics_clients() const
 {
