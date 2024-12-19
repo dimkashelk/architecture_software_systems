@@ -57,7 +57,6 @@ void MainWindow::decrease_clients_count()
 {
   if (count_clients_ > 0)
   {
-    std::lock_guard lock(mutex_clients_);
     dimkashelk::EventManager::getInstance().logEvent("(MainWindow) remove client " + (*clients_.rbegin())->to_string());
     clients_.pop_back();
     --count_clients_;
@@ -66,7 +65,6 @@ void MainWindow::decrease_clients_count()
 }
 void MainWindow::increase_clients_count()
 {
-  std::lock_guard lock(mutex_clients_);
   clients_.push_back(std::make_shared < dimkashelk::Client >(count_clients_, order_manager_));
   dimkashelk::EventManager::getInstance().logEvent("(MainWindow) add client " + (*clients_.rbegin())->to_string());
   if (work_now_)
@@ -91,7 +89,6 @@ void MainWindow::increase_clients_delay()
 }
 void MainWindow::update_clients_delay() const
 {
-  std::lock_guard lock(mutex_clients_);
   for (const auto &client: clients_)
   {
     client->set_delay(client_delay_);
@@ -226,7 +223,6 @@ void MainWindow::update_statistics_clients() const
   while (run_threads_)
   {
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    std::lock_guard lock(mutex_clients_);
     for (size_t i = 0; i < count_clients_; i++)
     {
       ui->table_clients->setItem(i, 1, new QTableWidgetItem(QString::number(clients_[i]->get_orders_count())));

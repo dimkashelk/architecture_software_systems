@@ -29,13 +29,11 @@ dimkashelk::Order::Order(const size_t from, const size_t to):
 }
 std::string dimkashelk::Order::to_string() const
 {
-  std::lock_guard lock(mutex_);
   return "Order{id=" + std::to_string(id_) + ", from=" + std::to_string(from_) + ", to=" + std::to_string(to_) +
          ", status=" + executionStatusToString(status_) + "}";
 }
 void dimkashelk::Order::set_status(const ExecutionStatus status)
 {
-  std::lock_guard lock(mutex_);
   EventManager::getInstance().logEvent("(Order) Update status of " + to_string() +
                                        " to status: " + executionStatusToString(status));
   actions_[status_][status](*this);

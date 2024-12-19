@@ -35,12 +35,10 @@ void dimkashelk::Client::stop()
 }
 size_t dimkashelk::Client::get_orders_count() const
 {
-  std::lock_guard lock(mtx_);
   return orders_.size();
 }
 double dimkashelk::Client::get_failure_rate() const
 {
-  std::lock_guard lock(mtx_);
   const auto failed = get_rejected_count();
   const auto orders_count = orders_.size();
   if (orders_count == 0)
@@ -67,7 +65,6 @@ double dimkashelk::Client::get_average_execution_time() const
   std::lock_guard lock(mtx_);
   for (const auto &order: orders_)
   {
-    std::lock_guard lock_order(order->get_mutex());
     const auto order_status = order->get_status();
     if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK and order_status != EXECUTION_RUN)
     {
@@ -88,7 +85,6 @@ double dimkashelk::Client::get_average_waiting_time() const
   std::lock_guard lock(mtx_);
   for (const auto &order: orders_)
   {
-    std::lock_guard lock_order(order->get_mutex());
     const auto order_status = order->get_status();
     if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK)
     {
@@ -109,7 +105,6 @@ double dimkashelk::Client::get_waiting_time_variance() const
   double variance = 0;
   for (const auto &order: orders_)
   {
-    std::lock_guard lock_order(order->get_mutex());
     const auto order_status = order->get_status();
     if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK)
     {
@@ -131,7 +126,6 @@ double dimkashelk::Client::get_execution_time_variance() const
   double variance = 0;
   for (const auto &order: orders_)
   {
-    std::lock_guard lock_order(order->get_mutex());
     const auto order_status = order->get_status();
     if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK)
     {
