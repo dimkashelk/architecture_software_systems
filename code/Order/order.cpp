@@ -10,6 +10,11 @@ dimkashelk::Order::Order(const size_t from, const size_t to):
   EventManager::getInstance().logEvent(
     "(Order) create order with id=" + std::to_string(id_) + ", from=" + std::to_string(from_) + ", to=" +
     std::to_string(to_));
+  actions_[EXECUTION_CREATE][EXECUTION_IN_STACK] = &set_put_in;
+  actions_[EXECUTION_IN_STACK][EXECUTION_RUN] = &set_put_out;
+  actions_[EXECUTION_IN_STACK][EXECUTION_REJECTED] = &set_put_out;
+  actions_[EXECUTION_RUN][EXECUTION_DONE] = &set_run_stop;
+  actions_[EXECUTION_RUN][EXECUTION_FAILED] = &set_run_stop;
 }
 std::string dimkashelk::Order::to_string() const
 {
@@ -20,21 +25,7 @@ void dimkashelk::Order::set_status(const ExecutionStatus status)
 {
   EventManager::getInstance().logEvent("(Order) Update status of " + to_string() +
                                        " to status: " + executionStatusToString(status));
-  if (status_ == EXECUTION_CREATE and status == EXECUTION_IN_STACK)
-  {
-    put_in_stack_time_ = std::chrono::system_clock::now();
-  }
-  else if (status_ == EXECUTION_IN_STACK and status == EXECUTION_RUN)
-  {
-    run_start_time_ = put_out_stack_time_ = std::chrono::system_clock::now();
-  }
-  else if (status_ == EXECUTION_RUN and
-           (status == EXECUTION_FAILED or
-            status == EXECUTION_DONE or
-            status == EXECUTION_REJECTED))
-  {
-    run_stop_time_ = std::chrono::system_clock::now();
-  }
+  actions_[status_][status](*this);
   status_ = status;
 }
 dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const
@@ -59,11 +50,7 @@ void dimkashelk::Order::set_put_in()
 }
 void dimkashelk::Order::set_put_out()
 {
-  put_out_stack_time_ = std::chrono::system_clock::now();
-}
-void dimkashelk::Order::set_run_start()
-{
-  run_start_time_ = std::chrono::system_clock::now();
+  run_start_time_ = put_out_stack_time_ = std::chrono::system_clock::now();
 }
 void dimkashelk::Order::set_run_stop()
 {
