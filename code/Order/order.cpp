@@ -10,11 +10,11 @@ dimkashelk::Order::Order(const size_t from, const size_t to):
   EventManager::getInstance().logEvent("(Order) create order with id=" + std::to_string(id_) +
                                        ", from=" + std::to_string(from_) + ", to=" +
                                        std::to_string(to_));
-  actions_[EXECUTION_CREATE][EXECUTION_IN_STACK] = &set_put_in;
-  actions_[EXECUTION_IN_STACK][EXECUTION_RUN] = &set_put_out;
-  actions_[EXECUTION_IN_STACK][EXECUTION_REJECTED] = &set_put_out;
-  actions_[EXECUTION_RUN][EXECUTION_DONE] = &set_run_stop;
-  actions_[EXECUTION_RUN][EXECUTION_FAILED] = &set_run_stop;
+  actions_[EXECUTION_CREATE][EXECUTION_IN_STACK] = &Order::set_put_in;
+  actions_[EXECUTION_IN_STACK][EXECUTION_RUN] = &Order::set_put_out;
+  actions_[EXECUTION_IN_STACK][EXECUTION_REJECTED] = &Order::set_put_out;
+  actions_[EXECUTION_RUN][EXECUTION_DONE] = &Order::set_run_stop;
+  actions_[EXECUTION_RUN][EXECUTION_FAILED] = &Order::set_run_stop;
 }
 std::string dimkashelk::Order::to_string() const
 {
@@ -32,15 +32,15 @@ dimkashelk::ExecutionStatus dimkashelk::Order::get_status() const
 {
   return status_;
 }
-size_t dimkashelk::Order::get_id() const noexcept
+size_t dimkashelk::Order::get_id() const
 {
   return id_;
 }
-size_t dimkashelk::Order::get_from() const noexcept
+size_t dimkashelk::Order::get_from() const
 {
   return from_;
 }
-size_t dimkashelk::Order::get_to() const noexcept
+size_t dimkashelk::Order::get_to() const
 {
   return to_;
 }

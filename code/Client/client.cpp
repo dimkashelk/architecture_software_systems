@@ -46,9 +46,9 @@ double dimkashelk::Client::get_failure_rate() const
 }
 size_t dimkashelk::Client::get_rejected_count() const
 {
-  return std::count_if(orders_.begin(), orders_.end(), [](const Order &order)
+  return std::count_if(orders_.begin(), orders_.end(), [](const std::shared_ptr<Order> &order)
   {
-    return order.get_status() == EXECUTION_REJECTED;
+    return order->get_status() == EXECUTION_REJECTED;
   });
 }
 double dimkashelk::Client::get_average_stay_time() const

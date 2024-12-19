@@ -57,14 +57,16 @@ void MainWindow::decrease_clients_count()
 {
   if (count_clients_ > 0)
   {
-    --count_clients_;
+    std::lock_guard lock(mutex_clients_);
     dimkashelk::EventManager::getInstance().logEvent("(MainWindow) remove client " + (*clients_.rbegin())->to_string());
     clients_.pop_back();
+    --count_clients_;
     set_clients_count();
   }
 }
 void MainWindow::increase_clients_count()
 {
+  std::lock_guard lock(mutex_clients_);
   clients_.push_back(std::make_shared < dimkashelk::Client >(count_clients_, order_manager_));
   dimkashelk::EventManager::getInstance().logEvent("(MainWindow) add client " + (*clients_.rbegin())->to_string());
   if (work_now_)
@@ -89,6 +91,7 @@ void MainWindow::increase_clients_delay()
 }
 void MainWindow::update_clients_delay() const
 {
+  std::lock_guard lock(mutex_clients_);
   for (const auto &client: clients_)
   {
     client->set_delay(client_delay_);
@@ -176,7 +179,6 @@ void MainWindow::initUI() const
   connect(ui->button_robots_increase, &QPushButton::clicked, this, &MainWindow::increase_robots);
   connect(ui->button_stack_decrease, &QPushButton::clicked, this, &MainWindow::decrease_stack);
   connect(ui->button_stack_increase, &QPushButton::clicked, this, &MainWindow::increase_stack);
-
   init_table_robot();
   init_table_clients();
 }
@@ -197,7 +199,9 @@ void MainWindow::init_table_clients() const
   constexpr size_t count_columns = 9;
   ui->table_clients->setEditTriggers(QAbstractItemView::NoEditTriggers);
   ui->table_clients->setColumnCount(count_columns);
-  ui->table_clients->setHorizontalHeaderLabels({"№ источника", "Количество заявок", "p", "Отказы", "Тпреб", "Тбп", "Тобсл", "Дбп", "Добсл"});
+  ui->table_clients->setHorizontalHeaderLabels({
+    "№ источника", "Количество заявок", "p", "Отказы", "Тпреб", "Тбп", "Тобсл", "Дбп", "Добсл"
+  });
   for (size_t i = 0; i < count_clients_; ++i)
   {
     ui->table_clients->insertRow(ui->table_clients->rowCount());
@@ -221,6 +225,17 @@ void MainWindow::update_statistics_clients() const
   while (run_threads_)
   {
     std::this_thread::sleep_for(std::chrono::seconds(1));
-
+    std::lock_guard lock(mutex_clients_);
+    for (size_t i = 0; i < count_clients_; i++)
+    {
+      ui->table_clients->setItem(i, 1, new QTableWidgetItem(QString::number(clients_[i]->get_orders_count())));
+      ui->table_clients->setItem(i, 2, new QTableWidgetItem(QString::number(clients_[i]->get_failure_rate())));
+      ui->table_clients->setItem(i, 3, new QTableWidgetItem(QString::number(clients_[i]->get_rejected_count())));
+      ui->table_clients->setItem(i, 4, new QTableWidgetItem(QString::number(clients_[i]->get_average_stay_time())));
+      ui->table_clients->setItem(i, 5, new QTableWidgetItem(QString::number(clients_[i]->get_average_waiting_time())));
+      ui->table_clients->setItem(i, 6, new QTableWidgetItem(QString::number(clients_[i]->get_average_execution_time())));
+      ui->table_clients->setItem(i, 7, new QTableWidgetItem(QString::number(clients_[i]->get_waiting_time_variance())));
+      ui->table_clients->setItem(i, 8, new QTableWidgetItem(QString::number(clients_[i]->get_execution_time_variance())));
+    }
   }
 }
