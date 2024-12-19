@@ -33,6 +33,11 @@ void dimkashelk::Client::stop()
   stopped_ = true;
   EventManager::getInstance().logEvent("(Client) " + to_string() + " stop");
 }
+size_t dimkashelk::Client::get_orders_count()
+{
+  std::lock_guard lock(mtx_);
+  return orders_.size();
+}
 void dimkashelk::Client::set_delay(const size_t new_delay)
 {
   std::lock_guard lock(mtx_);

@@ -18,6 +18,7 @@ namespace dimkashelk
     std::string to_string() const;
     void start();
     void stop();
+    size_t get_orders_count();
     void set_delay(size_t new_delay);
     ~Client();
 
