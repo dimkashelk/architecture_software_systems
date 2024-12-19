@@ -52,6 +52,14 @@ long dimkashelk::Order::get_time_in_stack() const
   }
   return (put_out_stack_time_ - put_in_stack_time_).count();
 }
+long dimkashelk::Order::get_time_execute() const
+{
+  if (status_ == EXECUTION_IN_STACK or status_ == EXECUTION_CREATE or status_ == EXECUTION_RUN)
+  {
+    throw std::invalid_argument("Order::get_time_execute: invalid status");
+  }
+  return (run_stop_time_ - run_start_time_).count();
+}
 void dimkashelk::Order::set_put_in()
 {
   put_in_stack_time_ = std::chrono::system_clock::now();
