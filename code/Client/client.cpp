@@ -70,10 +70,6 @@ void dimkashelk::Client::run()
     std::this_thread::sleep_for(std::chrono::seconds(delay_));
   }
 }
-const std::vector < std::shared_ptr < dimkashelk::Order > > &dimkashelk::Client::get_orders() const
-{
-  return orders_;
-}
 dimkashelk::Client::~Client()
 {
   stop_flag_ = true;

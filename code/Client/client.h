@@ -19,7 +19,6 @@ namespace dimkashelk
     void start();
     void stop();
     void set_delay(size_t new_delay);
-    const std::vector < std::shared_ptr < Order > > &get_orders() const;
     ~Client();
 
   private:
