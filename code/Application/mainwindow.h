@@ -49,6 +49,7 @@ private:
   void set_stack_size() const;
   void update_logs() const;
   void initUI() const;
+  void init_table_robot() const;
   void init_model();
 };
 #endif

@@ -170,6 +170,19 @@ void MainWindow::initUI() const
   connect(ui->button_robots_increase, &QPushButton::clicked, this, &MainWindow::increase_robots);
   connect(ui->button_stack_decrease, &QPushButton::clicked, this, &MainWindow::decrease_stack);
   connect(ui->button_stack_increase, &QPushButton::clicked, this, &MainWindow::increase_stack);
+
+  init_table_robot();
+}
+void MainWindow::init_table_robot() const
+{
+  ui->table_robots->setColumnCount(2);
+  ui->table_robots->setHorizontalHeaderLabels({"№ прибора", "Коэффициент использования"});
+  for (size_t i = 0; i < count_robots_; ++i)
+  {
+    ui->table_robots->insertRow(ui->table_robots->rowCount());
+    ui->table_robots->setItem(i, 0, new QTableWidgetItem(i + 1));
+    ui->table_robots->setItem(i, 1, new QTableWidgetItem(0));
+  }
 }
 void MainWindow::init_model()
 {

@@ -18,7 +18,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>3</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="tab_main">
        <attribute name="title">
@@ -193,9 +193,19 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="tab_graph">
+      <widget class="QWidget" name="tab_analyze_robots">
        <attribute name="title">
-        <string>График</string>
+        <string>Аналитика по роботам</string>
+       </attribute>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QTableWidget" name="table_robots"/>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_analyze_client">
+       <attribute name="title">
+        <string>Аналитика по клиентам</string>
        </attribute>
        <layout class="QVBoxLayout" name="layout_graph">
         <item>
