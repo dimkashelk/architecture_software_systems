@@ -220,6 +220,7 @@ void MainWindow::init_model()
   }
   logger_thread_ = std::thread(&MainWindow::update_logs, this);
   statistics_clients_thread_ = std::thread(&MainWindow::update_statistics_clients, this);
+  statistics_robots_thread_ = std::thread(&MainWindow::update_statistics_robots, this);
 }
 void MainWindow::update_statistics_clients() const
 {
