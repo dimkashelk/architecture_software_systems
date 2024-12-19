@@ -172,6 +172,7 @@ void MainWindow::initUI() const
   connect(ui->button_stack_increase, &QPushButton::clicked, this, &MainWindow::increase_stack);
 
   init_table_robot();
+  init_table_clients();
 }
 void MainWindow::init_table_robot() const
 {
@@ -182,6 +183,21 @@ void MainWindow::init_table_robot() const
     ui->table_robots->insertRow(ui->table_robots->rowCount());
     ui->table_robots->setItem(i, 0, new QTableWidgetItem(i + 1));
     ui->table_robots->setItem(i, 1, new QTableWidgetItem(0));
+  }
+}
+void MainWindow::init_table_clients() const
+{
+  size_t count_columns = 9;
+  ui->table_clients->setColumnCount(count_columns);
+  ui->table_clients->setHorizontalHeaderLabels({"№ источника", "Количество заявок", "p", "Отказы", "Тпреб", "Тбп", "Тобсл", "Дбп", "Добсл"});
+  for (size_t i = 0; i < count_clients_; ++i)
+  {
+    ui->table_clients->insertRow(ui->table_clients->rowCount());
+    ui->table_clients->setItem(i, 0, new QTableWidgetItem(i + 1));
+    for (size_t j = 1; j < count_columns; ++j)
+    {
+      ui->table_clients->setItem(i, j, new QTableWidgetItem(0));
+    }
   }
 }
 void MainWindow::init_model()
