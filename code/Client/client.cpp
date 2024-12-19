@@ -42,11 +42,16 @@ double dimkashelk::Client::get_failure_rate() const
 {
   std::lock_guard lock(mtx_);
   const auto failed = get_rejected_count();
-  return static_cast < double >(failed) / static_cast < double >(orders_.size());
+  const auto orders_count = orders_.size();
+  if (orders_count == 0)
+  {
+    return 0.0;
+  }
+  return static_cast < double >(failed) / static_cast < double >(orders_count);
 }
 size_t dimkashelk::Client::get_rejected_count() const
 {
-  return std::count_if(orders_.begin(), orders_.end(), [](const std::shared_ptr<Order> &order)
+  return std::count_if(orders_.begin(), orders_.end(), [](const std::shared_ptr < Order > &order)
   {
     return order->get_status() == EXECUTION_REJECTED;
   });
@@ -69,6 +74,10 @@ double dimkashelk::Client::get_average_execution_time() const
       total_count++;
     }
   }
+  if (total_count == 0)
+  {
+    return 0.0;
+  }
   return static_cast < double >(total_execute_time) / static_cast < double >(total_count);
 }
 double dimkashelk::Client::get_average_waiting_time() const
@@ -84,6 +93,10 @@ double dimkashelk::Client::get_average_waiting_time() const
       total_waiting_time += order->get_time_in_stack();
       total_count++;
     }
+  }
+  if (total_count == 0)
+  {
+    return 0.0;
   }
   return static_cast < double >(total_waiting_time) / static_cast < double >(total_count);
 }
@@ -102,6 +115,10 @@ double dimkashelk::Client::get_waiting_time_variance() const
       total++;
     }
   }
+  if (total == 0)
+  {
+    return 0.0;
+  }
   return variance / static_cast < double >(total);
 }
 double dimkashelk::Client::get_execution_time_variance() const
@@ -118,6 +135,10 @@ double dimkashelk::Client::get_execution_time_variance() const
       variance += temp * temp;
       total++;
     }
+  }
+  if (total == 0)
+  {
+    return 0.0;
   }
   return variance / static_cast < double >(total);
 }
