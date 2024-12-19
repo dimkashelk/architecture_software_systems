@@ -39,6 +39,10 @@ void dimkashelk::Robot::set_order(const std::shared_ptr < Order > &order)
   current_order_ = order;
   EventManager::getInstance().logEvent("(Robot) " + current_order_->get()->to_string() + " set to " + to_string());
 }
+void dimkashelk::Robot::start()
+{
+  start_time_ = std::chrono::high_resolution_clock::now();
+}
 void dimkashelk::Robot::start_order()
 {
   {

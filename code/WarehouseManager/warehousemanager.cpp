@@ -47,6 +47,14 @@ std::vector < double > dimkashelk::WarehouseManager::get_statistics() const
   }
   return res;
 }
+void dimkashelk::WarehouseManager::start()
+{
+  std::lock_guard lock(mutex_);
+  for (const auto &robot: robots_)
+  {
+    robot->start();
+  }
+}
 void dimkashelk::WarehouseManager::add_robot()
 {
   std::lock_guard lock(mutex_);
