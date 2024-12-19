@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent):
   stack_size_(5),
   count_clients_(2),
   count_robots_(3),
-  client_delay_(5),
+  client_delay_(3),
   order_manager_(stack_size_),
   warehouse_manager_(count_robots_, order_manager_)
 {
@@ -35,7 +35,7 @@ void MainWindow::start_stop()
   }
   else
   {
-    start();
+    auto worker = std::thread(&MainWindow::start, this);
   }
   work_now_ = !work_now_;
 }
@@ -44,6 +44,7 @@ void MainWindow::start() const
   for (const auto &client: clients_)
   {
     client->start();
+    std::this_thread::sleep_for(std::chrono::milliseconds(client_delay_ * 1000 / count_clients_));
   }
 }
 void MainWindow::stop() const
