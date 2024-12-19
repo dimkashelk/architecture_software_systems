@@ -67,6 +67,7 @@ void MainWindow::decrease_clients_count()
 void MainWindow::increase_clients_count()
 {
   clients_.push_back(std::make_shared < dimkashelk::Client >(count_clients_, order_manager_));
+  ui->table_clients->insertRow(ui->table_clients->rowCount());
   dimkashelk::EventManager::getInstance().logEvent("(MainWindow) add client " + (*clients_.rbegin())->to_string());
   if (work_now_)
   {
@@ -226,6 +227,7 @@ void MainWindow::update_statistics_clients() const
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
     for (size_t i = 0; i < count_clients_; i++)
     {
+      ui->table_clients->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
       ui->table_clients->setItem(i, 1, new QTableWidgetItem(QString::number(clients_[i]->get_orders_count())));
       ui->table_clients->setItem(i, 2, new QTableWidgetItem(QString::number(clients_[i]->get_failure_rate())));
       ui->table_clients->setItem(i, 3, new QTableWidgetItem(QString::number(clients_[i]->get_rejected_count())));
