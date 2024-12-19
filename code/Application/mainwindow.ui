@@ -281,7 +281,7 @@
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_6">
             <item>
-             <widget class="QPlainTextEdit" name="list_logs"/>
+             <widget class="QListView" name="list_logs"/>
             </item>
            </layout>
           </widget>
