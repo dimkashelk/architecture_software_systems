@@ -188,13 +188,14 @@ void MainWindow::initUI() const
 void MainWindow::init_table_robot() const
 {
   ui->table_robots->setEditTriggers(QAbstractItemView::NoEditTriggers);
-  ui->table_robots->setColumnCount(2);
-  ui->table_robots->setHorizontalHeaderLabels({"№ прибора", "Коэффициент использования"});
+  ui->table_robots->setColumnCount(3);
+  ui->table_robots->setHorizontalHeaderLabels({"№ прибора", "Коэффициент использования", "Относительный коэффициент"});
   for (size_t i = 0; i < count_robots_; ++i)
   {
     ui->table_robots->insertRow(ui->table_robots->rowCount());
     ui->table_robots->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
     ui->table_robots->setItem(i, 1, new QTableWidgetItem(QString::number(0)));
+    ui->table_robots->setItem(i, 2, new QTableWidgetItem(QString::number(0)));
   }
 }
 void MainWindow::init_table_clients() const
@@ -253,7 +254,8 @@ void MainWindow::update_statistics_robots() const
     for (size_t i = 0; i < count_robots_; i++)
     {
       ui->table_robots->setItem(i, 0, new QTableWidgetItem(QString::number(i + 1)));
-      ui->table_robots->setItem(i, 1, new QTableWidgetItem(QString::number(percents[i])));
+      ui->table_robots->setItem(i, 1, new QTableWidgetItem(QString::number(percents[i].first)));
+      ui->table_robots->setItem(i, 2, new QTableWidgetItem(QString::number(percents[i].second)));
     }
   }
 }
