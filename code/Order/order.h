@@ -24,6 +24,7 @@ namespace dimkashelk
     size_t get_id() const;
     size_t get_from() const;
     size_t get_to() const;
+    long get_time_in_stack() const;
     ~Order() = default;
 
   private:

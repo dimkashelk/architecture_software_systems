@@ -44,6 +44,14 @@ size_t dimkashelk::Order::get_to() const noexcept
 {
   return to_;
 }
+long dimkashelk::Order::get_time_in_stack() const
+{
+  if (status_ == EXECUTION_IN_STACK or status_ == EXECUTION_CREATE)
+  {
+    throw std::invalid_argument("Order::get_time_in_stack: invalid status");
+  }
+  return (put_out_stack_time_ - put_in_stack_time_).count();
+}
 void dimkashelk::Order::set_put_in()
 {
   put_in_stack_time_ = std::chrono::system_clock::now();
