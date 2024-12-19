@@ -28,7 +28,7 @@ namespace dimkashelk
     std::vector < std::shared_ptr < Robot > > robots_;
     std::shared_ptr < OrderStack > order_stack_;
     std::thread worker_thread_;
-    std::mutex mutex_;
+    mutable std::mutex mutex_;
     std::condition_variable cv_;
     std::atomic < bool > stop_flag_;
     size_t current_robot_index_;
