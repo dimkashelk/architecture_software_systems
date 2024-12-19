@@ -21,6 +21,8 @@ namespace dimkashelk
     size_t get_orders_count() const;
     double get_failure_rate() const;
     size_t get_rejected_count() const;
+    double get_average_stay_time() const;
+    double get_average_waiting_time() const;
     void set_delay(size_t new_delay);
     ~Client();
 

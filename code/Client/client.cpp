@@ -51,6 +51,22 @@ size_t dimkashelk::Client::get_rejected_count() const
     return order.get_status() == EXECUTION_REJECTED;
   });
 }
+double dimkashelk::Client::get_average_waiting_time() const
+{
+  long long total_waiting_time = 0;
+  size_t total_count = 0;
+  std::lock_guard lock(mtx_);
+  for (const auto &order: orders_)
+  {
+    const auto order_status = order->get_status();
+    if (order_status != EXECUTION_CREATE and order_status != EXECUTION_IN_STACK)
+    {
+      total_waiting_time += order->get_time_in_stack();
+      total_count++;
+    }
+  }
+  return static_cast < double >(total_waiting_time) / static_cast < double >(total_count);
+}
 void dimkashelk::Client::set_delay(const size_t new_delay)
 {
   std::lock_guard lock(mtx_);
