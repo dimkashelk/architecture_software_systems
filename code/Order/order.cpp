@@ -12,6 +12,19 @@ dimkashelk::Order::Order(const Order &other):
   run_stop_time_(other.run_stop_time_),
   actions_(other.actions_)
 {}
+dimkashelk::Order & dimkashelk::Order::operator=(Order &&)
+{
+  this->id_ = std::move(id_);
+  this->from_ = std::move(from_);
+  this->to_ = std::move(to_);
+  this->status_ = std::move(status_);
+  this->put_in_stack_time_ = std::move(put_in_stack_time_);
+  this->put_out_stack_time_ = std::move(put_out_stack_time_);
+  this->run_start_time_ = std::move(run_start_time_);
+  this->run_stop_time_ = std::move(run_stop_time_);
+  this->actions_ = std::move(actions_);
+  return *this;
+}
 dimkashelk::Order::Order(const size_t from, const size_t to):
   id_(details::Counter::get_obj()->get_id()),
   from_(from),

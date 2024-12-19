@@ -17,7 +17,7 @@ namespace dimkashelk
     Order(const Order &other);
     Order(Order &&other) = default;
     Order &operator=(const Order &) = default;
-    Order &operator=(Order &&) = default;
+    Order &operator=(Order &&);
     Order(size_t from, size_t to);
     std::string to_string() const;
     void set_status(ExecutionStatus status);
