@@ -53,3 +53,7 @@ size_t dimkashelk::Order::get_to() const noexcept
 {
   return to_;
 }
+void dimkashelk::Order::set_put_in()
+{
+  put_in_stack_time_ = std::chrono::system_clock::now();
+}

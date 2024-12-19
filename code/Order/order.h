@@ -33,6 +33,10 @@ namespace dimkashelk
     std::chrono::high_resolution_clock::time_point put_out_stack_time_;
     std::chrono::high_resolution_clock::time_point run_start_time_;
     std::chrono::high_resolution_clock::time_point run_stop_time_;
+    void set_put_in();
+    void set_put_out();
+    void set_run_start();
+    void set_run_stop();
   };
 }
 #endif
