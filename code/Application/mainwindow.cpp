@@ -6,10 +6,10 @@ MainWindow::MainWindow(QWidget *parent):
   ui(new Ui::MainWindow),
   work_now_(false),
   run_threads_(true),
-  stack_size_(5),
-  count_clients_(1),
-  count_robots_(3),
-  client_delay_(1),
+  stack_size_(10),
+  count_clients_(3),
+  count_robots_(5),
+  client_delay_(2),
   order_manager_(stack_size_),
   warehouse_manager_(count_robots_, order_manager_)
 {
